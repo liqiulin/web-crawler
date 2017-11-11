@@ -1,4 +1,4 @@
-package com.thzj.webcrawler.hello;
+package com.thzj.webcrawler.controller;
 
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
