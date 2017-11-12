@@ -1,4 +1,4 @@
-package com.thzj.webcrawler.crawler.vo;
+package com.thzj.webcrawler.crawler.ctq.model;
 
 import lombok.Data;
 
