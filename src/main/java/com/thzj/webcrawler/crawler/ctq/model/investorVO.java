@@ -22,8 +22,8 @@ public class investorVO {
     private String investPlan;               //投资计划
     private String perRoundMoney;                 //单笔可投
     private List<InvestCase> investCase;               //投资案例
-    private List<String> workExperiences;           //工作经历
-    private List<String> educationExperiences;      //教育经历
+    private List<WorkExperience> workExperiences;           //工作经历
+    private List<EducationExperience> educationExperiences;      //教育经历
 
     @Data
     public static class InvestCase {
