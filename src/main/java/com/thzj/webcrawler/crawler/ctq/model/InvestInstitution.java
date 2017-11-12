@@ -16,7 +16,7 @@ public class InvestInstitution implements Serializable {
     private String email;                                              //邮箱
     private String address;                                            //机构地址
 
-    private String detailContentUrl;
+    private String detailUrl;
     private String profile;                                            //机构介绍
     private List<String> investIndustries;                             //投资行业
     private List<String> investRounds;                                 //投资阶段
