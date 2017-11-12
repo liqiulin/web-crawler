@@ -2,13 +2,16 @@ package com.thzj.webcrawler.crawler.ctq.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 创投圈投资人VO
+ * 投资人
  */
 @Data
-public class investorVO {
+public class Investor implements Serializable {
+    private static final long serialVersionUID = 2404483051525208389L;
+    private String id;
     private String name;                                               //姓名
     private String avatarUrl;                                          //头像
     private String company;                                            //所属机构
@@ -16,31 +19,13 @@ public class investorVO {
     private String province;                                           //地区
 
     private String detailContentUrl;                                   //详情URL
-    private String personalProfile;                                    //投资人介绍
-    private List<String> investIndustries;                             //关注行业
+    private String profile;                                            //投资人介绍
+    private List<String> investIndustries;                             //投资行业
     private List<String> investRounds;                                 //投资阶段
     private String investPlan;                                         //投资计划
     private String perRoundMoney;                                      //单笔可投
     private List<InvestCase> investCase;                               //投资案例
     private List<WorkExperience> workExperiences;                      //工作经历
     private List<EducationExperience> educationExperiences;            //教育经历
-
-    @Data
-    public static class InvestCase {
-        private String time;
-    }
-
-    @Data
-    public static class WorkExperience {
-        private String time;
-        private String company;
-        private String position;
-    }
-
-    @Data
-    public static class EducationExperience {
-        private String time;
-    }
-
 
 }
