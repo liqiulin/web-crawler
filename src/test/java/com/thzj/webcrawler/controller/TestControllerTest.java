@@ -19,13 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = MockServletContext.class)
 @WebAppConfiguration
-public class SampleControllerTest {
+public class TestControllerTest {
 
     private MockMvc mvc;
 
     @Before
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.standaloneSetup(new SampleController()).build();
+        mvc = MockMvcBuilders.standaloneSetup(new TestController()).build();
     }
 
     @Test
@@ -34,5 +34,13 @@ public class SampleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Hello World!")));
     }
+
+    @Test
+    public void insertRound() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/insertRound").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+
 
 }

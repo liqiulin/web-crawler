@@ -1,20 +1,34 @@
 package com.thzj.webcrawler;
 
+import com.thzj.webcrawler.dao.InvestorRoundMapper;
+import com.thzj.webcrawler.entity.InvestorRound;
 import com.thzj.webcrawler.entity.User;
 import com.thzj.webcrawler.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@MapperScan("com.thzj.webcrawler.dao")
 public class AppTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private InvestorRoundMapper investorRoundMapper;
+
+    @Test
+    public void testInvestorRound() {
+        InvestorRound investorRound = new InvestorRound();
+        investorRound.setRound("A");
+        investorRoundMapper.insert(investorRound);
+    }
 
     @Test
     public void test() throws Exception {
