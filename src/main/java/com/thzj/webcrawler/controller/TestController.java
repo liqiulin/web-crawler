@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @EnableAutoConfiguration
+@MapperScan("com.thzj.webcrawler.dao")
 public class TestController {
 
     @RequestMapping("/")

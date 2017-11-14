@@ -3,6 +3,7 @@ package com.thzj.webcrawler.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
@@ -34,13 +35,6 @@ public class TestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Hello World!")));
     }
-
-    @Test
-    public void insertRound() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/insertRound").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
 
 
 }
