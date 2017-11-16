@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class CrawlServiceImpl implements CrawlService {
+
+
+
     @Override
     public void grabStartup() {
 
