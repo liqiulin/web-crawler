@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.base.Strings;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
@@ -20,7 +21,7 @@ import java.util.List;
 public class GrabInvestorServiceImpl implements GrabInvestorService {
 
     @Override
-    public void grabInvestorInfos() {
+    public void grabInvestorInfo() {
         List<String> userIdList = getUserIds();
         String url;
         final String userDetailsUrl = "https://www.vc.cn/users/";
@@ -30,7 +31,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
             try {
                 Investor investor = new Investor();
                 Document doc = Jsoup.connect(url).get();
-                String userImg = doc.getElementsByAttributeValue("class", "relative").select("img").attr("src");
+                String avatarUrl = doc.getElementsByAttributeValue("class", "relative").select("img").attr("src");
                 String name = doc.getElementsByAttributeValue("class", "name").get(0).text();
                 Elements companyInfo = doc.getElementsByAttributeValue("class", "pitch");
                 String position = companyInfo.get(0).text();
@@ -76,12 +77,39 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 }
 
                 //工作经历
+                WorkExperience workExperience = new WorkExperience();
+                List<WorkExperience> workExperienceList = new ArrayList<>();
+                Elements workExperiences = doc.getElementById("module_work").getElementsByClass("experience-item");
+                for (Element element : workExperiences) {
+                    workExperience.setTime(element.getElementById("span").text());
+                    workExperience.setCompany(element.getElementsByClass("info").select("div").get(0).text());
+                    workExperience.setPosition(element.getElementsByClass("info").select("div").get(0).text());
+                    workExperienceList.add(workExperience);
+                }
 
-
+                //个人信息
+                String location = doc.getElementsByClass("authenticated").select("li.location").get(0).getElementById("span").text();
+                String[] string = location.split(".");
+                String province = string[0];
+                String city = string[1];
 
                 investor.setName(name);
+                investor.setId(userId);
+                investor.setAvatarUrl(avatarUrl);
+                investor.setPosition(position);
+                investor.setProfile(profile);
+                investor.setProvince(province);
+                investor.setCity(city);
+                investor.setInvestRounds(investRounds);
+                investor.setPerRoundMoney(perRoundMoney);
+                investor.setCompany(company);
+                investor.setInvestPlan(investPlan);
+                investor.setDetailUrl(url);
+                investor.setInvestIndustries(investIndustries);
+                investor.setInvestCase(investCaseList);
+                investor.setWorkExperiences(workExperienceList);
 
-                System.out.println(userImg);
+                //System.out.println(userImg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
