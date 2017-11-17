@@ -1,0 +1,124 @@
+package com.thzj.webcrawler.crawler.ctq.service.impl;
+
+import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
+import com.thzj.webcrawler.crawler.ctq.model.Investor;
+import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
+import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
+import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Service
+public class GrabInvestorServiceImpl implements GrabInvestorService {
+
+    @Override
+    public void grabInvestorInfos() {
+        List<String> userIdList = getUserIds();
+        String url;
+        final String userDetailsUrl = "https://www.vc.cn/users/";
+        for (String userId : userIdList) {
+            url = userDetailsUrl + userId;
+
+            try {
+                Investor investor = new Investor();
+                Document doc = Jsoup.connect(url).get();
+                String userImg = doc.getElementsByAttributeValue("class", "relative").select("img").attr("src");
+                String name = doc.getElementsByAttributeValue("class", "name").get(0).text();
+                Elements companyInfo = doc.getElementsByAttributeValue("class", "pitch");
+                String position = companyInfo.get(0).text();
+                String company = companyInfo.get(0).select("a").text();
+                String profile = doc.getElementById("user_intro").select("p").text();
+                //判断是否为空
+                Elements elements = doc.getElementsByAttributeValue("class", "cell label_list");
+
+                //投资行业
+                List<String> investIndustries = new ArrayList<>();
+                Elements focusIndustryElements = elements.get(0).getElementsByTag("a");
+                for (Element e : focusIndustryElements) {
+                    investIndustries.add(e.text());
+                }
+
+                //投资阶段
+                List<String> investRounds = new ArrayList<>();
+                Elements investStageElements = elements.get(1).getElementsByTag("a");
+                for (Element e : investStageElements) {
+                    investRounds.add(e.text());
+                }
+
+                //投资计划
+                Elements investPlanElements = doc.getElementsByClass("column");
+                String investPlan = Jsoup.parse(investPlanElements.toString()).getElementsByClass("cont").text();
+
+                //单笔可投
+                Elements singleInvestElements = doc.getElementsByClass("money");
+                String perRoundMoney = Jsoup.parse(singleInvestElements.toString()).getElementsByClass("cont").text();
+
+                //投资案例
+                InvestCase investCase = new InvestCase();
+                List<InvestCase> investCaseList = new ArrayList<>();
+                Elements investCases = doc.getElementById("invest_cases").getElementsByClass("case_card");
+                for (Element element : investCases) {
+                   investCase.setAvatarUrl(element.getElementsByTag("img").attr("src"));
+                   investCase.setName(element.getElementsByClass("name").text());
+                   investCase.setProfile(element.getElementsByClass("pitch").text());
+                   investCase.setInvestorMoney(element.getElementsByClass("money").text());
+                   investCase.setInvestorRound(element.getElementsByClass("round").text());
+                   investCase.setTime(element.getElementsByClass("cell date").text());
+                   investCaseList.add(investCase);
+                }
+
+                //工作经历
+
+
+
+                investor.setName(name);
+
+                System.out.println(userImg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * 获取所有投资人/user的ID
+     */
+    private List<String> getUserIds() {
+        // Todo 写在ConfigCenter里面
+        final String userListUrl = "https://www.vc.cn/investors?action=index&controller=investors&page=";
+        List<String> userIds = new ArrayList<>();
+        String url;
+
+        try {
+            for (Integer i = 1; ; i++) {
+                url = userListUrl + i.toString();
+                Document doc = Jsoup.connect(url).get();
+                Element tableList = doc.getElementById("user-list");
+                Elements personalInfo = tableList.getElementsByTag("tr");
+                if (null == personalInfo || personalInfo.isEmpty()) {
+                    break;
+                }
+
+                for (Element pInfo : personalInfo) {
+                    String infoDetailsUrl = pInfo.getElementsByClass("name").select("a").attr("href");
+                    String userId = infoDetailsUrl.substring(7);
+                    userIds.add(userId);
+                }
+            }
+            return userIds;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return new ArrayList<>();
+    }
+}

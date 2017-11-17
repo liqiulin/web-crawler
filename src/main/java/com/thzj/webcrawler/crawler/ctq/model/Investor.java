@@ -1,6 +1,8 @@
 package com.thzj.webcrawler.crawler.ctq.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
  * 投资人
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Investor implements Serializable {
     private static final long serialVersionUID = 2404483051525208389L;
     private String id;
@@ -27,7 +31,5 @@ public class Investor implements Serializable {
     private String investPlan;                                         //投资计划
     private String perRoundMoney;                                      //单笔可投
     private List<InvestCase> investCase;                               //投资案例
-    private List<WorkExperience> workExperiences;                      //工作经历
-    private List<EducationExperience> educationExperiences;            //教育经历
-
+    private List<WorkExperience> workExperiences;                      //工作经历private List<EducationExperience> educationExperiences;            //教育经历
 }
