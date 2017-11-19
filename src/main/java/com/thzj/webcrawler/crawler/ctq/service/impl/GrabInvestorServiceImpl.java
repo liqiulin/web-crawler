@@ -103,9 +103,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 investor.setProvince(province);
                 investor.setCity(city);
                 investor.setInvestRounds(investRounds);
-                investor.setPerRoundMoney(perRoundMoney);
                 investor.setCompany(company);
-                investor.setInvestPlan(investPlan);
                 investor.setDetailUrl(url);
                 investor.setInvestIndustries(investIndustries);
                 investor.setInvestCase(investCaseList);

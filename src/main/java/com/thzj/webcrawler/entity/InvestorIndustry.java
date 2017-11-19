@@ -8,13 +8,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * @author 
  */
-@Table(name="t_investor_round")
-public class InvestorRound implements Serializable {
+@Table(name="t_investor_industry")
+public class InvestorIndustry implements Serializable {
     /**
      * 主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     /**
@@ -23,9 +23,9 @@ public class InvestorRound implements Serializable {
     private Integer investorId;
 
     /**
-     * 偏好轮次
+     * 关注领域
      */
-    private String round;
+    private String industry;
 
     private static final long serialVersionUID = 1L;
 
@@ -45,12 +45,12 @@ public class InvestorRound implements Serializable {
         this.investorId = investorId;
     }
 
-    public String getRound() {
-        return round;
+    public String getIndustry() {
+        return industry;
     }
 
-    public void setRound(String round) {
-        this.round = round;
+    public void setIndustry(String industry) {
+        this.industry = industry;
     }
 
     @Override
@@ -64,10 +64,10 @@ public class InvestorRound implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        InvestorRound other = (InvestorRound) that;
+        InvestorIndustry other = (InvestorIndustry) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getInvestorId() == null ? other.getInvestorId() == null : this.getInvestorId().equals(other.getInvestorId()))
-            && (this.getRound() == null ? other.getRound() == null : this.getRound().equals(other.getRound()));
+            && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class InvestorRound implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getInvestorId() == null) ? 0 : getInvestorId().hashCode());
-        result = prime * result + ((getRound() == null) ? 0 : getRound().hashCode());
+        result = prime * result + ((getIndustry() == null) ? 0 : getIndustry().hashCode());
         return result;
     }
 
@@ -88,7 +88,7 @@ public class InvestorRound implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", investorId=").append(investorId);
-        sb.append(", round=").append(round);
+        sb.append(", industry=").append(industry);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

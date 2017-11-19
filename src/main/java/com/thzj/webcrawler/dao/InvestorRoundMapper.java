@@ -3,9 +3,12 @@ package com.thzj.webcrawler.dao;
 import com.thzj.webcrawler.entity.InvestorRound;
 import com.thzj.webcrawler.entity.InvestorRoundExample;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.apache.ibatis.annotations.Param;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public interface InvestorRoundMapper {
     long countByExample(InvestorRoundExample example);
