@@ -20,10 +20,12 @@ import java.util.List;
 @Service
 public class GrabInvestorServiceImpl implements GrabInvestorService {
 
+    List<String> userIdList = getUserIds();
     @Override
-    public void grabInvestorInfo() {
-        List<String> userIdList = getUserIds();
+    public List<Investor> grabInvestorInfo(List<String> userIdList) {
+
         String url;
+        List<Investor> investors = new ArrayList<>();
         final String userDetailsUrl = "https://www.vc.cn/users/";
         for (String userId : userIdList) {
             url = userDetailsUrl + userId;
@@ -109,18 +111,24 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 investor.setInvestCase(investCaseList);
                 investor.setWorkExperiences(workExperienceList);
 
-                //System.out.println(userImg);
-            } catch (IOException e) {
+                investors.add(investor);
+            } catch (IOException ie) {
+                ie.printStackTrace();
+                log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, ie);
+            } catch (Exception e) {
                 e.printStackTrace();
+                log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, e);
+
             }
         }
 
+        return investors;
     }
 
     /**
      * 获取所有投资人/user的ID
      */
-    private List<String> getUserIds() {
+    public List<String> getUserIds() {
         // Todo 写在ConfigCenter里面
         final String userListUrl = "https://www.vc.cn/investors?action=index&controller=investors&page=";
         List<String> userIds = new ArrayList<>();
@@ -147,6 +155,6 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
             e.printStackTrace();
         } finally {
         }
-        return new ArrayList<>();
+        return userIds;
     }
 }
