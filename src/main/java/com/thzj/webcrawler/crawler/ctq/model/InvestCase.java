@@ -21,6 +21,5 @@ public class InvestCase implements Serializable {
     private String profile;                     //简介
     private String investorRound;               //投资阶段
     private String investorMoney;               //投资金额
-    private String investorId;                  //案例投资人
-    private String investInstitutionId;         //案例投资机构
+    private String startupId;                   //项目ID
 }
