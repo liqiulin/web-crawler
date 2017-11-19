@@ -28,8 +28,6 @@ public class Investor implements Serializable {
     private String profile;                                            //投资人介绍
     private List<String> investIndustries;                             //投资行业
     private List<String> investRounds;                                 //投资阶段
-    private String investPlan;                                         //投资计划
-    private String perRoundMoney;                                      //单笔可投
     private List<InvestCase> investCase;                               //投资案例
-    private List<WorkExperience> workExperiences;                      //工作经历private List<EducationExperience> educationExperiences;            //教育经历
+    private List<WorkExperience> workExperiences;                      //工作经历
 }
