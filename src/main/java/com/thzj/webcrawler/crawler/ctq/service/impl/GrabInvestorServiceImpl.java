@@ -1,6 +1,8 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import antlr.StringUtils;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,10 +25,10 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
 
     List<String> userIdList = getUserIds();
     @Override
-    public List<Investor> grabInvestorInfo(List<String> userIdList) {
+    public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
 
         String url;
-        List<Investor> investors = new ArrayList<>();
+        Map<String, Investor> investors = Maps.newConcurrentMap();
         final String userDetailsUrl = "https://www.vc.cn/users/";
         for (String userId : userIdList) {
             url = userDetailsUrl + userId;
@@ -65,33 +68,35 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 String perRoundMoney = Jsoup.parse(singleInvestElements.toString()).getElementsByClass("cont").text();
 
                 //投资案例
-                InvestCase investCase = new InvestCase();
+
                 List<InvestCase> investCaseList = new ArrayList<>();
                 Elements investCases = doc.getElementById("invest_cases").getElementsByClass("case_card");
                 for (Element element : investCases) {
-                   investCase.setAvatarUrl(element.getElementsByTag("img").attr("src"));
-                   investCase.setName(element.getElementsByClass("name").text());
-                   investCase.setProfile(element.getElementsByClass("pitch").text());
-                   investCase.setInvestorMoney(element.getElementsByClass("money").text());
-                   investCase.setInvestorRound(element.getElementsByClass("round").text());
-                   investCase.setTime(element.getElementsByClass("cell date").text());
-                   investCaseList.add(investCase);
+                    InvestCase investCase = new InvestCase();
+                    investCase.setAvatarUrl(element.getElementsByTag("img").attr("src"));
+                    investCase.setName(element.getElementsByClass("name").text());
+                    investCase.setProfile(element.getElementsByClass("pitch").text());
+                    investCase.setInvestorMoney(element.getElementsByClass("money").text());
+                    investCase.setInvestorRound(element.getElementsByClass("round").text());
+                    investCase.setTime(element.getElementsByClass("cell date").text());
+                    investCaseList.add(investCase);
                 }
 
                 //工作经历
-                WorkExperience workExperience = new WorkExperience();
                 List<WorkExperience> workExperienceList = new ArrayList<>();
                 Elements workExperiences = doc.getElementById("module_work").getElementsByClass("experience-item");
                 for (Element element : workExperiences) {
-                    workExperience.setTime(element.getElementById("span").text());
+                    WorkExperience workExperience = new WorkExperience();
+                    workExperience.setTime(element.getElementsByTag("span").text());
                     workExperience.setCompany(element.getElementsByClass("info").select("div").get(0).text());
-                    workExperience.setPosition(element.getElementsByClass("info").select("div").get(0).text());
+                    workExperience.setPosition(element.getElementsByClass("info").select("div").get(1).text());
                     workExperienceList.add(workExperience);
                 }
 
                 //个人信息
-                String location = doc.getElementsByClass("authenticated").select("li.location").get(0).getElementById("span").text();
-                String[] string = location.split(".");
+                String location = doc.getElementsByClass("authenticated").select("li.location").get(0).getElementsByTag("span").text();
+                location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
+                String[] string = location.split("·");
                 String province = string[0];
                 String city = string[1];
 
@@ -109,7 +114,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 investor.setInvestCase(investCaseList);
                 investor.setWorkExperiences(workExperienceList);
 
-                investors.add(investor);
+                investors.put(userId, investor);
             } catch (IOException ie) {
                 ie.printStackTrace();
                 log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, ie);
@@ -154,5 +159,13 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         } finally {
         }
         return userIds;
+    }
+
+    public static void main (String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("109485");
+        List<Investor> result = new ArrayList<>();
+        //result = grabInvestorInfo(list);
+        System.out.println(result);
     }
 }

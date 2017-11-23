@@ -1,7 +1,7 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
-import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -13,29 +13,32 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 @Service
 public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionService{
 
     @Override
-    public List<InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
+    public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
         String url;
-        List<InvestInstitution> investInstitutions = new ArrayList<>();
+        Map<String, InvestInstitution> investInstitutions = Maps.newConcurrentMap();
         final String institueDetailUrl = "https://www.vc.cn/institutions/";
-
+        InvestInstitution investInstitution;
         try {
             for (String institueId : instituteIdList) {
                 url = institueDetailUrl + institueId;
                 Document doc = Jsoup.connect(url).get();
-
+                investInstitution = getInvestInstitution(doc, institueId, url);
+                investInstitutions.put(institueId, investInstitution);
             }
         } catch (IOException e) {
             e.printStackTrace();
             log.warn("grabInvestInstitutionInfo failed! instituteIdList[{}]", instituteIdList, e);
         }
-        return new ArrayList<>();
+        return Maps.newConcurrentMap();
     }
 
 
