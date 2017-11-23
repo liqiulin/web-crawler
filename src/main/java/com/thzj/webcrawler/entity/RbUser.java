@@ -2,8 +2,10 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -12,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name="rb_user")
 public class RbUser implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Integer id;
 
     /**
