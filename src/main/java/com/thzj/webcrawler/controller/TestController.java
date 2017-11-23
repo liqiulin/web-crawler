@@ -1,7 +1,7 @@
 package com.thzj.webcrawler.controller;
 
-import com.thzj.webcrawler.dao.InvestorRoundMapper;
-import com.thzj.webcrawler.entity.InvestorRound;
+import com.thzj.webcrawler.dao.TInvestorRoundMapper;
+import com.thzj.webcrawler.entity.TInvestorRound;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
@@ -21,12 +21,12 @@ public class TestController {
     }
 
     @Autowired
-    private InvestorRoundMapper investorRoundMapper;
+    private TInvestorRoundMapper investorRoundMapper;
 
     @RequestMapping("/insertRound")
     @ResponseBody
     public void insertRound() {
-        InvestorRound investorRound = new InvestorRound();
+        TInvestorRound investorRound = new TInvestorRound();
         investorRound.setRound("A");
         investorRoundMapper.insert(investorRound);
     }
