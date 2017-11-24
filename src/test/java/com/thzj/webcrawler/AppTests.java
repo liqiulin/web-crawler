@@ -1,7 +1,7 @@
 package com.thzj.webcrawler;
 
-import com.thzj.webcrawler.dao.InvestorRoundMapper;
-import com.thzj.webcrawler.entity.InvestorRound;
+import com.thzj.webcrawler.dao.TInvestorRoundMapper;
+import com.thzj.webcrawler.entity.TInvestorRound;
 import com.thzj.webcrawler.entity.User;
 import com.thzj.webcrawler.repository.UserRepository;
 import org.junit.Assert;
@@ -21,11 +21,11 @@ public class AppTests {
     private UserRepository userRepository;
 
     @Autowired
-    private InvestorRoundMapper investorRoundMapper;
+    private TInvestorRoundMapper investorRoundMapper;
 
     @Test
     public void testInvestorRound() {
-        InvestorRound investorRound = new InvestorRound();
+        TInvestorRound investorRound = new TInvestorRound();
         investorRound.setRound("A");
         investorRoundMapper.insert(investorRound);
     }

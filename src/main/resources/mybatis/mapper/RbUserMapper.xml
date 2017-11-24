@@ -1,0 +1,1149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thzj.webcrawler.dao.RbUserMapper">
+  <resultMap id="BaseResultMap" type="com.thzj.webcrawler.entity.RbUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_paypassword" jdbcType="VARCHAR" property="userPaypassword" />
+    <result column="user_vouch" jdbcType="INTEGER" property="userVouch" />
+    <result column="user_islock" jdbcType="INTEGER" property="userIslock" />
+    <result column="invite_userid" jdbcType="INTEGER" property="inviteUserid" />
+    <result column="invite_money" jdbcType="VARCHAR" property="inviteMoney" />
+    <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_number" jdbcType="CHAR" property="cardNumber" />
+    <result column="card_front_img" jdbcType="VARCHAR" property="cardFrontImg" />
+    <result column="card_back_img" jdbcType="VARCHAR" property="cardBackImg" />
+    <result column="user_nation" jdbcType="VARCHAR" property="userNation" />
+    <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+    <result column="user_integral" jdbcType="VARCHAR" property="userIntegral" />
+    <result column="avatar_status" jdbcType="INTEGER" property="avatarStatus" />
+    <result column="realname_status" jdbcType="INTEGER" property="realnameStatus" />
+    <result column="email_status" jdbcType="INTEGER" property="emailStatus" />
+    <result column="phone_status" jdbcType="INTEGER" property="phoneStatus" />
+    <result column="video_status" jdbcType="INTEGER" property="videoStatus" />
+    <result column="scene_status" jdbcType="INTEGER" property="sceneStatus" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_sex" jdbcType="CHAR" property="userSex" />
+    <result column="avatar_img" jdbcType="VARCHAR" property="avatarImg" />
+    <result column="user_tel" jdbcType="VARCHAR" property="userTel" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_qq" jdbcType="VARCHAR" property="userQq" />
+    <result column="user_question" jdbcType="VARCHAR" property="userQuestion" />
+    <result column="user_answer" jdbcType="VARCHAR" property="userAnswer" />
+    <result column="user_birthday" jdbcType="TIMESTAMP" property="userBirthday" />
+    <result column="user_province" jdbcType="VARCHAR" property="userProvince" />
+    <result column="user_city" jdbcType="VARCHAR" property="userCity" />
+    <result column="user_area" jdbcType="VARCHAR" property="userArea" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="user_addtime" jdbcType="TIMESTAMP" property="userAddtime" />
+    <result column="user_addip" jdbcType="VARCHAR" property="userAddip" />
+    <result column="user_logintime" jdbcType="TIMESTAMP" property="userLogintime" />
+    <result column="user_loginip" jdbcType="VARCHAR" property="userLoginip" />
+    <result column="is_system" jdbcType="INTEGER" property="isSystem" />
+    <result column="isThirdparty" jdbcType="INTEGER" property="isthirdparty" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="invitation_code" jdbcType="VARCHAR" property="invitationCode" />
+    <result column="yb_register_status" jdbcType="INTEGER" property="ybRegisterStatus" />
+    <result column="yb_register_time" jdbcType="TIMESTAMP" property="ybRegisterTime" />
+    <result column="partner_account" jdbcType="INTEGER" property="partnerAccount" />
+    <result column="autoRed_flag" jdbcType="INTEGER" property="autoredFlag" />
+    <result column="deposit_userid" jdbcType="VARCHAR" property="depositUserid" />
+    <result column="deposit_usrCustId" jdbcType="VARCHAR" property="depositUsrcustid" />
+    <result column="isOwnerAuthed" jdbcType="INTEGER" property="isownerauthed" />
+    <result column="user_des" jdbcType="VARCHAR" property="userDes" />
+    <result column="comp_des" jdbcType="VARCHAR" property="compDes" />
+    <result column="weixin" jdbcType="VARCHAR" property="weixin" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    <result column="user_remind" jdbcType="LONGVARCHAR" property="userRemind" />
+    <result column="user_privacy" jdbcType="LONGVARCHAR" property="userPrivacy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type_id, user_account, user_password, user_paypassword, user_vouch, user_islock, 
+    invite_userid, invite_money, card_type, card_number, card_front_img, card_back_img, 
+    user_nation, user_realname, user_integral, avatar_status, realname_status, email_status, 
+    phone_status, video_status, scene_status, user_email, user_sex, avatar_img, user_tel, 
+    user_phone, user_qq, user_question, user_answer, user_birthday, user_province, user_city, 
+    user_area, user_address, user_addtime, user_addip, user_logintime, user_loginip, 
+    is_system, isThirdparty, uid, invitation_code, yb_register_status, yb_register_time, 
+    partner_account, autoRed_flag, deposit_userid, deposit_usrCustId, isOwnerAuthed, 
+    user_des, comp_des, weixin
+  </sql>
+  <sql id="Blob_Column_List">
+    user_remind, user_privacy
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.thzj.webcrawler.entity.RbUserExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.RbUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rb_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rb_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.thzj.webcrawler.entity.RbUserExample">
+    delete from rb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    insert into rb_user (id, type_id, user_account, 
+      user_password, user_paypassword, user_vouch, 
+      user_islock, invite_userid, invite_money, 
+      card_type, card_number, card_front_img, 
+      card_back_img, user_nation, user_realname, 
+      user_integral, avatar_status, realname_status, 
+      email_status, phone_status, video_status, 
+      scene_status, user_email, user_sex, 
+      avatar_img, user_tel, user_phone, 
+      user_qq, user_question, user_answer, 
+      user_birthday, user_province, user_city, 
+      user_area, user_address, user_addtime, 
+      user_addip, user_logintime, user_loginip, 
+      is_system, isThirdparty, uid, 
+      invitation_code, yb_register_status, yb_register_time, 
+      partner_account, autoRed_flag, deposit_userid, 
+      deposit_usrCustId, isOwnerAuthed, user_des, 
+      comp_des, weixin, user_remind, 
+      user_privacy)
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userPaypassword,jdbcType=VARCHAR}, #{userVouch,jdbcType=INTEGER}, 
+      #{userIslock,jdbcType=INTEGER}, #{inviteUserid,jdbcType=INTEGER}, #{inviteMoney,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=INTEGER}, #{cardNumber,jdbcType=CHAR}, #{cardFrontImg,jdbcType=VARCHAR}, 
+      #{cardBackImg,jdbcType=VARCHAR}, #{userNation,jdbcType=VARCHAR}, #{userRealname,jdbcType=VARCHAR}, 
+      #{userIntegral,jdbcType=VARCHAR}, #{avatarStatus,jdbcType=INTEGER}, #{realnameStatus,jdbcType=INTEGER}, 
+      #{emailStatus,jdbcType=INTEGER}, #{phoneStatus,jdbcType=INTEGER}, #{videoStatus,jdbcType=INTEGER}, 
+      #{sceneStatus,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, #{userSex,jdbcType=CHAR}, 
+      #{avatarImg,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userQq,jdbcType=VARCHAR}, #{userQuestion,jdbcType=VARCHAR}, #{userAnswer,jdbcType=VARCHAR}, 
+      #{userBirthday,jdbcType=TIMESTAMP}, #{userProvince,jdbcType=VARCHAR}, #{userCity,jdbcType=VARCHAR}, 
+      #{userArea,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, #{userAddtime,jdbcType=TIMESTAMP}, 
+      #{userAddip,jdbcType=VARCHAR}, #{userLogintime,jdbcType=TIMESTAMP}, #{userLoginip,jdbcType=VARCHAR}, 
+      #{isSystem,jdbcType=INTEGER}, #{isthirdparty,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, 
+      #{invitationCode,jdbcType=VARCHAR}, #{ybRegisterStatus,jdbcType=INTEGER}, #{ybRegisterTime,jdbcType=TIMESTAMP}, 
+      #{partnerAccount,jdbcType=INTEGER}, #{autoredFlag,jdbcType=INTEGER}, #{depositUserid,jdbcType=VARCHAR}, 
+      #{depositUsrcustid,jdbcType=VARCHAR}, #{isownerauthed,jdbcType=INTEGER}, #{userDes,jdbcType=VARCHAR}, 
+      #{compDes,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{userRemind,jdbcType=LONGVARCHAR}, 
+      #{userPrivacy,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    insert into rb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userPaypassword != null">
+        user_paypassword,
+      </if>
+      <if test="userVouch != null">
+        user_vouch,
+      </if>
+      <if test="userIslock != null">
+        user_islock,
+      </if>
+      <if test="inviteUserid != null">
+        invite_userid,
+      </if>
+      <if test="inviteMoney != null">
+        invite_money,
+      </if>
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="cardNumber != null">
+        card_number,
+      </if>
+      <if test="cardFrontImg != null">
+        card_front_img,
+      </if>
+      <if test="cardBackImg != null">
+        card_back_img,
+      </if>
+      <if test="userNation != null">
+        user_nation,
+      </if>
+      <if test="userRealname != null">
+        user_realname,
+      </if>
+      <if test="userIntegral != null">
+        user_integral,
+      </if>
+      <if test="avatarStatus != null">
+        avatar_status,
+      </if>
+      <if test="realnameStatus != null">
+        realname_status,
+      </if>
+      <if test="emailStatus != null">
+        email_status,
+      </if>
+      <if test="phoneStatus != null">
+        phone_status,
+      </if>
+      <if test="videoStatus != null">
+        video_status,
+      </if>
+      <if test="sceneStatus != null">
+        scene_status,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="avatarImg != null">
+        avatar_img,
+      </if>
+      <if test="userTel != null">
+        user_tel,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userQq != null">
+        user_qq,
+      </if>
+      <if test="userQuestion != null">
+        user_question,
+      </if>
+      <if test="userAnswer != null">
+        user_answer,
+      </if>
+      <if test="userBirthday != null">
+        user_birthday,
+      </if>
+      <if test="userProvince != null">
+        user_province,
+      </if>
+      <if test="userCity != null">
+        user_city,
+      </if>
+      <if test="userArea != null">
+        user_area,
+      </if>
+      <if test="userAddress != null">
+        user_address,
+      </if>
+      <if test="userAddtime != null">
+        user_addtime,
+      </if>
+      <if test="userAddip != null">
+        user_addip,
+      </if>
+      <if test="userLogintime != null">
+        user_logintime,
+      </if>
+      <if test="userLoginip != null">
+        user_loginip,
+      </if>
+      <if test="isSystem != null">
+        is_system,
+      </if>
+      <if test="isthirdparty != null">
+        isThirdparty,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="invitationCode != null">
+        invitation_code,
+      </if>
+      <if test="ybRegisterStatus != null">
+        yb_register_status,
+      </if>
+      <if test="ybRegisterTime != null">
+        yb_register_time,
+      </if>
+      <if test="partnerAccount != null">
+        partner_account,
+      </if>
+      <if test="autoredFlag != null">
+        autoRed_flag,
+      </if>
+      <if test="depositUserid != null">
+        deposit_userid,
+      </if>
+      <if test="depositUsrcustid != null">
+        deposit_usrCustId,
+      </if>
+      <if test="isownerauthed != null">
+        isOwnerAuthed,
+      </if>
+      <if test="userDes != null">
+        user_des,
+      </if>
+      <if test="compDes != null">
+        comp_des,
+      </if>
+      <if test="weixin != null">
+        weixin,
+      </if>
+      <if test="userRemind != null">
+        user_remind,
+      </if>
+      <if test="userPrivacy != null">
+        user_privacy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPaypassword != null">
+        #{userPaypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userVouch != null">
+        #{userVouch,jdbcType=INTEGER},
+      </if>
+      <if test="userIslock != null">
+        #{userIslock,jdbcType=INTEGER},
+      </if>
+      <if test="inviteUserid != null">
+        #{inviteUserid,jdbcType=INTEGER},
+      </if>
+      <if test="inviteMoney != null">
+        #{inviteMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null">
+        #{cardNumber,jdbcType=CHAR},
+      </if>
+      <if test="cardFrontImg != null">
+        #{cardFrontImg,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBackImg != null">
+        #{cardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userNation != null">
+        #{userNation,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntegral != null">
+        #{userIntegral,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarStatus != null">
+        #{avatarStatus,jdbcType=INTEGER},
+      </if>
+      <if test="realnameStatus != null">
+        #{realnameStatus,jdbcType=INTEGER},
+      </if>
+      <if test="emailStatus != null">
+        #{emailStatus,jdbcType=INTEGER},
+      </if>
+      <if test="phoneStatus != null">
+        #{phoneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="videoStatus != null">
+        #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sceneStatus != null">
+        #{sceneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=CHAR},
+      </if>
+      <if test="avatarImg != null">
+        #{avatarImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null">
+        #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null">
+        #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userQuestion != null">
+        #{userQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="userAnswer != null">
+        #{userAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userProvince != null">
+        #{userProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null">
+        #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userArea != null">
+        #{userArea,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddtime != null">
+        #{userAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddip != null">
+        #{userAddip,jdbcType=VARCHAR},
+      </if>
+      <if test="userLogintime != null">
+        #{userLogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLoginip != null">
+        #{userLoginip,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null">
+        #{isSystem,jdbcType=INTEGER},
+      </if>
+      <if test="isthirdparty != null">
+        #{isthirdparty,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="invitationCode != null">
+        #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ybRegisterStatus != null">
+        #{ybRegisterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ybRegisterTime != null">
+        #{ybRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partnerAccount != null">
+        #{partnerAccount,jdbcType=INTEGER},
+      </if>
+      <if test="autoredFlag != null">
+        #{autoredFlag,jdbcType=INTEGER},
+      </if>
+      <if test="depositUserid != null">
+        #{depositUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="depositUsrcustid != null">
+        #{depositUsrcustid,jdbcType=VARCHAR},
+      </if>
+      <if test="isownerauthed != null">
+        #{isownerauthed,jdbcType=INTEGER},
+      </if>
+      <if test="userDes != null">
+        #{userDes,jdbcType=VARCHAR},
+      </if>
+      <if test="compDes != null">
+        #{compDes,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemind != null">
+        #{userRemind,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userPrivacy != null">
+        #{userPrivacy,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.thzj.webcrawler.entity.RbUserExample" resultType="java.lang.Long">
+    select count(*) from rb_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rb_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null">
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAccount != null">
+        user_account = #{record.userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null">
+        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPaypassword != null">
+        user_paypassword = #{record.userPaypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userVouch != null">
+        user_vouch = #{record.userVouch,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIslock != null">
+        user_islock = #{record.userIslock,jdbcType=INTEGER},
+      </if>
+      <if test="record.inviteUserid != null">
+        invite_userid = #{record.inviteUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.inviteMoney != null">
+        invite_money = #{record.inviteMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null">
+        card_type = #{record.cardType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardNumber != null">
+        card_number = #{record.cardNumber,jdbcType=CHAR},
+      </if>
+      <if test="record.cardFrontImg != null">
+        card_front_img = #{record.cardFrontImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardBackImg != null">
+        card_back_img = #{record.cardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNation != null">
+        user_nation = #{record.userNation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userRealname != null">
+        user_realname = #{record.userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIntegral != null">
+        user_integral = #{record.userIntegral,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avatarStatus != null">
+        avatar_status = #{record.avatarStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.realnameStatus != null">
+        realname_status = #{record.realnameStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.emailStatus != null">
+        email_status = #{record.emailStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneStatus != null">
+        phone_status = #{record.phoneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoStatus != null">
+        video_status = #{record.videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sceneStatus != null">
+        scene_status = #{record.sceneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.userEmail != null">
+        user_email = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSex != null">
+        user_sex = #{record.userSex,jdbcType=CHAR},
+      </if>
+      <if test="record.avatarImg != null">
+        avatar_img = #{record.avatarImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userTel != null">
+        user_tel = #{record.userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null">
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQq != null">
+        user_qq = #{record.userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQuestion != null">
+        user_question = #{record.userQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAnswer != null">
+        user_answer = #{record.userAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userBirthday != null">
+        user_birthday = #{record.userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userProvince != null">
+        user_province = #{record.userProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCity != null">
+        user_city = #{record.userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userArea != null">
+        user_area = #{record.userArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAddress != null">
+        user_address = #{record.userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAddtime != null">
+        user_addtime = #{record.userAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userAddip != null">
+        user_addip = #{record.userAddip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userLogintime != null">
+        user_logintime = #{record.userLogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userLoginip != null">
+        user_loginip = #{record.userLoginip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSystem != null">
+        is_system = #{record.isSystem,jdbcType=INTEGER},
+      </if>
+      <if test="record.isthirdparty != null">
+        isThirdparty = #{record.isthirdparty,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invitationCode != null">
+        invitation_code = #{record.invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ybRegisterStatus != null">
+        yb_register_status = #{record.ybRegisterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.ybRegisterTime != null">
+        yb_register_time = #{record.ybRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.partnerAccount != null">
+        partner_account = #{record.partnerAccount,jdbcType=INTEGER},
+      </if>
+      <if test="record.autoredFlag != null">
+        autoRed_flag = #{record.autoredFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.depositUserid != null">
+        deposit_userid = #{record.depositUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depositUsrcustid != null">
+        deposit_usrCustId = #{record.depositUsrcustid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isownerauthed != null">
+        isOwnerAuthed = #{record.isownerauthed,jdbcType=INTEGER},
+      </if>
+      <if test="record.userDes != null">
+        user_des = #{record.userDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.compDes != null">
+        comp_des = #{record.compDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixin != null">
+        weixin = #{record.weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userRemind != null">
+        user_remind = #{record.userRemind,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.userPrivacy != null">
+        user_privacy = #{record.userPrivacy,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update rb_user
+    set id = #{record.id,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      user_account = #{record.userAccount,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_paypassword = #{record.userPaypassword,jdbcType=VARCHAR},
+      user_vouch = #{record.userVouch,jdbcType=INTEGER},
+      user_islock = #{record.userIslock,jdbcType=INTEGER},
+      invite_userid = #{record.inviteUserid,jdbcType=INTEGER},
+      invite_money = #{record.inviteMoney,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=INTEGER},
+      card_number = #{record.cardNumber,jdbcType=CHAR},
+      card_front_img = #{record.cardFrontImg,jdbcType=VARCHAR},
+      card_back_img = #{record.cardBackImg,jdbcType=VARCHAR},
+      user_nation = #{record.userNation,jdbcType=VARCHAR},
+      user_realname = #{record.userRealname,jdbcType=VARCHAR},
+      user_integral = #{record.userIntegral,jdbcType=VARCHAR},
+      avatar_status = #{record.avatarStatus,jdbcType=INTEGER},
+      realname_status = #{record.realnameStatus,jdbcType=INTEGER},
+      email_status = #{record.emailStatus,jdbcType=INTEGER},
+      phone_status = #{record.phoneStatus,jdbcType=INTEGER},
+      video_status = #{record.videoStatus,jdbcType=INTEGER},
+      scene_status = #{record.sceneStatus,jdbcType=INTEGER},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=CHAR},
+      avatar_img = #{record.avatarImg,jdbcType=VARCHAR},
+      user_tel = #{record.userTel,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_qq = #{record.userQq,jdbcType=VARCHAR},
+      user_question = #{record.userQuestion,jdbcType=VARCHAR},
+      user_answer = #{record.userAnswer,jdbcType=VARCHAR},
+      user_birthday = #{record.userBirthday,jdbcType=TIMESTAMP},
+      user_province = #{record.userProvince,jdbcType=VARCHAR},
+      user_city = #{record.userCity,jdbcType=VARCHAR},
+      user_area = #{record.userArea,jdbcType=VARCHAR},
+      user_address = #{record.userAddress,jdbcType=VARCHAR},
+      user_addtime = #{record.userAddtime,jdbcType=TIMESTAMP},
+      user_addip = #{record.userAddip,jdbcType=VARCHAR},
+      user_logintime = #{record.userLogintime,jdbcType=TIMESTAMP},
+      user_loginip = #{record.userLoginip,jdbcType=VARCHAR},
+      is_system = #{record.isSystem,jdbcType=INTEGER},
+      isThirdparty = #{record.isthirdparty,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      invitation_code = #{record.invitationCode,jdbcType=VARCHAR},
+      yb_register_status = #{record.ybRegisterStatus,jdbcType=INTEGER},
+      yb_register_time = #{record.ybRegisterTime,jdbcType=TIMESTAMP},
+      partner_account = #{record.partnerAccount,jdbcType=INTEGER},
+      autoRed_flag = #{record.autoredFlag,jdbcType=INTEGER},
+      deposit_userid = #{record.depositUserid,jdbcType=VARCHAR},
+      deposit_usrCustId = #{record.depositUsrcustid,jdbcType=VARCHAR},
+      isOwnerAuthed = #{record.isownerauthed,jdbcType=INTEGER},
+      user_des = #{record.userDes,jdbcType=VARCHAR},
+      comp_des = #{record.compDes,jdbcType=VARCHAR},
+      weixin = #{record.weixin,jdbcType=VARCHAR},
+      user_remind = #{record.userRemind,jdbcType=LONGVARCHAR},
+      user_privacy = #{record.userPrivacy,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rb_user
+    set id = #{record.id,jdbcType=INTEGER},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      user_account = #{record.userAccount,jdbcType=VARCHAR},
+      user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_paypassword = #{record.userPaypassword,jdbcType=VARCHAR},
+      user_vouch = #{record.userVouch,jdbcType=INTEGER},
+      user_islock = #{record.userIslock,jdbcType=INTEGER},
+      invite_userid = #{record.inviteUserid,jdbcType=INTEGER},
+      invite_money = #{record.inviteMoney,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=INTEGER},
+      card_number = #{record.cardNumber,jdbcType=CHAR},
+      card_front_img = #{record.cardFrontImg,jdbcType=VARCHAR},
+      card_back_img = #{record.cardBackImg,jdbcType=VARCHAR},
+      user_nation = #{record.userNation,jdbcType=VARCHAR},
+      user_realname = #{record.userRealname,jdbcType=VARCHAR},
+      user_integral = #{record.userIntegral,jdbcType=VARCHAR},
+      avatar_status = #{record.avatarStatus,jdbcType=INTEGER},
+      realname_status = #{record.realnameStatus,jdbcType=INTEGER},
+      email_status = #{record.emailStatus,jdbcType=INTEGER},
+      phone_status = #{record.phoneStatus,jdbcType=INTEGER},
+      video_status = #{record.videoStatus,jdbcType=INTEGER},
+      scene_status = #{record.sceneStatus,jdbcType=INTEGER},
+      user_email = #{record.userEmail,jdbcType=VARCHAR},
+      user_sex = #{record.userSex,jdbcType=CHAR},
+      avatar_img = #{record.avatarImg,jdbcType=VARCHAR},
+      user_tel = #{record.userTel,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_qq = #{record.userQq,jdbcType=VARCHAR},
+      user_question = #{record.userQuestion,jdbcType=VARCHAR},
+      user_answer = #{record.userAnswer,jdbcType=VARCHAR},
+      user_birthday = #{record.userBirthday,jdbcType=TIMESTAMP},
+      user_province = #{record.userProvince,jdbcType=VARCHAR},
+      user_city = #{record.userCity,jdbcType=VARCHAR},
+      user_area = #{record.userArea,jdbcType=VARCHAR},
+      user_address = #{record.userAddress,jdbcType=VARCHAR},
+      user_addtime = #{record.userAddtime,jdbcType=TIMESTAMP},
+      user_addip = #{record.userAddip,jdbcType=VARCHAR},
+      user_logintime = #{record.userLogintime,jdbcType=TIMESTAMP},
+      user_loginip = #{record.userLoginip,jdbcType=VARCHAR},
+      is_system = #{record.isSystem,jdbcType=INTEGER},
+      isThirdparty = #{record.isthirdparty,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      invitation_code = #{record.invitationCode,jdbcType=VARCHAR},
+      yb_register_status = #{record.ybRegisterStatus,jdbcType=INTEGER},
+      yb_register_time = #{record.ybRegisterTime,jdbcType=TIMESTAMP},
+      partner_account = #{record.partnerAccount,jdbcType=INTEGER},
+      autoRed_flag = #{record.autoredFlag,jdbcType=INTEGER},
+      deposit_userid = #{record.depositUserid,jdbcType=VARCHAR},
+      deposit_usrCustId = #{record.depositUsrcustid,jdbcType=VARCHAR},
+      isOwnerAuthed = #{record.isownerauthed,jdbcType=INTEGER},
+      user_des = #{record.userDes,jdbcType=VARCHAR},
+      comp_des = #{record.compDes,jdbcType=VARCHAR},
+      weixin = #{record.weixin,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    update rb_user
+    <set>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPaypassword != null">
+        user_paypassword = #{userPaypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userVouch != null">
+        user_vouch = #{userVouch,jdbcType=INTEGER},
+      </if>
+      <if test="userIslock != null">
+        user_islock = #{userIslock,jdbcType=INTEGER},
+      </if>
+      <if test="inviteUserid != null">
+        invite_userid = #{inviteUserid,jdbcType=INTEGER},
+      </if>
+      <if test="inviteMoney != null">
+        invite_money = #{inviteMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null">
+        card_number = #{cardNumber,jdbcType=CHAR},
+      </if>
+      <if test="cardFrontImg != null">
+        card_front_img = #{cardFrontImg,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBackImg != null">
+        card_back_img = #{cardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userNation != null">
+        user_nation = #{userNation,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        user_realname = #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntegral != null">
+        user_integral = #{userIntegral,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarStatus != null">
+        avatar_status = #{avatarStatus,jdbcType=INTEGER},
+      </if>
+      <if test="realnameStatus != null">
+        realname_status = #{realnameStatus,jdbcType=INTEGER},
+      </if>
+      <if test="emailStatus != null">
+        email_status = #{emailStatus,jdbcType=INTEGER},
+      </if>
+      <if test="phoneStatus != null">
+        phone_status = #{phoneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="videoStatus != null">
+        video_status = #{videoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sceneStatus != null">
+        scene_status = #{sceneStatus,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=CHAR},
+      </if>
+      <if test="avatarImg != null">
+        avatar_img = #{avatarImg,jdbcType=VARCHAR},
+      </if>
+      <if test="userTel != null">
+        user_tel = #{userTel,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null">
+        user_qq = #{userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="userQuestion != null">
+        user_question = #{userQuestion,jdbcType=VARCHAR},
+      </if>
+      <if test="userAnswer != null">
+        user_answer = #{userAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userProvince != null">
+        user_province = #{userProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null">
+        user_city = #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userArea != null">
+        user_area = #{userArea,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddtime != null">
+        user_addtime = #{userAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddip != null">
+        user_addip = #{userAddip,jdbcType=VARCHAR},
+      </if>
+      <if test="userLogintime != null">
+        user_logintime = #{userLogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLoginip != null">
+        user_loginip = #{userLoginip,jdbcType=VARCHAR},
+      </if>
+      <if test="isSystem != null">
+        is_system = #{isSystem,jdbcType=INTEGER},
+      </if>
+      <if test="isthirdparty != null">
+        isThirdparty = #{isthirdparty,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="invitationCode != null">
+        invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ybRegisterStatus != null">
+        yb_register_status = #{ybRegisterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ybRegisterTime != null">
+        yb_register_time = #{ybRegisterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partnerAccount != null">
+        partner_account = #{partnerAccount,jdbcType=INTEGER},
+      </if>
+      <if test="autoredFlag != null">
+        autoRed_flag = #{autoredFlag,jdbcType=INTEGER},
+      </if>
+      <if test="depositUserid != null">
+        deposit_userid = #{depositUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="depositUsrcustid != null">
+        deposit_usrCustId = #{depositUsrcustid,jdbcType=VARCHAR},
+      </if>
+      <if test="isownerauthed != null">
+        isOwnerAuthed = #{isownerauthed,jdbcType=INTEGER},
+      </if>
+      <if test="userDes != null">
+        user_des = #{userDes,jdbcType=VARCHAR},
+      </if>
+      <if test="compDes != null">
+        comp_des = #{compDes,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="userRemind != null">
+        user_remind = #{userRemind,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userPrivacy != null">
+        user_privacy = #{userPrivacy,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    update rb_user
+    set type_id = #{typeId,jdbcType=INTEGER},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_paypassword = #{userPaypassword,jdbcType=VARCHAR},
+      user_vouch = #{userVouch,jdbcType=INTEGER},
+      user_islock = #{userIslock,jdbcType=INTEGER},
+      invite_userid = #{inviteUserid,jdbcType=INTEGER},
+      invite_money = #{inviteMoney,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=INTEGER},
+      card_number = #{cardNumber,jdbcType=CHAR},
+      card_front_img = #{cardFrontImg,jdbcType=VARCHAR},
+      card_back_img = #{cardBackImg,jdbcType=VARCHAR},
+      user_nation = #{userNation,jdbcType=VARCHAR},
+      user_realname = #{userRealname,jdbcType=VARCHAR},
+      user_integral = #{userIntegral,jdbcType=VARCHAR},
+      avatar_status = #{avatarStatus,jdbcType=INTEGER},
+      realname_status = #{realnameStatus,jdbcType=INTEGER},
+      email_status = #{emailStatus,jdbcType=INTEGER},
+      phone_status = #{phoneStatus,jdbcType=INTEGER},
+      video_status = #{videoStatus,jdbcType=INTEGER},
+      scene_status = #{sceneStatus,jdbcType=INTEGER},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=CHAR},
+      avatar_img = #{avatarImg,jdbcType=VARCHAR},
+      user_tel = #{userTel,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_qq = #{userQq,jdbcType=VARCHAR},
+      user_question = #{userQuestion,jdbcType=VARCHAR},
+      user_answer = #{userAnswer,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+      user_province = #{userProvince,jdbcType=VARCHAR},
+      user_city = #{userCity,jdbcType=VARCHAR},
+      user_area = #{userArea,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_addtime = #{userAddtime,jdbcType=TIMESTAMP},
+      user_addip = #{userAddip,jdbcType=VARCHAR},
+      user_logintime = #{userLogintime,jdbcType=TIMESTAMP},
+      user_loginip = #{userLoginip,jdbcType=VARCHAR},
+      is_system = #{isSystem,jdbcType=INTEGER},
+      isThirdparty = #{isthirdparty,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
+      invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      yb_register_status = #{ybRegisterStatus,jdbcType=INTEGER},
+      yb_register_time = #{ybRegisterTime,jdbcType=TIMESTAMP},
+      partner_account = #{partnerAccount,jdbcType=INTEGER},
+      autoRed_flag = #{autoredFlag,jdbcType=INTEGER},
+      deposit_userid = #{depositUserid,jdbcType=VARCHAR},
+      deposit_usrCustId = #{depositUsrcustid,jdbcType=VARCHAR},
+      isOwnerAuthed = #{isownerauthed,jdbcType=INTEGER},
+      user_des = #{userDes,jdbcType=VARCHAR},
+      comp_des = #{compDes,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      user_remind = #{userRemind,jdbcType=LONGVARCHAR},
+      user_privacy = #{userPrivacy,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.thzj.webcrawler.entity.RbUser">
+    update rb_user
+    set type_id = #{typeId,jdbcType=INTEGER},
+      user_account = #{userAccount,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_paypassword = #{userPaypassword,jdbcType=VARCHAR},
+      user_vouch = #{userVouch,jdbcType=INTEGER},
+      user_islock = #{userIslock,jdbcType=INTEGER},
+      invite_userid = #{inviteUserid,jdbcType=INTEGER},
+      invite_money = #{inviteMoney,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=INTEGER},
+      card_number = #{cardNumber,jdbcType=CHAR},
+      card_front_img = #{cardFrontImg,jdbcType=VARCHAR},
+      card_back_img = #{cardBackImg,jdbcType=VARCHAR},
+      user_nation = #{userNation,jdbcType=VARCHAR},
+      user_realname = #{userRealname,jdbcType=VARCHAR},
+      user_integral = #{userIntegral,jdbcType=VARCHAR},
+      avatar_status = #{avatarStatus,jdbcType=INTEGER},
+      realname_status = #{realnameStatus,jdbcType=INTEGER},
+      email_status = #{emailStatus,jdbcType=INTEGER},
+      phone_status = #{phoneStatus,jdbcType=INTEGER},
+      video_status = #{videoStatus,jdbcType=INTEGER},
+      scene_status = #{sceneStatus,jdbcType=INTEGER},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=CHAR},
+      avatar_img = #{avatarImg,jdbcType=VARCHAR},
+      user_tel = #{userTel,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_qq = #{userQq,jdbcType=VARCHAR},
+      user_question = #{userQuestion,jdbcType=VARCHAR},
+      user_answer = #{userAnswer,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=TIMESTAMP},
+      user_province = #{userProvince,jdbcType=VARCHAR},
+      user_city = #{userCity,jdbcType=VARCHAR},
+      user_area = #{userArea,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_addtime = #{userAddtime,jdbcType=TIMESTAMP},
+      user_addip = #{userAddip,jdbcType=VARCHAR},
+      user_logintime = #{userLogintime,jdbcType=TIMESTAMP},
+      user_loginip = #{userLoginip,jdbcType=VARCHAR},
+      is_system = #{isSystem,jdbcType=INTEGER},
+      isThirdparty = #{isthirdparty,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
+      invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      yb_register_status = #{ybRegisterStatus,jdbcType=INTEGER},
+      yb_register_time = #{ybRegisterTime,jdbcType=TIMESTAMP},
+      partner_account = #{partnerAccount,jdbcType=INTEGER},
+      autoRed_flag = #{autoredFlag,jdbcType=INTEGER},
+      deposit_userid = #{depositUserid,jdbcType=VARCHAR},
+      deposit_usrCustId = #{depositUsrcustid,jdbcType=VARCHAR},
+      isOwnerAuthed = #{isownerauthed,jdbcType=INTEGER},
+      user_des = #{userDes,jdbcType=VARCHAR},
+      comp_des = #{compDes,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
