@@ -23,6 +23,7 @@ public class Startup implements Serializable {
     private String companyName;                                        //公司名称
     private String establishTime;                                      //成立时间
     private String profile;                                            //基本介绍
+    private List<FinancingHistory> financingHistories;                  //融资历史
     private List<String> members;                                      // 团队成员
     private String productImgUrl;                                      //产品图片
     private String productHomePage;                                    //产品网站

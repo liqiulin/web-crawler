@@ -13,7 +13,7 @@ public class FinancingHistory implements Serializable{
     private static final long serialVersionUID = 9193399368288964105L;
 
     private String time;                        //融资时间
-    private String sum;                         //融资金额
+    private String financingAmount;                         //融资金额
     private String round;                       //轮次
     private String startupId;                   //项目ID
 
