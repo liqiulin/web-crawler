@@ -30,9 +30,9 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         String url;
         Map<String, Investor> investors = Maps.newConcurrentMap();
         final String userDetailsUrl = "https://www.vc.cn/users/";
+
         for (String userId : userIdList) {
             url = userDetailsUrl + userId;
-
             try {
                 Investor investor = new Investor();
                 Document doc = Jsoup.connect(url).get();
@@ -123,14 +123,15 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, e);
 
             }
-        }
 
+        }
         return investors;
     }
 
     /**
      * 获取所有投资人/user的ID
      */
+    @Override
     public List<String> getUserIds() {
         // Todo 写在ConfigCenter里面
         final String userListUrl = "https://www.vc.cn/investors?action=index&controller=investors&page=";

@@ -34,18 +34,20 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 investInstitution = getInvestInstitution(doc, institueId, url);
                 investInstitutions.put(institueId, investInstitution);
             }
+            return investInstitutions;
         } catch (IOException e) {
             e.printStackTrace();
             log.warn("grabInvestInstitutionInfo failed! instituteIdList[{}]", instituteIdList, e);
         }
-        return Maps.newConcurrentMap();
+        return investInstitutions;
     }
 
 
     /**
      * 获取所有投资机构的ID
      */
-    public static List<String> getInstitutionIds() {
+    @Override
+    public List<String> getInstitutionIds() {
         // Todo 写在ConfigCenter里面
         final String institutionUrl = "https://www.vc.cn/institutions?action=index&controller=institutions&page=";
         List<String> institutionIds = new ArrayList<>();
@@ -129,7 +131,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
     }
 
     public static void main (String[] args) {
-        List<String> list = getInstitutionIds();
-        System.out.println(list);
+/*        List<String> list = getInstitutionIds();
+        System.out.println(list);*/
     }
 }

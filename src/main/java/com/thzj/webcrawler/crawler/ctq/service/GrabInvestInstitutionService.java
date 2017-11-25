@@ -10,4 +10,9 @@ public interface GrabInvestInstitutionService {
      * 获取投资机构详细信息
      */
     Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteId);
+
+    /**
+     * 获取所有投资机构ID
+     */
+    List<String> getInstitutionIds();
 }
