@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 工作经历
@@ -14,7 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class WorkExperience implements Serializable{
     private static final long serialVersionUID = 2025596005957180518L;
-    private String time;
+    private Date timeFrom;
+    private Date timeTo;
     private String company;
     private String position;
 }

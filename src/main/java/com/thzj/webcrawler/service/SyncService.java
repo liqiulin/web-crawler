@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.service;
 
+import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,19 @@ public class SyncService {
     private ProjectSyncService projectSyncService;
 
     public void doSync() {
-        // 同步完主体对象
+        // 同步前初始化
+        CrawlResult.INVESTOR.clear();
+        CrawlResult.INVESTINSTITUTION.clear();
+        CrawlResult.STARTUP.clear();
+
+        // 同步主体对象
         investInstitutionSyncService.doSync();
         investorSyncService.doSync();
         projectSyncService.doSync();
+
+        // 处理投资案例
+
+        // 更新机构成员名称
 
         //
     }

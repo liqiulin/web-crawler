@@ -18,7 +18,7 @@ public class CrawlHisManagerImpl implements CrawlHisManager {
 
     @Override
     public int insert(TCrawlHis entity) {
-        return tCrawlHisMapper.insert(entity);
+        return tCrawlHisMapper.insertSelective(entity);
     }
 
 
