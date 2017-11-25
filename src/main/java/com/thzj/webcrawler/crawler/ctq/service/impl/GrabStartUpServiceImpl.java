@@ -109,7 +109,16 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         List<StartupMember> startupMembers = buildStartupMembers(startupId, startupMembersElements);
 
         //产品链接
+        Element productElement = doc.getElementById("product_info");
+        //Todo 图片链接可能是List类型，暂不处理
+        String productsUrl = productElement.select("div.photos-views").select("img").attr("src");
 
+        //产品网站
+        List<String> productsWebsites = Lists.newArrayList();
+        productElement.select(".main-products-list").select("li").select("a[href]").forEach(element ->
+                productsWebsites.add(element.attr("href")));
+
+        //发展历程
 
 
         return new Startup();
