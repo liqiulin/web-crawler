@@ -25,6 +25,6 @@ public class InvestInstitution implements Serializable {
     private String profile;                                            //介绍
     private List<String> investIndustries;                             //投资行业
     private List<String> investRounds;                                 //投资阶段
-    private List<InvestCase> investCases;                              //投资案例
+    private List<String> investCases;                                  //投资案例
     private List<String> members;                                      //成员
 }
