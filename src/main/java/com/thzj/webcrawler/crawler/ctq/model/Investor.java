@@ -24,7 +24,6 @@ public class Investor implements Serializable {
     private String position;                                           //职位
     private String province;                                           //所在地址：省
     private String city;                                               //所在地址：市
-    private String area;                                               //所在地址：区
 
     private String profile;                                            //投资人介绍
     private List<String> investIndustries;                             //投资行业
