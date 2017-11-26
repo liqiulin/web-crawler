@@ -8,6 +8,7 @@ import com.thzj.webcrawler.crawler.ctq.model.FinancingHistory;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.entity.TDevelopmentHistory;
+import com.thzj.webcrawler.entity.TInvestorProject;
 import com.thzj.webcrawler.entity.TTeamMembers;
 import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +36,8 @@ public class ProjectSyncService {
     private TeamMemberManager teamMemberManager;
     @Resource
     private DevelopmentHistoryManager developmentHistoryManager;
+    @Resource
+    private InvestorProjectManager investorProjectManager;
 
     public void doSync() {
         log.info("start ...");
@@ -55,13 +59,7 @@ public class ProjectSyncService {
             }
 
             // 同步融资历史
-            List<FinancingHistory> financingHistoryList =  startup.getFinancingHistories();
-            if (!CollectionUtils.isEmpty(financingHistoryList)) {
-                financingHistoryList.forEach(financingHistory -> {
-
-                });
-            }
-
+            sycFinancingHistory(startup, entityId);
 
             // 同步团队成员
             syncMembers(startup, entityId);
@@ -73,6 +71,20 @@ public class ProjectSyncService {
 
         stopwatch.elapsed(MILLISECONDS);
         log.info("complete. elapsed[{}]", stopwatch);
+    }
+
+    private void sycFinancingHistory(Startup startup, int entityId) {
+        List<TInvestorProject> investorProjectList = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(startup.getFinancingHistories())) {
+            startup.getFinancingHistories().forEach(financingHistory -> {
+                TInvestorProject investorProject = new TInvestorProject();
+                investorProject.setProjectId(entityId);
+                investorProject.setAmount(financingHistory.getFinancingAmount());
+                investorProject.setInvestmentRounds(financingHistory.getRound());
+                investorProject.setInvestmentTime(financingHistory.getTime());
+            });
+        }
+        investorProjectManager.updateByProjectId(entityId, investorProjectList);
     }
 
 
