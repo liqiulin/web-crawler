@@ -69,7 +69,6 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setMailBox(institution.getEmail());
         tInvestor.setProvince(institution.getProvince());
         tInvestor.setCity(institution.getCity());
-        tInvestor.setArea(institution.getArea());
         tInvestor.setOrgIntroduce(institution.getProfile());
     }
 
@@ -79,7 +78,6 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setInvestorPosition(investor.getPosition());
         tInvestor.setProvince(investor.getProvince());
         tInvestor.setCity(investor.getCity());
-        tInvestor.setArea(investor.getArea());
         tInvestor.setInvestorsProfile(investor.getProfile());
     }
 }
