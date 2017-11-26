@@ -5,11 +5,13 @@ import com.thzj.webcrawler.dao.RbUnitMessageMapper;
 import com.thzj.webcrawler.entity.RbUnitMessage;
 import com.thzj.webcrawler.entity.RbUnitMessageExample;
 import com.thzj.webcrawler.manager.UnitMessageManager;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class UnitMessageManagerImpl implements UnitMessageManager {
     @Resource
     private RbUnitMessageMapper rbUnitMessageMapper;
