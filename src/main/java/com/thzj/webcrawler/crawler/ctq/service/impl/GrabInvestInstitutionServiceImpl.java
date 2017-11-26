@@ -8,6 +8,7 @@ import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.util.DateUtil;
+import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.jsoup.nodes.Document;
@@ -200,8 +201,12 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
 
     public static void main (String[] args) {
-/*        List<String> list = getInstitutionIds();
-        System.out.println(list);*/
+        GrabInvestInstitutionService grabInvestInstitutionService = new GrabInvestInstitutionServiceImpl();
+
+        String grabId = "188";
+        Map<String, InvestInstitution> grabResult = grabInvestInstitutionService.grabInvestInstitutionInfo(Lists.newArrayList(grabId));
+        System.out.println(JSONUtil.object2json(grabResult));
+        System.out.println(JSONUtil.object2json(grabResult.get(grabId)));
 
     }
 
