@@ -5,6 +5,8 @@ import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.dao.TInvestorMapper;
 import com.thzj.webcrawler.dao.TInvestorProjectMapper;
+import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
+import com.thzj.webcrawler.entity.CrawlTypeEnum;
 import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.manager.ImgManager;
 import com.thzj.webcrawler.manager.InvestorIndustryManager;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -53,6 +56,15 @@ public class InvestInstitutionSyncService {
                 investorManager.updateByCrawlInstitution(entityId, institution, imgSavePath);
             } else {
                 entityId = investorManager.saveByCrawlInstitution(institution, imgSavePath);
+
+                // 保存抓取历史
+                TCrawlHis crawlHis = new TCrawlHis();
+                crawlHis.setSrcType(CrawlHisSrcTypeEnum.VC.getCode());
+                crawlHis.setModelId(Integer.toString(entityId));
+                crawlHis.setCrawlId(crawlId);
+                crawlHis.setCrawlType(CrawlTypeEnum.INVEST_INSTITUTION.getCode());
+                crawlHis.setCreateTime(new Date());
+                crawlHisManager.insert(crawlHis);
             }
 
             // 处理投资领域

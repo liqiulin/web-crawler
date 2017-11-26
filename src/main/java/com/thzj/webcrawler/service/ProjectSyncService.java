@@ -3,23 +3,15 @@ package com.thzj.webcrawler.service;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
-import com.thzj.webcrawler.crawler.ctq.model.DevelopmentHistory;
-import com.thzj.webcrawler.crawler.ctq.model.FinancingHistory;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
-import com.thzj.webcrawler.entity.TCrawlHis;
-import com.thzj.webcrawler.entity.TDevelopmentHistory;
-import com.thzj.webcrawler.entity.TInvestorProject;
-import com.thzj.webcrawler.entity.TTeamMembers;
+import com.thzj.webcrawler.entity.*;
 import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -56,6 +48,15 @@ public class ProjectSyncService {
                 projectManager.updateByCrawlStartup(entityId, startup, logoSavePath, productImgSavePath);
             } else {
                 entityId = projectManager.saveByCrawlStartup(startup, logoSavePath, productImgSavePath);
+
+                // 保存抓取历史
+                TCrawlHis crawlHis = new TCrawlHis();
+                crawlHis.setSrcType(CrawlHisSrcTypeEnum.VC.getCode());
+                crawlHis.setModelId(Integer.toString(entityId));
+                crawlHis.setCrawlId(crawlId);
+                crawlHis.setCrawlType(CrawlTypeEnum.PROJECT.getCode());
+                crawlHis.setCreateTime(new Date());
+                crawlHisManager.insert(crawlHis);
             }
 
             // 同步融资历史

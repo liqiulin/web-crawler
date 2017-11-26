@@ -21,7 +21,6 @@ public class CrawlHisManagerImpl implements CrawlHisManager {
         return tCrawlHisMapper.insertSelective(entity);
     }
 
-
     @Override
     public Optional<TCrawlHis> queryInvestInstitutionByCrawlId(String crawlId) {
         TCrawlHisExample tCrawlHisExample = new TCrawlHisExample();

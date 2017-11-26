@@ -3,12 +3,15 @@ package com.thzj.webcrawler.service;
 import com.google.common.base.Stopwatch;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
+import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
+import com.thzj.webcrawler.entity.CrawlTypeEnum;
 import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,6 +55,15 @@ public class InvestorSyncService {
                 investorManager.updateByCrawlInvestor(entityId, crawlInvestor, imgSavePath);
             } else {
                 entityId = investorManager.saveByCrawlInvestor(crawlInvestor, imgSavePath);
+
+                // 保存抓取历史
+                TCrawlHis crawlHis = new TCrawlHis();
+                crawlHis.setSrcType(CrawlHisSrcTypeEnum.VC.getCode());
+                crawlHis.setModelId(Integer.toString(entityId));
+                crawlHis.setCrawlId(crawlId);
+                crawlHis.setCrawlType(CrawlTypeEnum.INVESTOR.getCode());
+                crawlHis.setCreateTime(new Date());
+                crawlHisManager.insert(crawlHis);
             }
 
             // 处理投资领域
