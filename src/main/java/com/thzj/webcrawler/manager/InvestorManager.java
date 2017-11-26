@@ -12,4 +12,6 @@ public interface InvestorManager {
 
     int saveByCrawlInvestor(Investor investor, String logoPath);
 
+
+
 }

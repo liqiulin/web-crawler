@@ -1,8 +1,10 @@
 package com.thzj.webcrawler.manager.impl;
 
+import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.dao.TInvestorProjectMapper;
 import com.thzj.webcrawler.entity.TInvestorProject;
 import com.thzj.webcrawler.entity.TInvestorProjectExample;
+import com.thzj.webcrawler.manager.ImgManager;
 import com.thzj.webcrawler.manager.InvestorProjectManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,20 @@ import java.util.List;
 public class InvestorProjectManagerImpl implements InvestorProjectManager {
     @Resource
     private TInvestorProjectMapper investorProjectMapper;
+    @Resource
+    private ImgManager imgManager;
+
+    @Override
+    public TInvestorProject translate(InvestCase investCase) {
+        TInvestorProject investorProject = new TInvestorProject();
+        investorProject.setInvestmentTime(investCase.getTime());
+        investorProject.setInvestmentRounds(investCase.getInvestorRound());
+        investorProject.setAmount(investCase.getInvestorMoney());
+        investorProject.setProjectName(investCase.getName());
+        investorProject.setProjectProfile(investCase.getProfile());
+        investorProject.setProjectUrl(imgManager.getSavePathByImgPath(investCase.getAvatarUrl()));
+        return investorProject;
+    }
 
     @Override
     public void updateByProjectId(int projectId, List<TInvestorProject> investorProjectList) {
