@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
+import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -146,7 +147,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         startup.setCompanyName(companyName);
         startup.setProductImgUrl(productsUrl);
         startup.setProductHomePage(productsWebsite);
-        startup.setEstablishTime(establishTime);
+        startup.setEstablishTime(DateUtil.stringToDate(establishTime));
         startup.setHistory(developmentHistorys);
         startup.setFinancingHistories(financingHistories);
 
