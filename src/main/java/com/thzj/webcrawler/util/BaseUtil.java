@@ -1,12 +1,35 @@
 package com.thzj.webcrawler.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.HttpStatusException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.thzj.webcrawler.common.Constants.USER_AGENT;
+
+/**
+ * @author Matthew
+ */
 @Slf4j
 public class BaseUtil {
+
+    /**
+     * connect
+     */
+    public static Document connect(String url) {
+        try {
+            Document doc = Jsoup.connect(url).userAgent(USER_AGENT).timeout(30000).get();
+            return doc;
+        } catch (IOException ie) {
+            ie.printStackTrace();
+            log.warn("grabInvestorInfo failed!", ie);
+            throw new RuntimeException("IOException IO异常");
+        }
+    }
 
     /**
      * 从Url中提取数值类型ID

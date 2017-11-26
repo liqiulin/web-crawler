@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -182,7 +183,8 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         List<FinancingHistory> financingHistories = Lists.newArrayList();
         for (Element element : financingHistoryElements) {
             FinancingHistory financingHistory = new FinancingHistory();
-            financingHistory.setTime(element.select("div.time").text());
+            Date time = DateUtil.stringToDate(element.select("div.time").text());
+            financingHistory.setTime(time);
             financingHistory.setRound(element.select("div.round").select("a").text());
             financingHistory.setFinancingAmount(element.select("div.number").text());
             financingHistory.setStartupId(startupId);

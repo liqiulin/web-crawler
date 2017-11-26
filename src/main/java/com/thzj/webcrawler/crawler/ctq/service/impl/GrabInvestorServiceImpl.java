@@ -1,14 +1,16 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
-import antlr.StringUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
+import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import com.thzj.webcrawler.common.Constants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,14 +19,17 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
 
 @Slf4j
 @Service
 public class GrabInvestorServiceImpl implements GrabInvestorService {
 
-    static final String userDetailsUrl = "https://www.vc.cn/users/";
+
 
     @Override
     public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
@@ -32,19 +37,15 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
 
         try {
             for (String userId : userIdList) {
-                String url = userDetailsUrl + userId;
-                Document doc = Jsoup.connect(url).get();
+                String url = USER_DETAIL_URL + userId;
+                Document doc = BaseUtil.connect(url);
                 Investor investor = getInvestor(userId, doc, url);
                 investors.put(userId, investor);
             }
             return investors;
-        } catch (IOException ie) {
-            ie.printStackTrace();
-            log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, ie);
         } catch (Exception e) {
             e.printStackTrace();
-            log.warn("grabInvestorInfo failed! instituteIdList[{}]", userIdList, e);
-
+            log.warn("grabInvestorInfo failed!", e);
         }
         return investors;
     }
@@ -61,47 +62,78 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         String name = baseInfoElements.select("div.name").text();
 
         //公司信息
-        String[] companyInfo = baseInfoElements.select("div.pitch").text().split("·");
+        String position = "";
+        String company = "";
+        if (null != baseInfoElements.select("div.pitch").text()){
+            String[] companyInfo = baseInfoElements.select("div.pitch").text().split("·");
+            if (2 == companyInfo.length) {
+                //职位
+                position = companyInfo[1];
+                //公司名称
+                company = companyInfo[0];
+            }
+        }
 
-        //职位
-        String position = companyInfo[1];
-
-        //公司名称
-        String company = companyInfo[0];
 
         //简介
-        String profile = doc.getElementById("user_intro").select("p").text();
+        String profile = "";
+        if (null != doc.getElementById("user_intro")){
+            profile = doc.getElementById("user_intro").select("p").text();
+        }
 
         //判断是否为空
-        Elements elements = doc.getElementById("module_keyword").select(".details");
-        //投资行业
         List<String> investIndustries = new ArrayList<>();
-        Elements focusIndustryElements = elements.select("li.field").select("a");
-        for (Element e : focusIndustryElements) {
-            investIndustries.add(e.text());
+        List<String> investRounds = new ArrayList<>();
+        Elements elements = doc.getElementById("module_keyword").select(".details");
+        if (null != elements) {
+            //投资行业
+            if (null != elements.select("li.field")) {
+                Elements focusIndustryElements = elements.select("li.field").select("a");
+                for (Element e : focusIndustryElements) {
+                    investIndustries.add(e.text());
+                }
+            }
+
+            //投资阶段
+            if (null != elements.select("li.stage")) {
+                Elements investStageElements = elements.select("li.stage").select("a");
+                for (Element e : investStageElements) {
+                    investRounds.add(e.text());
+                }
+            }
         }
 
-        //投资阶段
-        List<String> investRounds = new ArrayList<>();
-        Elements investStageElements = elements.select("li.stage").select("a");
-        for (Element e : investStageElements) {
-            investRounds.add(e.text());
-        }
 
         //投资案例
         List<InvestCase> investCaseList = new ArrayList<>();
-        getInvestCase(doc, investCaseList);
+        if (null != doc.getElementById("invest_cases")) {
+            getInvestCase(doc, investCaseList);
+        }
 
         //工作经历
         List<WorkExperience> workExperienceList = new ArrayList<>();
-        buildWorkExperience(doc, workExperienceList);
+        if (null != doc.getElementById("module_work")){
+            buildWorkExperience(doc, workExperienceList);
+        }
 
         //个人信息
-        String location = doc.getElementsByClass("authenticated").select("li.location").get(0).getElementsByTag("span").text();
-        location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
-        String[] string = location.split("·");
-        String province = string[0];
-        String city = string[1];
+        String location;
+        String province = "";
+        String city = "";
+        if (null != doc.getElementsByClass("authenticated").select("li.location")) {
+            location = doc.getElementsByClass("authenticated").select("li.location").select("span").text();
+            location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
+            log.info("grab location[{}], userId[{}]", location, userId);
+            if (!StringUtils.isEmpty(location)) {
+                if (location.contains("·")) {
+                    String[] string = location.split("·");
+                    province = string[0];
+                    city = string[1];
+                } else {
+                    province = location;
+                }
+            }
+        }
 
         investor.setName(name);
         investor.setId(userId);
@@ -129,7 +161,8 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
             investCase.setProfile(element.getElementsByClass("pitch").text());
             investCase.setInvestorMoney(element.getElementsByClass("money").text());
             investCase.setInvestorRound(element.getElementsByClass("round").text());
-            investCase.setTime(element.getElementsByClass("cell date").text());
+            Date investTime = DateUtil.stringToDate(element.getElementsByClass("cell date").text());
+            investCase.setTime(investTime);
             investCaseList.add(investCase);
         }
     }
@@ -138,13 +171,19 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         Elements workExperiences = doc.getElementById("module_work").getElementsByClass("experience-item");
         for (Element element : workExperiences) {
             WorkExperience workExperience = new WorkExperience();
-            String workPeriod = element.getElementsByTag("span").text();
-            String[] workPeriods = workPeriod.split("~");
-            workExperience.setTimeFrom(DateUtil.stringToDate(workPeriods[0]));
-            if (workPeriods[1] == "至今") {
+            String workPeriod = element.select(".date").select("span").text();
+
+            if (workPeriod.contains("-")) {
                 workExperience.setTimeTo(null);
-            } else {
-                workExperience.setTimeTo(DateUtil.stringToDate(workPeriods[1]));
+                workExperience.setTimeFrom(null);
+            } else if (!org.apache.commons.lang.StringUtils.isEmpty(workPeriod) && null != workPeriod){
+                String[] workPeriods = workPeriod.split("~");
+                workExperience.setTimeFrom(DateUtil.stringToDate(workPeriods[0]));
+                if ("至今".equals(workPeriods[1])) {
+                    workExperience.setTimeTo(null);
+                } else {
+                    workExperience.setTimeTo(DateUtil.stringToDate(workPeriods[1]));
+                }
             }
             workExperience.setCompany(element.getElementsByClass("info").select("div").get(0).text());
             workExperience.setPosition(element.getElementsByClass("info").select("div").get(1).text());

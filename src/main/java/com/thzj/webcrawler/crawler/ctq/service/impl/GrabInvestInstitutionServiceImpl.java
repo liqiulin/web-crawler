@@ -6,44 +6,45 @@ import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.util.BaseUtil;
+import com.thzj.webcrawler.common.Constants;
+import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
 
+
+/**
+ * @author Matthew
+ */
 @Slf4j
 @Service
 public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionService{
 
-    final static String HOME_PAGE_URL = "https://www.vc.cn";
-
     @Override
     public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
-        String url;
+        String url = "";
         Map<String, InvestInstitution> investInstitutions = Maps.newConcurrentMap();
-        final String institueDetailUrl = "https://www.vc.cn/institutions/";
         InvestInstitution investInstitution;
         try {
-            for (String institueId : instituteIdList) {
-                url = institueDetailUrl + institueId;
-                Document doc = Jsoup.connect(url).get();
-                investInstitution = getInvestInstitution(doc, institueId, url);
-                investInstitutions.put(institueId, investInstitution);
+            for (String institutionId : instituteIdList) {
+                url = INSTITUTION_DETAIL_URL + institutionId;
+                Document doc = BaseUtil.connect(url);
+                investInstitution = getInvestInstitution(doc, institutionId, url);
+                investInstitutions.put(institutionId, investInstitution);
             }
             return investInstitutions;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            log.warn("grabInvestInstitutionInfo failed! instituteIdList[{}]", instituteIdList, e);
+            log.warn("grabInvestInstitutionInfo failed! url[{}]", url, e);
         }
         return investInstitutions;
     }
@@ -57,12 +58,12 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         // Todo 写在ConfigCenter里面
         final String institutionUrl = "https://www.vc.cn/institutions?action=index&controller=institutions&page=";
         List<String> institutionIds = new ArrayList<>();
-        String url;
+        String url = "";
 
         try {
             for (Integer i = 1; ; i++) {
                 url =  institutionUrl + i.toString() + "&type=active";
-                Document doc = Jsoup.connect(url).get();
+                Document doc = BaseUtil.connect(url);
                 Elements tableList = doc.getElementById("institutions-list").select("tbody.table-list");
                 Elements institutionInfo = tableList.select("tr");
                 if (null == institutionInfo || institutionInfo.isEmpty()) {
@@ -77,9 +78,9 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 }
             }
             return institutionIds;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+            log.warn("getUserIds failed! url[{}]", url, e);
         }
         return institutionIds;
     }
@@ -126,13 +127,11 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         String phone = "";
         String province = "";
         String city = "";
-        String area = "";
-        Optional<Elements> contactUsElements = Optional.ofNullable(doc.getElementsByClass("details_institutions_sidebar").
-                select("div.contact-us-item"));
+        Elements contactUsElements = doc.getElementsByClass("details_institutions_sidebar").select("div.contact-us-item");
         List<String> baseInfoList = Lists.newArrayList();
-        if (contactUsElements.isPresent()) {
-            if (null != contactUsElements.get().select("div.text")) {
-                baseInfoList = contactUsElements.get().select("div.text").eachText();
+        if (Objects.nonNull(contactUsElements) && contactUsElements.size() > 0) {
+            if (null != contactUsElements.select("div.text")) {
+                baseInfoList = contactUsElements.select("div.text").eachText();
                 //模式匹配
                 for (String baseInfo : baseInfoList){
                     if (BaseUtil.emailPattern(baseInfo)) {
@@ -143,8 +142,8 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 }
             }
 
-            if (null != contactUsElements.get().select("div.city")) {
-                String location = contactUsElements.get().select("div.city").text();
+            if (null != contactUsElements.select("div.city")) {
+                String location = contactUsElements.select("div.city").text();
                 String[] locations = location.split(" · ");
                 province = locations[0];
                 city = locations[1];
@@ -180,7 +179,8 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         List<InvestCase> investCaseList = Lists.newArrayList();
         for (Element element : investCaseElements) {
             InvestCase investCase = new InvestCase();
-            investCase.setTime(element.getElementsByClass("cell date").text());
+            Date invsetTime = DateUtil.stringToDate(element.getElementsByClass("cell date").text());
+            investCase.setTime(invsetTime);
             String name = element.select("div.name").select("a").text();
             String startupIdString = element.select("div.name").select("a").attr("href");
             investCase.setName(name);
