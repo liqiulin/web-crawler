@@ -1,8 +1,11 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
+import com.thzj.webcrawler.util.BaseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,12 +17,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 @Slf4j
 @Service
 public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionService{
+
+    final static String HOME_PAGE_URL = "https://www.vc.cn";
 
     @Override
     public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
@@ -83,8 +89,14 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
         //投资机构基本信息
         Elements institutionInfo = doc.getElementsByClass("institutions_info");
+
+        //机构logo
         String avatarUrl = institutionInfo.select("img").attr("src");
+
+        //机构名称
         String name = institutionInfo.select("div.name").text();
+
+        //网址
         String homePage = institutionInfo.select("div.url").select("a").attr("href");
 
         //投资机构简介
@@ -105,8 +117,39 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             }
         }
 
-        //投资案例:暂时只保存项目ID
-        //Todo 机构投资案例可以跳转至投资项目，投资人不可以
+        //投资案例:抓取全部信息 TODO 可能需要分页处理
+        List<InvestCase> investCases = Lists.newArrayList();
+        investCases = buildInvestCaseList(doc);
+
+        //投资机构基本信息：电话、邮箱、地址 Todo 处理边界条件
+        String email = "";
+        String phone = "";
+        String province = "";
+        String city = "";
+        String area = "";
+        Optional<Elements> contactUsElements = Optional.ofNullable(doc.getElementsByClass("details_institutions_sidebar").
+                select("div.contact-us-item"));
+        List<String> baseInfoList = Lists.newArrayList();
+        if (contactUsElements.isPresent()) {
+            if (null != contactUsElements.get().select("div.text")) {
+                baseInfoList = contactUsElements.get().select("div.text").eachText();
+                //模式匹配
+                for (String baseInfo : baseInfoList){
+                    if (BaseUtil.emailPattern(baseInfo)) {
+                        email = baseInfo;
+                    } else if (baseInfo.contains("-")) {
+                        phone = baseInfo;
+                    }
+                }
+            }
+
+            if (null != contactUsElements.get().select("div.city")) {
+                String location = contactUsElements.get().select("div.city").text();
+                String[] locations = location.split(" · ");
+                province = locations[0];
+                city = locations[1];
+            }
+        }
 
         //机构成员:这里只保存成员ID
         List<String> members = doc.getElementById("working-member-list").select("a").stream().map(
@@ -115,23 +158,51 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         investInstitution.setName(name);
         investInstitution.setId(instituteId);
         investInstitution.setProfile(profile);
-        //investInstitution.setEmail();
-        //investInstitution.setPhone();
+        investInstitution.setEmail(email);
+        investInstitution.setPhone(phone);
         investInstitution.setMembers(members);
-        //investInstitution.setProvince();
-        //investInstitution.setCity();
+        investInstitution.setProvince(province);
+        investInstitution.setCity(city);
         investInstitution.setDetailUrl(url);
         investInstitution.setAvatarUrl(avatarUrl);
         investInstitution.setHomePage(homePage);
-        //investInstitution.setInvestCases();
+        investInstitution.setInvestCases(investCases);
         investInstitution.setInvestRounds(investRounds);
         investInstitution.setInvestIndustries(investIndustries);
 
         return investInstitution;
     }
 
+    //TODO 1）InvestCase里是否需要保存投资机构的ID 2）是否翻页处理
+    private List<InvestCase> buildInvestCaseList(Document doc) {
+        Elements investCaseElements = doc.getElementById("module_invest_case").
+                select("div#invest_cases").select("div.case_card");
+        List<InvestCase> investCaseList = Lists.newArrayList();
+        for (Element element : investCaseElements) {
+            InvestCase investCase = new InvestCase();
+            investCase.setTime(element.getElementsByClass("cell date").text());
+            String name = element.select("div.name").select("a").text();
+            String startupIdString = element.select("div.name").select("a").attr("href");
+            investCase.setName(name);
+            investCase.setStartupId(BaseUtil.getIdfromUrl("startups", startupIdString));
+            investCase.setProfile(element.select("div.pitch").text());
+            investCase.setAvatarUrl(element.select("cell avatar").select("img").attr("src"));
+            investCase.setInvestorRound(element.select("div.round").text());
+            investCase.setInvestorMoney(element.select("div.money").text());
+
+            investCaseList.add(investCase);
+
+        }
+        return investCaseList;
+    }
+
+
+
+
     public static void main (String[] args) {
 /*        List<String> list = getInstitutionIds();
         System.out.println(list);*/
+
     }
+
 }
