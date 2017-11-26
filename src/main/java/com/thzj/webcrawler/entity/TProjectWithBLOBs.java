@@ -1,16 +1,10 @@
 package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_project")
 public class TProjectWithBLOBs extends TProject implements Serializable {
     /**
      * 项目简介

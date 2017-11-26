@@ -4,12 +4,7 @@ import com.thzj.webcrawler.entity.TProject;
 import com.thzj.webcrawler.entity.TProjectExample;
 import com.thzj.webcrawler.entity.TProjectWithBLOBs;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import org.apache.ibatis.annotations.Param;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public interface TProjectMapper {
     long countByExample(TProjectExample example);

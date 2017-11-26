@@ -3,11 +3,6 @@ package com.thzj.webcrawler.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class TInvestorExample {
     protected String orderByClause;
@@ -2017,6 +2012,76 @@ public class TInvestorExample {
 
         public Criteria andInvestorsProfileNotBetween(String value1, String value2) {
             addCriterion("investors_profile not between", value1, value2, "investorsProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameIsNull() {
+            addCriterion("investors_company_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameIsNotNull() {
+            addCriterion("investors_company_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameEqualTo(String value) {
+            addCriterion("investors_company_name =", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameNotEqualTo(String value) {
+            addCriterion("investors_company_name <>", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameGreaterThan(String value) {
+            addCriterion("investors_company_name >", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameGreaterThanOrEqualTo(String value) {
+            addCriterion("investors_company_name >=", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameLessThan(String value) {
+            addCriterion("investors_company_name <", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameLessThanOrEqualTo(String value) {
+            addCriterion("investors_company_name <=", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameLike(String value) {
+            addCriterion("investors_company_name like", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameNotLike(String value) {
+            addCriterion("investors_company_name not like", value, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameIn(List<String> values) {
+            addCriterion("investors_company_name in", values, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameNotIn(List<String> values) {
+            addCriterion("investors_company_name not in", values, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameBetween(String value1, String value2) {
+            addCriterion("investors_company_name between", value1, value2, "investorsCompanyName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestorsCompanyNameNotBetween(String value1, String value2) {
+            addCriterion("investors_company_name not between", value1, value2, "investorsCompanyName");
             return (Criteria) this;
         }
     }

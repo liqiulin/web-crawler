@@ -8,7 +8,7 @@
     <result column="company_industry" jdbcType="INTEGER" property="companyIndustry" />
     <result column="work" jdbcType="INTEGER" property="work" />
     <result column="work_grade" jdbcType="VARCHAR" property="workGrade" />
-    <result column="zhiwei" jdbcType="INTEGER" property="zhiwei" />
+    <result column="zhiwei" jdbcType="VARCHAR" property="zhiwei" />
     <result column="serve_time" jdbcType="TIMESTAMP" property="serveTime" />
     <result column="to_serve_time" jdbcType="TIMESTAMP" property="toServeTime" />
     <result column="work_year" jdbcType="INTEGER" property="workYear" />
@@ -125,7 +125,7 @@
       company_website, remark)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
       #{companyIndustry,jdbcType=INTEGER}, #{work,jdbcType=INTEGER}, #{workGrade,jdbcType=VARCHAR}, 
-      #{zhiwei,jdbcType=INTEGER}, #{serveTime,jdbcType=TIMESTAMP}, #{toServeTime,jdbcType=TIMESTAMP}, 
+      #{zhiwei,jdbcType=VARCHAR}, #{serveTime,jdbcType=TIMESTAMP}, #{toServeTime,jdbcType=TIMESTAMP}, 
       #{workYear,jdbcType=INTEGER}, #{workTel,jdbcType=VARCHAR}, #{companyAdd,jdbcType=VARCHAR}, 
       #{companyWebsite,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
@@ -195,7 +195,7 @@
         #{workGrade,jdbcType=VARCHAR},
       </if>
       <if test="zhiwei != null">
-        #{zhiwei,jdbcType=INTEGER},
+        #{zhiwei,jdbcType=VARCHAR},
       </if>
       <if test="serveTime != null">
         #{serveTime,jdbcType=TIMESTAMP},
@@ -248,7 +248,7 @@
         work_grade = #{record.workGrade,jdbcType=VARCHAR},
       </if>
       <if test="record.zhiwei != null">
-        zhiwei = #{record.zhiwei,jdbcType=INTEGER},
+        zhiwei = #{record.zhiwei,jdbcType=VARCHAR},
       </if>
       <if test="record.serveTime != null">
         serve_time = #{record.serveTime,jdbcType=TIMESTAMP},
@@ -284,7 +284,7 @@
       company_industry = #{record.companyIndustry,jdbcType=INTEGER},
       work = #{record.work,jdbcType=INTEGER},
       work_grade = #{record.workGrade,jdbcType=VARCHAR},
-      zhiwei = #{record.zhiwei,jdbcType=INTEGER},
+      zhiwei = #{record.zhiwei,jdbcType=VARCHAR},
       serve_time = #{record.serveTime,jdbcType=TIMESTAMP},
       to_serve_time = #{record.toServeTime,jdbcType=TIMESTAMP},
       work_year = #{record.workYear,jdbcType=INTEGER},
@@ -315,7 +315,7 @@
         work_grade = #{workGrade,jdbcType=VARCHAR},
       </if>
       <if test="zhiwei != null">
-        zhiwei = #{zhiwei,jdbcType=INTEGER},
+        zhiwei = #{zhiwei,jdbcType=VARCHAR},
       </if>
       <if test="serveTime != null">
         serve_time = #{serveTime,jdbcType=TIMESTAMP},
@@ -348,7 +348,7 @@
       company_industry = #{companyIndustry,jdbcType=INTEGER},
       work = #{work,jdbcType=INTEGER},
       work_grade = #{workGrade,jdbcType=VARCHAR},
-      zhiwei = #{zhiwei,jdbcType=INTEGER},
+      zhiwei = #{zhiwei,jdbcType=VARCHAR},
       serve_time = #{serveTime,jdbcType=TIMESTAMP},
       to_serve_time = #{toServeTime,jdbcType=TIMESTAMP},
       work_year = #{workYear,jdbcType=INTEGER},

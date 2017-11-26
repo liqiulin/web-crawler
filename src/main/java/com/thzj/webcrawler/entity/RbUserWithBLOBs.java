@@ -1,16 +1,10 @@
 package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="rb_user")
 public class RbUserWithBLOBs extends RbUser implements Serializable {
     /**
      * 提醒设置

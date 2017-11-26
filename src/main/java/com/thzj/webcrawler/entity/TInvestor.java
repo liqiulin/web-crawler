@@ -2,22 +2,14 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_investor")
 public class TInvestor implements Serializable {
     /**
      * 主键
      */
-    @Id
-    @GeneratedValue
     private Integer id;
 
     private Integer userId;
@@ -38,7 +30,7 @@ public class TInvestor implements Serializable {
     private String city;
 
     /**
-     * 地区
+     * 名片地址
      */
     private String area;
 
@@ -48,7 +40,7 @@ public class TInvestor implements Serializable {
     private String realName;
 
     /**
-     * 公司名称
+     * 投资人所属公司简称
      */
     private String investorCompany;
 
@@ -73,7 +65,7 @@ public class TInvestor implements Serializable {
     private String weixin;
 
     /**
-     * 名片照片地址
+     * 头像地址
      */
     private String visitImg;
 
@@ -88,7 +80,7 @@ public class TInvestor implements Serializable {
     private String orgLogoImg;
 
     /**
-     * 投资机构名称
+     * 投资机构简称
      */
     private String orgName;
 
@@ -151,6 +143,11 @@ public class TInvestor implements Serializable {
      * 投资人简介
      */
     private String investorsProfile;
+
+    /**
+     * 公司全名
+     */
+    private String investorsCompanyName;
 
     /**
      * 投资机构介绍
@@ -383,6 +380,14 @@ public class TInvestor implements Serializable {
         this.investorsProfile = investorsProfile;
     }
 
+    public String getInvestorsCompanyName() {
+        return investorsCompanyName;
+    }
+
+    public void setInvestorsCompanyName(String investorsCompanyName) {
+        this.investorsCompanyName = investorsCompanyName;
+    }
+
     public String getOrgIntroduce() {
         return orgIntroduce;
     }
@@ -431,6 +436,7 @@ public class TInvestor implements Serializable {
             && (this.getReqauthTime() == null ? other.getReqauthTime() == null : this.getReqauthTime().equals(other.getReqauthTime()))
             && (this.getMailBox() == null ? other.getMailBox() == null : this.getMailBox().equals(other.getMailBox()))
             && (this.getInvestorsProfile() == null ? other.getInvestorsProfile() == null : this.getInvestorsProfile().equals(other.getInvestorsProfile()))
+            && (this.getInvestorsCompanyName() == null ? other.getInvestorsCompanyName() == null : this.getInvestorsCompanyName().equals(other.getInvestorsCompanyName()))
             && (this.getOrgIntroduce() == null ? other.getOrgIntroduce() == null : this.getOrgIntroduce().equals(other.getOrgIntroduce()));
     }
 
@@ -466,6 +472,7 @@ public class TInvestor implements Serializable {
         result = prime * result + ((getReqauthTime() == null) ? 0 : getReqauthTime().hashCode());
         result = prime * result + ((getMailBox() == null) ? 0 : getMailBox().hashCode());
         result = prime * result + ((getInvestorsProfile() == null) ? 0 : getInvestorsProfile().hashCode());
+        result = prime * result + ((getInvestorsCompanyName() == null) ? 0 : getInvestorsCompanyName().hashCode());
         result = prime * result + ((getOrgIntroduce() == null) ? 0 : getOrgIntroduce().hashCode());
         return result;
     }
@@ -504,6 +511,7 @@ public class TInvestor implements Serializable {
         sb.append(", reqauthTime=").append(reqauthTime);
         sb.append(", mailBox=").append(mailBox);
         sb.append(", investorsProfile=").append(investorsProfile);
+        sb.append(", investorsCompanyName=").append(investorsCompanyName);
         sb.append(", orgIntroduce=").append(orgIntroduce);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

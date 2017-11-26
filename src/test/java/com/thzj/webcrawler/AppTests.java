@@ -1,7 +1,5 @@
 package com.thzj.webcrawler;
 
-import com.thzj.webcrawler.dao.TInvestorRoundMapper;
-import com.thzj.webcrawler.entity.TInvestorRound;
 import com.thzj.webcrawler.entity.User;
 import com.thzj.webcrawler.repository.UserRepository;
 import org.junit.Assert;

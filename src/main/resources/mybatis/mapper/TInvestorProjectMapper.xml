@@ -10,6 +10,7 @@
     <result column="project_url" jdbcType="VARCHAR" property="projectUrl" />
     <result column="investment_rounds" jdbcType="VARCHAR" property="investmentRounds" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_name, investment_id, investment_time, project_profile, project_url, investment_rounds, 
-    project_id
+    project_id, amount
   </sql>
   <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultMap="BaseResultMap">
     select
@@ -114,10 +115,12 @@
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
     insert into t_investor_project (id, project_name, investment_id, 
       investment_time, project_profile, project_url, 
-      investment_rounds, project_id)
+      investment_rounds, project_id, amount
+      )
     values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, 
       #{investmentTime,jdbcType=TIMESTAMP}, #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, 
-      #{investmentRounds,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER})
+      #{investmentRounds,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
     insert into t_investor_project
@@ -146,6 +149,9 @@
       <if test="projectId != null">
         project_id,
       </if>
+      <if test="amount != null">
+        amount,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -171,6 +177,9 @@
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -207,6 +216,9 @@
       <if test="record.projectId != null">
         project_id = #{record.projectId,jdbcType=INTEGER},
       </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -221,7 +233,8 @@
       project_profile = #{record.projectProfile,jdbcType=VARCHAR},
       project_url = #{record.projectUrl,jdbcType=VARCHAR},
       investment_rounds = #{record.investmentRounds,jdbcType=VARCHAR},
-      project_id = #{record.projectId,jdbcType=INTEGER}
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -250,6 +263,9 @@
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=INTEGER},
       </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -261,7 +277,8 @@
       project_profile = #{projectProfile,jdbcType=VARCHAR},
       project_url = #{projectUrl,jdbcType=VARCHAR},
       investment_rounds = #{investmentRounds,jdbcType=VARCHAR},
-      project_id = #{projectId,jdbcType=INTEGER}
+      project_id = #{projectId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

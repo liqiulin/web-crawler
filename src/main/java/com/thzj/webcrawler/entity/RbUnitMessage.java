@@ -2,19 +2,11 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="rb_unit_message")
 public class RbUnitMessage implements Serializable {
-    @Id
-    @GeneratedValue
     private Integer id;
 
     private Integer userId;
@@ -42,7 +34,7 @@ public class RbUnitMessage implements Serializable {
     /**
      * 职 位
      */
-    private Integer zhiwei;
+    private String zhiwei;
 
     /**
      * 服务时间
@@ -129,11 +121,11 @@ public class RbUnitMessage implements Serializable {
         this.workGrade = workGrade;
     }
 
-    public Integer getZhiwei() {
+    public String getZhiwei() {
         return zhiwei;
     }
 
-    public void setZhiwei(Integer zhiwei) {
+    public void setZhiwei(String zhiwei) {
         this.zhiwei = zhiwei;
     }
 

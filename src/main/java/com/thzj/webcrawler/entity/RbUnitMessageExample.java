@@ -3,11 +3,6 @@ package com.thzj.webcrawler.entity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class RbUnitMessageExample {
     protected String orderByClause;
@@ -520,52 +515,62 @@ public class RbUnitMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiEqualTo(Integer value) {
+        public Criteria andZhiweiEqualTo(String value) {
             addCriterion("zhiwei =", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiNotEqualTo(Integer value) {
+        public Criteria andZhiweiNotEqualTo(String value) {
             addCriterion("zhiwei <>", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiGreaterThan(Integer value) {
+        public Criteria andZhiweiGreaterThan(String value) {
             addCriterion("zhiwei >", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiGreaterThanOrEqualTo(Integer value) {
+        public Criteria andZhiweiGreaterThanOrEqualTo(String value) {
             addCriterion("zhiwei >=", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiLessThan(Integer value) {
+        public Criteria andZhiweiLessThan(String value) {
             addCriterion("zhiwei <", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiLessThanOrEqualTo(Integer value) {
+        public Criteria andZhiweiLessThanOrEqualTo(String value) {
             addCriterion("zhiwei <=", value, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiIn(List<Integer> values) {
+        public Criteria andZhiweiLike(String value) {
+            addCriterion("zhiwei like", value, "zhiwei");
+            return (Criteria) this;
+        }
+
+        public Criteria andZhiweiNotLike(String value) {
+            addCriterion("zhiwei not like", value, "zhiwei");
+            return (Criteria) this;
+        }
+
+        public Criteria andZhiweiIn(List<String> values) {
             addCriterion("zhiwei in", values, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiNotIn(List<Integer> values) {
+        public Criteria andZhiweiNotIn(List<String> values) {
             addCriterion("zhiwei not in", values, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiBetween(Integer value1, Integer value2) {
+        public Criteria andZhiweiBetween(String value1, String value2) {
             addCriterion("zhiwei between", value1, value2, "zhiwei");
             return (Criteria) this;
         }
 
-        public Criteria andZhiweiNotBetween(Integer value1, Integer value2) {
+        public Criteria andZhiweiNotBetween(String value1, String value2) {
             addCriterion("zhiwei not between", value1, value2, "zhiwei");
             return (Criteria) this;
         }

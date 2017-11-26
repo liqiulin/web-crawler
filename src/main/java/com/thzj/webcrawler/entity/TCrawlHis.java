@@ -2,37 +2,26 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_crawl_his")
 public class TCrawlHis implements Serializable {
-    @Id
-    @GeneratedValue
     private Integer id;
 
     /**
      * 抓取对象存储表ID
      */
-    @NotEmpty
     private String modelId;
 
     /**
      * 抓取
      */
-    @NotEmpty
     private String crawlId;
 
     /**
      * 抓取类型：1 投资机构 2 投资人 3 项目
      */
-    @NotEmpty
     private Integer crawlType;
 
     /**
@@ -43,7 +32,6 @@ public class TCrawlHis implements Serializable {
     /**
      * 数据来源：1 创投圈
      */
-    @NotEmpty
     private Integer srcType;
 
     private static final long serialVersionUID = 1L;

@@ -2,19 +2,11 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="rb_user")
 public class RbUser implements Serializable {
-    @Id
-    @GeneratedValue
     private Integer id;
 
     /**
@@ -36,7 +28,6 @@ public class RbUser implements Serializable {
     /**
      * 0否，1是
      */
-    @NotEmpty
     private Integer userIslock;
 
     /**
@@ -153,7 +144,6 @@ public class RbUser implements Serializable {
     /**
      * 开启自动打开红包;1不开启；2开启
      */
-    @NotEmpty
     private Integer autoredFlag;
 
     private String depositUserid;

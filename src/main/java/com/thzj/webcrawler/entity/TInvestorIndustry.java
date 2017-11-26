@@ -1,22 +1,14 @@
 package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_investor_industry")
 public class TInvestorIndustry implements Serializable {
     /**
      * 主键
      */
-    @Id
-    @GeneratedValue
     private Integer id;
 
     /**

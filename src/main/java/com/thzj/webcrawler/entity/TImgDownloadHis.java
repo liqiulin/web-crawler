@@ -2,31 +2,21 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_img_download_his")
 public class TImgDownloadHis implements Serializable {
-    @Id
-    @GeneratedValue
     private Integer id;
 
     /**
      * 图片地址
      */
-    @NotEmpty
     private String imgUrl;
 
     /**
      * 保存地址
      */
-    @NotEmpty
     private String savePath;
 
     /**

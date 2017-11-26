@@ -27,9 +27,9 @@ public class SyncService {
         investorSyncService.doSync();
         projectSyncService.doSync();
 
-        // 处理投资案例
+        // todo 处理投资案例
 
-        // 更新机构成员名称
+        // todo 更新机构成员名称
 
         //
     }

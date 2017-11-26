@@ -2,7 +2,6 @@ package com.thzj.webcrawler.manager.impl;
 
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
 import com.thzj.webcrawler.dao.RbUnitMessageMapper;
-import com.thzj.webcrawler.dao.TInvestorRoundMapper;
 import com.thzj.webcrawler.entity.RbUnitMessage;
 import com.thzj.webcrawler.entity.RbUnitMessageExample;
 import com.thzj.webcrawler.manager.UnitMessageManager;

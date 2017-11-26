@@ -1,8 +1,8 @@
 package com.thzj.webcrawler.service;
 
+import com.google.common.base.Stopwatch;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
-import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Map;
 import java.util.Optional;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * 投资人业务类
@@ -35,29 +37,35 @@ public class InvestorSyncService {
      * 同步所有有投资人
      */
     public void doSync() {
-        Map<String, Investor> investorMap = CrawlResult.INVESTOR;
+        log.info("start ...");
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
+        Map<String, Investor> investorMap = CrawlResult.INVESTOR;
         investorMap.forEach((crawlId, crawlInvestor) -> {
+            // 同步主体对象
             Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             String imgSavePath = imgManager.getSavePathByImgPath(crawlInvestor.getAvatarUrl());
-            int investorId;
+            int entityId;
             if (tCrawlHisOptional.isPresent()) {
-                investorId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
-                investorManager.updateByCrawlInvestor(investorId, crawlInvestor, imgSavePath);
+                entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
+                investorManager.updateByCrawlInvestor(entityId, crawlInvestor, imgSavePath);
             } else {
-                investorId = investorManager.saveByCrawlInvestor(crawlInvestor, imgSavePath);
+                entityId = investorManager.saveByCrawlInvestor(crawlInvestor, imgSavePath);
             }
 
             // 处理投资领域
-            investorIndustryManager.update(investorId, crawlInvestor.getInvestIndustries());
+            investorIndustryManager.update(entityId, crawlInvestor.getInvestIndustries());
 
             // 处理投资轮次
-            investorRoundManager.update(investorId, crawlInvestor.getInvestRounds());
+            investorRoundManager.update(entityId, crawlInvestor.getInvestRounds());
 
             // 处理工作经历
-            unitMessageManager.update(investorId, crawlInvestor.getWorkExperiences());
-
+            unitMessageManager.update(entityId, crawlInvestor.getWorkExperiences());
         });
+
+        stopwatch.elapsed(MILLISECONDS);
+        log.info("complete. elapsed[{}]", stopwatch);
+
     }
 
 }

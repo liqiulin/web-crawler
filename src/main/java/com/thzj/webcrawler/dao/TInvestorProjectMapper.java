@@ -3,12 +3,7 @@ package com.thzj.webcrawler.dao;
 import com.thzj.webcrawler.entity.TInvestorProject;
 import com.thzj.webcrawler.entity.TInvestorProjectExample;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import org.apache.ibatis.annotations.Param;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public interface TInvestorProjectMapper {
     long countByExample(TInvestorProjectExample example);

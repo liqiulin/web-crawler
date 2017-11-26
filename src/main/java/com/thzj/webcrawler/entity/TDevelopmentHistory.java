@@ -2,22 +2,14 @@ package com.thzj.webcrawler.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author 
  */
-@Table(name="t_development_history")
 public class TDevelopmentHistory implements Serializable {
     /**
      * 主键id
      */
-    @Id
-    @GeneratedValue
     private Integer id;
 
     /**

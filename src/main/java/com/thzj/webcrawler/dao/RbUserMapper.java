@@ -4,12 +4,7 @@ import com.thzj.webcrawler.entity.RbUser;
 import com.thzj.webcrawler.entity.RbUserExample;
 import com.thzj.webcrawler.entity.RbUserWithBLOBs;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import org.apache.ibatis.annotations.Param;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public interface RbUserMapper {
     long countByExample(RbUserExample example);

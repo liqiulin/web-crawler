@@ -19,11 +19,9 @@ public class InvestorIndustryManagerImpl implements InvestorIndustryManager {
 
     @Override
     public void update(int investorId, List<String> industries) {
-
         TInvestorIndustryExample deleteExample = new TInvestorIndustryExample();
         deleteExample.createCriteria().andInvestorIdEqualTo(investorId);
         tInvestorIndustryMapper.deleteByExample(deleteExample);
-
 
         if (CollectionUtils.isEmpty(industries)) {
             return;
