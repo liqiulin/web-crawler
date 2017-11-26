@@ -3,6 +3,7 @@ package com.thzj.webcrawler.service;
 import com.google.common.base.Stopwatch;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
+import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
