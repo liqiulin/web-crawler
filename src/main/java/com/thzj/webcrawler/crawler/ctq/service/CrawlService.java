@@ -15,4 +15,5 @@ public interface CrawlService {
      * 抓取投资机构
      */
     void grabInvestInstitution();
+
 }

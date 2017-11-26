@@ -1,6 +1,7 @@
 package com.thzj.webcrawler.service;
 
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class SyncService {
     private InvestorSyncService investorSyncService;
     @Resource
     private ProjectSyncService projectSyncService;
+    @Resource
+    private CrawlService crawlService;
 
     public void doSync() {
         // 同步前初始化
@@ -22,15 +25,14 @@ public class SyncService {
         CrawlResult.INVESTINSTITUTION.clear();
         CrawlResult.STARTUP.clear();
 
-        // 同步主体对象
+        // 抓取目前内容
+        crawlService.grabStartup();
+        crawlService.grabInvestInstitution();
+        crawlService.grabInvestor();
+
+        // 同步抓取内容到业务目标
         investInstitutionSyncService.doSync();
         investorSyncService.doSync();
         projectSyncService.doSync();
-
-        // todo 处理投资案例
-
-        // todo 更新机构成员名称
-
-        //
     }
 }
