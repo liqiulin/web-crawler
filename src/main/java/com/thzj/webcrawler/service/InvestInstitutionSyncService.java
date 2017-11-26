@@ -1,23 +1,22 @@
 package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
-import com.thzj.webcrawler.dao.TInvestorMapper;
-import com.thzj.webcrawler.dao.TInvestorProjectMapper;
 import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
 import com.thzj.webcrawler.entity.CrawlTypeEnum;
 import com.thzj.webcrawler.entity.TCrawlHis;
-import com.thzj.webcrawler.manager.ImgManager;
-import com.thzj.webcrawler.manager.InvestorIndustryManager;
-import com.thzj.webcrawler.manager.InvestorManager;
-import com.thzj.webcrawler.manager.InvestorRoundManager;
+import com.thzj.webcrawler.entity.TInvestorProject;
+import com.thzj.webcrawler.manager.*;
 import com.thzj.webcrawler.manager.impl.CrawlHisManagerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,10 +28,6 @@ public class InvestInstitutionSyncService {
     @Resource
     private InvestorManager investorManager;
     @Resource
-    private TInvestorMapper tInvestorMapper;
-    @Resource
-    private TInvestorProjectMapper tInvestorProjectMapper;
-    @Resource
     private CrawlHisManagerImpl crawlHisManager;
     @Resource
     private ImgManager imgManager;
@@ -40,6 +35,8 @@ public class InvestInstitutionSyncService {
     private InvestorIndustryManager investorIndustryManager;
     @Resource
     private InvestorRoundManager investorRoundManager;
+    @Resource
+    private InvestorProjectManager investorProjectManager;
 
 
     public void doSync() {
@@ -72,6 +69,9 @@ public class InvestInstitutionSyncService {
 
             // 处理投资轮次
             investorRoundManager.update(entityId, institution.getInvestRounds());
+
+            // 投资案例
+            syncInvestCase(institution, entityId);
         });
 
         stopwatch.elapsed(MILLISECONDS);
@@ -79,4 +79,15 @@ public class InvestInstitutionSyncService {
 
     }
 
+    private void syncInvestCase(InvestInstitution institution, int entityId) {
+        List<TInvestorProject> tInvestorProjectList = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(institution.getInvestCases())) {
+            institution.getInvestCases().forEach(investCase -> {
+                TInvestorProject investorProject = investorProjectManager.translate(investCase);
+                investorProject.setInvestmentId(entityId);
+                tInvestorProjectList.add(investorProject);
+            });
+        }
+        investorProjectManager.updateByInvestorId(entityId, tInvestorProjectList);
+    }
 }
