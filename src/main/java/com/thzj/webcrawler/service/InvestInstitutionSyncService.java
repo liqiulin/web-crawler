@@ -40,14 +40,14 @@ public class InvestInstitutionSyncService {
 
 
     public void doSync() {
-        log.info("start ...");
+        log.info("doSync start ...");
         Stopwatch stopwatch = Stopwatch.createStarted();
 
         final Map<String, InvestInstitution> investInstitutionMap = CrawlResult.INVESTINSTITUTION;
         investInstitutionMap.forEach((crawlId, institution) -> {
-            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             String imgSavePath = imgManager.getSavePathByImgPath(institution.getAvatarUrl());
             int entityId;
+            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
                 entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
                 investorManager.updateByCrawlInstitution(entityId, institution, imgSavePath);
@@ -75,7 +75,7 @@ public class InvestInstitutionSyncService {
         });
 
         stopwatch.elapsed(MILLISECONDS);
-        log.info("complete. elapsed[{}]", stopwatch);
+        log.info("doSync complete. elapsed[{}]", stopwatch);
 
     }
 
