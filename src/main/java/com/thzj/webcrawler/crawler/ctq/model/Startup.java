@@ -3,6 +3,7 @@ package com.thzj.webcrawler.crawler.ctq.model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class Startup implements Serializable {
     private String city;                                               //所在地址：市
     //private String area;                                             //所在地址：区
     private String companyName;                                        //公司名称
-    private String establishTime;                                      //成立时间
+    private Date establishTime;                                      //成立时间
     private String profile;                                            //基本介绍
     private List<FinancingHistory> financingHistories;                 //融资历史
     private List<StartupMember> members;                               // 团队成员
