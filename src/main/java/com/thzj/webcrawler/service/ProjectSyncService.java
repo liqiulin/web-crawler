@@ -1,16 +1,21 @@
 package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
+import com.thzj.webcrawler.crawler.ctq.model.DevelopmentHistory;
+import com.thzj.webcrawler.crawler.ctq.model.FinancingHistory;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.entity.TCrawlHis;
-import com.thzj.webcrawler.manager.CrawlHisManager;
-import com.thzj.webcrawler.manager.ImgManager;
-import com.thzj.webcrawler.manager.ProjectManager;
+import com.thzj.webcrawler.entity.TDevelopmentHistory;
+import com.thzj.webcrawler.entity.TTeamMembers;
+import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,6 +30,10 @@ public class ProjectSyncService {
     private ImgManager imgManager;
     @Resource
     private ProjectManager projectManager;
+    @Resource
+    private TeamMemberManager teamMemberManager;
+    @Resource
+    private DevelopmentHistoryManager developmentHistoryManager;
 
     public void doSync() {
         log.info("start ...");
@@ -45,12 +54,55 @@ public class ProjectSyncService {
                 entityId = projectManager.saveByCrawlStartup(startup, logoSavePath, productImgSavePath);
             }
 
+            // 同步融资历史
+            List<FinancingHistory> financingHistoryList =  startup.getFinancingHistories();
+            if (!CollectionUtils.isEmpty(financingHistoryList)) {
+                financingHistoryList.forEach(financingHistory -> {
 
+                });
+            }
+
+
+            // 同步团队成员
+            syncMembers(startup, entityId);
+
+            // 同步发展历程   todo  创投圈还没看到相关内容，不知有些啥字段，待明确后再处理
+            syncDevelopmentHistory(startup, entityId);
         });
 
 
         stopwatch.elapsed(MILLISECONDS);
         log.info("complete. elapsed[{}]", stopwatch);
+    }
+
+
+    private void syncDevelopmentHistory(Startup startup, int entityId) {
+//        List<TDevelopmentHistory> tDevelopmentHistoryList = Lists.newArrayList();
+//        if (!CollectionUtils.isEmpty(startup.getHistory())) {
+//            startup.getHistory().forEach(developmentHistory -> {
+//                TDevelopmentHistory tDevelopmentHistory = new TDevelopmentHistory();
+//                tDevelopmentHistory.setProjectId(entityId);
+//                todo
+//
+//            });
+//        }
+//        developmentHistoryManager.updateByProjectId(entityId, tDevelopmentHistoryList);
+    }
+
+    private void syncMembers(Startup startup, int entityId) {
+        List<TTeamMembers> tTeamMembersList = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(startup.getMembers())) {
+            startup.getMembers().forEach(startupMember -> {
+                TTeamMembers teamMembers = new TTeamMembers();
+                teamMembers.setProjectId(entityId);
+                String photographSavePath = imgManager.getSavePathByImgPath(startupMember.getAvatarUrl());
+                teamMembers.setPhotographsUrl(photographSavePath);
+                teamMembers.setMembersName(startupMember.getMemberName());
+                teamMembers.setIdentity(startupMember.getIdentity());
+                teamMembers.setProfile(startupMember.getProfile());
+            });
+        }
+        teamMemberManager.updateByProjectId(entityId, tTeamMembersList);
     }
 
     public static void main(String[] args) {

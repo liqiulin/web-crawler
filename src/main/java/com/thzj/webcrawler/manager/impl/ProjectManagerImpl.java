@@ -3,11 +3,13 @@ package com.thzj.webcrawler.manager.impl;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.dao.TProjectMapper;
 import com.thzj.webcrawler.entity.TProject;
+import com.thzj.webcrawler.entity.TProjectWithBLOBs;
 import com.thzj.webcrawler.manager.ProjectManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -18,7 +20,12 @@ public class ProjectManagerImpl implements ProjectManager {
 
     @Override
     public void updateByCrawlStartup(int entityId, Startup startup, String logoPath, String productImgPath) {
-        TProject entity = projectMapper.selectByPrimaryKey(entityId);
+        TProjectWithBLOBs entity = projectMapper.selectByPrimaryKey(entityId);
+        setCrawlStartupProperties(startup, logoPath, productImgPath, entity);
+        projectMapper.updateByPrimaryKey(entity);
+    }
+
+    private void setCrawlStartupProperties(Startup startup, String logoPath, String productImgPath, TProjectWithBLOBs entity) {
         entity.setLogoUrl(logoPath);
         entity.setProjectName(startup.getName());
         entity.setIndustry(startup.getIndustry());
@@ -27,14 +34,22 @@ public class ProjectManagerImpl implements ProjectManager {
         entity.setCity(startup.getCity());
         entity.setCompanyName(startup.getCompanyName());
         entity.setCompanySetUpTime(startup.getEstablishTime());
-//        entity.setIn
+        entity.setInstruction(startup.getProfile());
         entity.setProductsUrl(productImgPath);
         entity.setWebsite(startup.getProductHomePage());
-        projectMapper.updateByPrimaryKey(entity);
     }
 
     @Override
     public int saveByCrawlStartup(Startup startup, String logoPath, String productImgPath) {
-        return 0;
+        TProjectWithBLOBs entity = new TProjectWithBLOBs();
+        // 默认字段
+        entity.setAuditor("超级管理员");
+        entity.setAuditState("");
+        entity.setAuditTime(new Date());
+
+        // 抓取字段
+        setCrawlStartupProperties(startup, logoPath, productImgPath, entity);
+
+        return projectMapper.insertSelective(entity);
     }
 }

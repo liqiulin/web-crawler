@@ -2,10 +2,12 @@ package com.thzj.webcrawler.manager.impl;
 
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
+import com.thzj.webcrawler.dao.RbUserMapper;
 import com.thzj.webcrawler.dao.TInvestorMapper;
 import com.thzj.webcrawler.entity.InvestorFormEnum;
 import com.thzj.webcrawler.entity.TInvestor;
 import com.thzj.webcrawler.manager.InvestorManager;
+import com.thzj.webcrawler.manager.UserManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,9 @@ import java.util.Date;
 @Service
 public class InvestorManagerImpl implements InvestorManager {
     @Resource
-    TInvestorMapper tInvestorMapper;
+    private TInvestorMapper tInvestorMapper;
+    @Resource
+    private UserManager userManager;
 
     @Override
     public void updateByCrawlInstitution(int investorId, InvestInstitution investInstitution, String orgLogoPath) {
@@ -52,11 +56,15 @@ public class InvestorManagerImpl implements InvestorManager {
     public int saveByCrawlInvestor(Investor investor, String logoPath) {
         TInvestor tInvestor = new TInvestor();
 
+        // 同步增加人员记录
+        userManager.createByInvestorName(investor.getName());
+
         // 默认属性
         tInvestor.setInvestorForm(InvestorFormEnum.INVESTOR.getCode());
         tInvestor.setAuditor("超级管理员");
         tInvestor.setAuditorState("2");
         tInvestor.setAuditorTime(new Date());
+
 
         setCrawInvestorProperty(investor, tInvestor);
         return tInvestorMapper.insertSelective(tInvestor);
