@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static com.thzj.webcrawler.common.Constants.INVERTOR_ID_URL;
 import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
 
 @Slf4j
@@ -122,17 +123,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         String city = "";
         if (null != doc.getElementsByClass("authenticated").select("li.location")) {
             location = doc.getElementsByClass("authenticated").select("li.location").select("span").text();
-            location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
-            log.info("grab location[{}], userId[{}]", location, userId);
-            if (!StringUtils.isEmpty(location)) {
-                if (location.contains("·")) {
-                    String[] string = location.split("·");
-                    province = string[0];
-                    city = string[1];
-                } else {
-                    province = location;
-                }
-            }
+            BaseUtil.getLocation(location, province, city);
         }
 
         investor.setName(name);
@@ -196,14 +187,12 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
      */
     @Override
     public List<String> getUserIds() {
-        // Todo 写在ConfigCenter里面
-        final String userListUrl = "https://www.vc.cn/investors?action=index&controller=investors&page=";
         List<String> userIds = new ArrayList<>();
         String url;
 
         try {
             for (Integer i = 1; ; i++) {
-                url = userListUrl + i.toString();
+                url = INVERTOR_ID_URL + i.toString();
                 Document doc = Jsoup.connect(url).get();
                 Element tableList = doc.getElementById("user-list");
                 Elements personalInfo = tableList.getElementsByTag("tr");

@@ -1,6 +1,7 @@
 package com.thzj.webcrawler.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -58,6 +59,22 @@ public class BaseUtil {
         Pattern regex = Pattern.compile(check);
         Matcher matcher = regex.matcher(s);
         return matcher.matches();
+    }
+
+    /**
+     * 从类似"北京 · 朝阳区"抽取出省市
+     */
+    public static void getLocation(String location, String province, String city) {
+        location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
+        if (!StringUtils.isEmpty(location)) {
+            if (location.contains("·")) {
+                String[] string = location.split("·");
+                province = string[0];
+                city = string[1];
+            } else {
+                province = location;
+            }
+        }
     }
 
 /*    public static void main (String[] args) {

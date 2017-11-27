@@ -4,8 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
+import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
+import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
+
+/**
+ * 抓取投融项目详情
+ *
+ * @author Matthew
+ */
 @Slf4j
 @Service
 public class GrabStartUpServiceImpl implements GrabStartUpService {
@@ -26,17 +36,16 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
     @Override
     public Map<String, Startup> grabStartUpInfo(List<String> startupIds) {
         Map<String, Startup> startupMaps = Maps.newConcurrentMap();
-        final String startupDetailUrl = "https://www.vc.cn/startups/";
         Startup startup;
         try {
             for (String startupId : startupIds) {
-                String url = startupDetailUrl + startupId + "?show_investment=true";
-                Document doc = Jsoup.connect(url).get();
+                String url = STARTUP_DETAIL_URL + startupId + "?show_investment=true";
+                Document doc = BaseUtil.connect(url);
                 startup = getStartUpFromHtml(doc, startupId, url);
                 startupMaps.put(startupId, startup);
             }
             return startupMaps;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.warn("grabStartupInfo failed! startupIdList[{}]", startupIds, e);
         }
@@ -45,14 +54,12 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
 
     @Override
     public List<String> getStartUpIds() {
-        // Todo 写在ConfigCenter里面
-        final String startUpUrl = "https://www.vc.cn/investments?action=index&controller=investments&page=";
         List<String> startUpIds = new ArrayList<>();
         String url;
 
         try {
             for (Integer i = 1; ; i++) {
-                url =  startUpUrl + i.toString() + "&tab=t24&type=investment";
+                url =  STARTUP_ID_URL + i.toString() + "&tab=t24&type=investment";
                 org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
                 Elements tableList = doc.getElementById("investment-list").select("tbody");
                 Elements startUpInfo = tableList.select("tr");
@@ -84,56 +91,82 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         Elements baseInfo = doc.getElementsByClass("main-startups").select(".startups-info");
 
         //项目logo
-        String avatarUrl = baseInfo.select(".avatar").select("a").attr("src");
+        String avatarUrl = baseInfo.select(".avatar").select("img").attr("src");
 
         //项目名称
-        String name = baseInfo.select(".baseInfo").select("li.name").text();
+        String name = baseInfo.select("li.name").text();
 
         //项目所属行业
-        String industry = baseInfo.select(".baseInfo").select("li.industry").select("a").first().text();
+        String industry = baseInfo.select("li.industry").select("a").first().text();
 
         //项目摘要
-        String summary = baseInfo.select(".baseInfo").select("li.pitch").text();
+        String summary = baseInfo.select("li.pitch").text();
 
-        Elements companyInfo = doc.getElementsByClass("company-info").select(".info");
-        String location = companyInfo.first().text();
+        String province = "";
+        String city = "";
+        String companyName = "";
+        Date time = new Date();
+        if (null != doc.getElementsByClass("company-info").select(".info")) {
 
-        //地区：省、市
-        String[] locationArray = location.split("·");
-        String province = locationArray[0];
-        String city = locationArray[1];
+            Elements companyInfo = doc.getElementsByClass("company-info").select(".info");
+            String location = companyInfo.first().text();
 
-        //公司全称
-        String companyName = companyInfo.get(2).select("span").text();
+            //地区：省、市
+            if (!StringUtils.isEmpty(location) && null != location) {
+                BaseUtil.getLocation(location, province, city);
+            }
 
-        //成立时间
-        String establishTimeString = companyInfo.last().text();
-        String establishTime = establishTimeString.substring(establishTimeString.indexOf("：") + 1);
+            //公司全称
+            if (null != companyInfo.get(2).select("span").text()) {
+                companyName = companyInfo.get(2).select("span").text();
+            }
+
+            //成立时间
+            if (null != companyInfo.last().text()) {
+                String establishTimeString = companyInfo.last().text();
+                String establishTime = establishTimeString.substring(establishTimeString.indexOf("：") + 1);
+                time = DateUtil.stringToDate(establishTime);
+            }
+        }
 
         //项目简介
         String profile = doc.getElementById("basic_info").select("item-content").select("p").text();
 
         //融资历史 Todo 这里可能需要翻页处理，暂不处理
-        Elements financingHistoryElements = doc.getElementById("financing_info").getElementsByClass("financing-history").select("li");
-        List<FinancingHistory> financingHistories = buildFinancingHistory(startupId, financingHistoryElements);
+        List<FinancingHistory> financingHistories = Lists.newArrayList();
+        if (null != doc.getElementById("financing_info").getElementsByClass("financing-history")) {
+            Elements financingHistoryElements = doc.getElementById("financing_info").getElementsByClass("financing-history").select("li");
+            financingHistories = buildFinancingHistory(startupId, financingHistoryElements);
+        }
 
 
         //项目成员 Todo 翻页-暂不处理
-        Elements startupMembersElements = doc.getElementById("team_info").
-                getElementsByClass("div.startup_members").select("li.member");
-        List<StartupMember> startupMembers = buildStartupMembers(startupId, startupMembersElements);
+        List<StartupMember> startupMembers = Lists.newArrayList();
+        if (null != doc.getElementById("team_info").
+                getElementsByClass("div.startup_members")) {
+            Elements startupMembersElements = doc.getElementById("team_info").
+                    getElementsByClass("div.startup_members").select("li.member");
+            startupMembers = buildStartupMembers(startupId, startupMembersElements);
+        }
 
         //产品链接
+        String productsUrl = "";
+        String productsWebsite = "";
         Element productElement = doc.getElementById("product_info");
-        //Todo 图片链接可能是List类型，暂不处理
-        String productsUrl = productElement.select("div.photos-views").select("img").attr("src");
+        if (null != productElement) {
+            //Todo 图片链接可能是List类型，暂不处理
+            productsUrl = productElement.select("div.photos-views").select("img").attr("src");
 
-        //产品网站 Todo 这里可能会有好几个产品网址，目前只取第一个
-        String productsWebsite = productElement.select(".main-products-list").select("li").
-                select("a[href]").first().attr("href");
+            //产品网站 Todo 这里可能会有好几个产品网址，目前只取第一个
+            productsWebsite = productElement.select(".main-products-list").select("li").
+                    select("a[href]").first().attr("href");
+        }
 
         //发展历程 Todo 目前没发现投融项目里有发展历程的，先不抓取
         List<DevelopmentHistory> developmentHistorys = Lists.newArrayList();
+        if (null == doc.getElementById("status_info")) {
+            log.info("该融资项目有发展历史。StartupId[{}]", startupId);
+        }
 
         startup.setName(name);
         startup.setCity(city);
@@ -148,7 +181,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         startup.setCompanyName(companyName);
         startup.setProductImgUrl(productsUrl);
         startup.setProductHomePage(productsWebsite);
-        startup.setEstablishTime(DateUtil.stringToDate(establishTime));
+        startup.setEstablishTime(time);
         startup.setHistory(developmentHistorys);
         startup.setFinancingHistories(financingHistories);
 
@@ -164,11 +197,8 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
      */
     List<String> getFinancingHistoryInvestorList(Element element) {
         List<String> result = new ArrayList<>();
-        int index;
-        element.select("div.investors-list").select("a").forEach(element1 -> {
-            //Todo 直接取子串
-            result.add(element1.attr("href").substring(14));
-        });
+        element.select("div.investors-list").select("a").forEach(element1 ->
+            result.add(BaseUtil.getIdfromUrl("institutions", element1.attr("href"))));
         return result;
     }
 

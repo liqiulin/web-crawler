@@ -19,7 +19,26 @@ public class Constants {
     /**
      * 投融项目详情URL前缀
      */
-    public static final String STARTUP_DETAIL_URL = "https://www.vc.cn/institutions/";
+    public static final String STARTUP_DETAIL_URL = "https://www.vc.cn/startups/";
+
+
+    /**
+     * 抓取投资人ID的URL
+     */
+    public static final String INVERTOR_ID_URL = "https://www.vc.cn/investors?action=index&controller=investors&page=";
+
+    /**
+     * 抓取投资机构ID的URL
+     */
+    public static final String INSTITUTION_ID_URL = "https://www.vc.cn/institutions?action=index&controller=institutions&page=";
+
+
+    /**
+     * 抓取投融项目ID的URL
+     */
+    public static final String STARTUP_ID_URL = "https://www.vc.cn/investments?action=index&controller=investments&page=";
+
+
 
 
 
