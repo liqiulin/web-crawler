@@ -54,9 +54,9 @@ public class InvestorSyncService {
         Map<String, Investor> investorMap = CrawlResult.INVESTOR;
         investorMap.forEach((crawlId, crawlInvestor) -> {
             // 同步主体对象
-            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             String imgSavePath = imgManager.getSavePathByImgPath(crawlInvestor.getAvatarUrl());
             int entityId;
+            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
                 entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
                 investorManager.updateByCrawlInvestor(entityId, crawlInvestor, imgSavePath);

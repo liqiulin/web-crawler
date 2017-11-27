@@ -39,10 +39,10 @@ public class ProjectSyncService {
         Map<String, Startup> investorMap = CrawlResult.STARTUP;
         investorMap.forEach((crawlId, startup) -> {
             // 同步主体对象
-            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             String logoSavePath = imgManager.getSavePathByImgPath(startup.getAvatarUrl());
             String productImgSavePath = imgManager.getSavePathByImgPath(startup.getProductImgUrl());
             int entityId;
+            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
                 entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
                 projectManager.updateByCrawlStartup(entityId, startup, logoSavePath, productImgSavePath);

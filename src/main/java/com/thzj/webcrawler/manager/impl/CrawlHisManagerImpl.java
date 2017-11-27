@@ -9,11 +9,13 @@ import com.thzj.webcrawler.manager.CrawlHisManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CrawlHisManagerImpl implements CrawlHisManager {
+    @Resource
     private TCrawlHisMapper tCrawlHisMapper;
 
     @Override
