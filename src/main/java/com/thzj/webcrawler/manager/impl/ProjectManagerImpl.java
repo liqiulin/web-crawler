@@ -44,7 +44,7 @@ public class ProjectManagerImpl implements ProjectManager {
         TProjectWithBLOBs entity = new TProjectWithBLOBs();
         // 默认字段
         entity.setAuditor("超级管理员");
-        entity.setAuditState("");
+        entity.setAuditState("1");
         entity.setAuditTime(new Date());
 
         // 抓取字段
