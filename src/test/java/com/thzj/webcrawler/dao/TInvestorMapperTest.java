@@ -1,6 +1,6 @@
-package com.thzj.webcrawler.manager;
+package com.thzj.webcrawler.dao;
 
-import lombok.extern.slf4j.Slf4j;
+import com.thzj.webcrawler.entity.TInvestor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,18 +12,21 @@ import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@Slf4j
 @Transactional
 @Rollback
-public class DevelopmentHistoryManagerTest {
+public class TInvestorMapperTest {
+
     @Resource
-    private DevelopmentHistoryManager developmentHistoryManager;
-    @Resource
-    private ProjectManager projectManager;
+    private TInvestorMapper tInvestorMapper;
 
     @Test
-    public void updateByProjectId_Success() {
+    public void insertSelective_Success() {
+        TInvestor t = new TInvestor();
+        t.setOrgName("haha");
 
-//        developmentHistoryManager.u
+        tInvestorMapper.insertSelective(t);
+
+        System.out.println(t);
     }
+
 }

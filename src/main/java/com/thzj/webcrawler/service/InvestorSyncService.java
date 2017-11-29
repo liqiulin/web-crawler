@@ -3,7 +3,6 @@ package com.thzj.webcrawler.service;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
-import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
 import com.thzj.webcrawler.entity.CrawlTypeEnum;
@@ -70,7 +69,7 @@ public class InvestorSyncService {
                 crawlHis.setCrawlId(crawlId);
                 crawlHis.setCrawlType(CrawlTypeEnum.INVESTOR.getCode());
                 crawlHis.setCreateTime(new Date());
-                crawlHisManager.insert(crawlHis);
+                crawlHisManager.save(crawlHis);
             }
 
             // 处理投资领域

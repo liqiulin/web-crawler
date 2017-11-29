@@ -189,6 +189,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into rb_user (id, type_id, user_account, 
       user_password, user_paypassword, user_vouch, 
       user_islock, invite_userid, invite_money, 
@@ -229,6 +232,9 @@
       #{userPrivacy,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.RbUserWithBLOBs">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into rb_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

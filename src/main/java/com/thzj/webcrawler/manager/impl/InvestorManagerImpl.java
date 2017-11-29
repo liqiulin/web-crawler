@@ -49,7 +49,8 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setAuditorTime(new Date());
 
         setCrawInstitutionProperty(investInstitution, tInvestor);
-        return tInvestorMapper.insertSelective(tInvestor);
+        tInvestorMapper.insertSelective(tInvestor);
+        return tInvestor.getId();
     }
 
     @Override
@@ -67,7 +68,8 @@ public class InvestorManagerImpl implements InvestorManager {
 
 
         setCrawInvestorProperty(investor, tInvestor);
-        return tInvestorMapper.insertSelective(tInvestor);
+        tInvestorMapper.insertSelective(tInvestor);
+        return tInvestor.getId();
     }
 
     private void setCrawInstitutionProperty(InvestInstitution institution, TInvestor tInvestor) {

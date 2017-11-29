@@ -50,6 +50,7 @@ public class ProjectManagerImpl implements ProjectManager {
         // 抓取字段
         setCrawlStartupProperties(startup, logoPath, productImgPath, entity);
 
-        return projectMapper.insertSelective(entity);
+        projectMapper.insertSelective(entity);
+        return entity.getId();
     }
 }

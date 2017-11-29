@@ -131,12 +131,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.TDevelopmentHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_development_history (id, project_id, add_time, 
       stage, profile)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
       #{stage,jdbcType=VARCHAR}, #{profile,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TDevelopmentHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_development_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

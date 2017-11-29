@@ -113,6 +113,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_investor_project (id, project_name, investment_id, 
       investment_time, project_profile, project_url, 
       investment_rounds, project_id, amount
@@ -123,6 +126,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_investor_project
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

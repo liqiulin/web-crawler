@@ -56,7 +56,7 @@ public class ProjectSyncService {
                 crawlHis.setCrawlId(crawlId);
                 crawlHis.setCrawlType(CrawlTypeEnum.PROJECT.getCode());
                 crawlHis.setCreateTime(new Date());
-                crawlHisManager.insert(crawlHis);
+                crawlHisManager.save(crawlHis);
             }
 
             // 同步融资历史

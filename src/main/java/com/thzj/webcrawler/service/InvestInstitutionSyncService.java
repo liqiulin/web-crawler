@@ -61,7 +61,7 @@ public class InvestInstitutionSyncService {
                 crawlHis.setCrawlId(crawlId);
                 crawlHis.setCrawlType(CrawlTypeEnum.INVEST_INSTITUTION.getCode());
                 crawlHis.setCreateTime(new Date());
-                crawlHisManager.insert(crawlHis);
+                crawlHisManager.save(crawlHis);
             }
 
             // 处理投资领域

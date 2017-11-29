@@ -3,7 +3,6 @@ package com.thzj.webcrawler.manager;
 import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
 import com.thzj.webcrawler.entity.CrawlTypeEnum;
 import com.thzj.webcrawler.entity.TCrawlHis;
-import com.thzj.webcrawler.manager.CrawlHisManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,14 +19,14 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j
+@Transactional
+@Rollback
 public class CrawlHisManagerTest {
 
     @Resource
     private CrawlHisManager crawlHisManager;
 
     @Test
-    @Transactional
-    @Rollback
     public void insert_Success() {
         TCrawlHis entity = new TCrawlHis();
         String crawlId = "1234";
@@ -38,7 +37,8 @@ public class CrawlHisManagerTest {
         entity.setCreateTime(new Date());
         entity.setModelId(modelId);
 
-        int insertResult = crawlHisManager.insert(entity);
+        int insertResult = crawlHisManager.save(entity);
+        log.info("{}", entity);
         Assert.assertTrue(insertResult == 1);
 
         Optional<TCrawlHis> queryResultOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
@@ -48,8 +48,6 @@ public class CrawlHisManagerTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void queryInvestInstitutionByCrawlId_Success() {
         TCrawlHis entity = new TCrawlHis();
         String crawlId = "1234";
@@ -60,7 +58,7 @@ public class CrawlHisManagerTest {
         entity.setCreateTime(new Date());
         entity.setModelId(modelId);
 
-        int insertResult = crawlHisManager.insert(entity);
+        int insertResult = crawlHisManager.save(entity);
         Assert.assertTrue(insertResult == 1);
 
         Optional<TCrawlHis> queryResultOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);

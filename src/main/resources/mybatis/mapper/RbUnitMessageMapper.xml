@@ -118,6 +118,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.RbUnitMessage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into rb_unit_message (id, user_id, company_name, 
       company_industry, work, work_grade, 
       zhiwei, serve_time, to_serve_time, 
@@ -130,6 +133,9 @@
       #{companyWebsite,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.RbUnitMessage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into rb_unit_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
