@@ -11,6 +11,7 @@ import com.thzj.webcrawler.util.DateUtil;
 import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -130,7 +131,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         Elements contactUsElements = doc.getElementsByClass("details_institutions_sidebar").select("div.contact-us-item");
         List<String> baseInfoList = Lists.newArrayList();
         if (Objects.nonNull(contactUsElements) && contactUsElements.size() > 0) {
-            if (null != contactUsElements.select("div.text")) {
+            if (null != contactUsElements.select("div.text") && !CollectionUtils.isEmpty(contactUsElements.select("div.text"))) {
                 baseInfoList = contactUsElements.select("div.text").eachText();
                 //模式匹配
                 for (String baseInfo : baseInfoList){
@@ -144,15 +145,25 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
             if (null != contactUsElements.select("div.city")) {
                 String location = contactUsElements.select("div.city").text();
-                String[] locations = location.split(" · ");
-                province = locations[0];
-                city = locations[1];
+                if (StringUtils.isNotEmpty(location) && null != location) {
+                    location = StringUtils.deleteWhitespace(location);
+                    if (location.contains("·")) {
+                        String[] string = location.split("·");
+                        province = string[0];
+                        city  = string[1];
+                    } else {
+                        province = location;
+                    }
+                }
             }
         }
 
         //机构成员:这里只保存成员ID
-        List<String> members = doc.getElementById("working-member-list").select("a").stream().map(
-                (e) -> e.attr("href").substring(7)).collect(Collectors.toList());
+        List<String> members = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(doc.getElementById("working-member-list").select("a"))) {
+            members = doc.getElementById("working-member-list").select("a").stream().map(
+                    (e) -> e.attr("href").substring(7)).collect(Collectors.toList());
+        }
         investInstitution.setName(name);
         investInstitution.setId(instituteId);
         investInstitution.setProfile(profile);
