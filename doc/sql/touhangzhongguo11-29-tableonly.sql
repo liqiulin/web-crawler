@@ -343,3 +343,33 @@ CREATE TABLE `t_team_members` (
 -- ----------------------------
 -- Records of t_team_members
 -- ----------------------------
+
+
+
+-- ----------------------------
+-- Table structure for t_crawl_his
+-- ----------------------------
+DROP TABLE IF EXISTS `t_crawl_his`;
+CREATE TABLE `t_crawl_his` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `model_id` varchar(200) NOT NULL COMMENT '抓取对象存储表ID',
+  `crawl_id` varchar(100) NOT NULL COMMENT '抓取',
+  `crawl_type` int(11) NOT NULL COMMENT '抓取类型：1 投资机构 2 投资人 3 项目',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `src_type` int(11) NOT NULL COMMENT '数据来源：1 创投圈',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Table structure for t_img_download_his
+-- ----------------------------
+DROP TABLE IF EXISTS `t_img_download_his`;
+CREATE TABLE `t_img_download_his` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `img_url` varchar(2000) NOT NULL COMMENT '图片地址',
+  `save_path` varchar(1000) NOT NULL COMMENT '保存地址',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

@@ -18,6 +18,7 @@ public class UserManagerImpl implements UserManager {
     public int createByInvestorName(String investorName) {
         RbUserWithBLOBs user = new RbUserWithBLOBs();
         user.setUserRealname(investorName);
-        return rbUserMapper.insertSelective(user);
+        rbUserMapper.insertSelective(user);
+        return user.getId();
     }
 }

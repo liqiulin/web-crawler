@@ -55,7 +55,7 @@ public class InvestorSyncService {
             // 同步主体对象
             String imgSavePath = imgManager.getSavePathByImgPath(crawlInvestor.getAvatarUrl());
             int entityId;
-            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
+            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestorByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
                 entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
                 investorManager.updateByCrawlInvestor(entityId, crawlInvestor, imgSavePath);
@@ -96,6 +96,8 @@ public class InvestorSyncService {
             investor.getInvestCase().forEach(investCase -> {
                 TInvestorProject investorProject = investorProjectManager.translate(investCase);
                 investorProject.setInvestmentId(entityId);
+
+                tInvestorProjectList.add(investorProject);
             });
         }
         investorProjectManager.updateByInvestorId(entityId, tInvestorProjectList);

@@ -57,7 +57,8 @@ public class InvestorManagerImpl implements InvestorManager {
         TInvestor tInvestor = new TInvestor();
 
         // 同步增加人员记录
-        userManager.createByInvestorName(investor.getName());
+        int userId = userManager.createByInvestorName(investor.getName());
+        tInvestor.setUserId(userId);
 
         // 默认属性
         tInvestor.setInvestorForm(InvestorFormEnum.INVESTOR.getCode());

@@ -32,9 +32,8 @@ public class UnitMessageManagerImpl implements UnitMessageManager {
             rbUnitMessage.setServeTime(workExperience.getTimeFrom());
             rbUnitMessage.setToServeTime(workExperience.getTimeTo());
             rbUnitMessage.setCompanyName(workExperience.getCompany());
-
-//            rbUnitMessage.setZhiwei(workExperience.getPosition());   todo 现在职位是个int开，不能存抓取的职位
-
+            rbUnitMessage.setZhiwei(workExperience.getPosition());
+            rbUnitMessageMapper.insertSelective(rbUnitMessage);
         });
     }
 }

@@ -42,7 +42,7 @@ public class ProjectSyncService {
             String logoSavePath = imgManager.getSavePathByImgPath(startup.getAvatarUrl());
             String productImgSavePath = imgManager.getSavePathByImgPath(startup.getProductImgUrl());
             int entityId;
-            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
+            Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryProjectByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
                 entityId = Integer.parseInt(tCrawlHisOptional.get().getModelId());
                 projectManager.updateByCrawlStartup(entityId, startup, logoSavePath, productImgSavePath);

@@ -27,6 +27,8 @@ public class InvestorProjectManagerImpl implements InvestorProjectManager {
         investorProject.setInvestmentTime(investCase.getTime());
         investorProject.setInvestmentRounds(investCase.getInvestorRound());
         investorProject.setAmount(investCase.getInvestorMoney());
+        investorProject.setProjectCompany(investCase.getInvestInstitutions());
+        investorProject.setIndustry(investCase.getStartupIndustry());
         investorProject.setProjectName(investCase.getName());
         investorProject.setProjectProfile(investCase.getProfile());
         investorProject.setProjectUrl(imgManager.getSavePathByImgPath(investCase.getAvatarUrl()));

@@ -38,4 +38,36 @@ public class CrawlHisManagerImpl implements CrawlHisManager {
             return Optional.of(crawlHisList.get(0));
         }
     }
+
+    @Override
+    public Optional<TCrawlHis> queryInvestorByCrawlId(String crawlId) {
+        TCrawlHisExample tCrawlHisExample = new TCrawlHisExample();
+        tCrawlHisExample.createCriteria()
+                .andCrawlIdEqualTo(crawlId)
+                .andSrcTypeEqualTo(CrawlHisSrcTypeEnum.VC.getCode())
+                .andCrawlTypeEqualTo(CrawlTypeEnum.INVESTOR.getCode());
+        List<TCrawlHis> crawlHisList = tCrawlHisMapper.selectByExample(tCrawlHisExample);
+        if (CollectionUtils.isEmpty(crawlHisList)) {
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(crawlHisList.get(0));
+        }
+    }
+
+    @Override
+    public Optional<TCrawlHis> queryProjectByCrawlId(String crawlId) {
+        TCrawlHisExample tCrawlHisExample = new TCrawlHisExample();
+        tCrawlHisExample.createCriteria()
+                .andCrawlIdEqualTo(crawlId)
+                .andSrcTypeEqualTo(CrawlHisSrcTypeEnum.VC.getCode())
+                .andCrawlTypeEqualTo(CrawlTypeEnum.PROJECT.getCode());
+        List<TCrawlHis> crawlHisList = tCrawlHisMapper.selectByExample(tCrawlHisExample);
+        if (CollectionUtils.isEmpty(crawlHisList)) {
+            return Optional.empty();
+        }
+        else {
+            return Optional.of(crawlHisList.get(0));
+        }
+    }
 }
