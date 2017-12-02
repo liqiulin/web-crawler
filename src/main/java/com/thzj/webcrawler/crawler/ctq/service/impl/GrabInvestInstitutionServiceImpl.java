@@ -7,7 +7,6 @@ import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.util.BaseUtil;
-import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.util.DateUtil;
 import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +15,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
+import static com.thzj.webcrawler.common.Constants.INSTITUTION_ID_URL;
 
 
 /**
@@ -57,14 +57,12 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
      */
     @Override
     public List<String> getInstitutionIds() {
-        // Todo 写在ConfigCenter里面
-        final String institutionUrl = "https://www.vc.cn/institutions?action=index&controller=institutions&page=";
         List<String> institutionIds = new ArrayList<>();
         String url = "";
 
         try {
             for (Integer i = 1; ; i++) {
-                url =  institutionUrl + i.toString() + "&type=active";
+                url =  INSTITUTION_ID_URL + i.toString() + "&type=active";
                 Document doc = BaseUtil.connect(url);
                 Elements tableList = doc.getElementById("institutions-list").select("tbody.table-list");
                 Elements institutionInfo = tableList.select("tr");
@@ -155,7 +153,6 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         //机构成员:这里只保存成员ID
         List<String> members = doc.getElementById("working-member-list").select("a").stream().map(
                 (e) -> e.attr("href").substring(7)).collect(Collectors.toList());
-
         investInstitution.setName(name);
         investInstitution.setId(instituteId);
         investInstitution.setProfile(profile);
@@ -179,6 +176,11 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         Elements investCaseElements = doc.getElementById("module_invest_case").
                 select("div#invest_cases").select("div.case_card");
         List<InvestCase> investCaseList = Lists.newArrayList();
+
+        if (CollectionUtils.isEmpty(investCaseElements)) {
+            return investCaseList;
+        }
+
         for (Element element : investCaseElements) {
             InvestCase investCase = new InvestCase();
             Date invsetTime = DateUtil.stringToDate(element.getElementsByClass("cell date").text());
@@ -198,7 +200,6 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             investCase.setInvestorMoney(element.select("div.money").text());
 
             investCaseList.add(investCase);
-
         }
         return investCaseList;
     }
