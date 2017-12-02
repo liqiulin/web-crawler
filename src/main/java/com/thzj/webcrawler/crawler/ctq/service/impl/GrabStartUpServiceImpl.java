@@ -13,13 +13,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
@@ -106,24 +106,32 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         String city = "";
         String companyName = "";
         Date time = new Date();
-        if (null != doc.getElementsByClass("company-info").select(".info")) {
-
-            Elements companyInfo = doc.getElementsByClass("company-info").select(".info");
-            String location = companyInfo.first().text();
-
-            //地区：省、市
-            if (!StringUtils.isEmpty(location) && null != location) {
-                BaseUtil.getLocation(location, province, city);
+        Elements companyInfo = doc.getElementsByClass("company-info").select("li");
+        if (null != companyInfo && !CollectionUtils.isEmpty(companyInfo)) {
+            if (!CollectionUtils.isEmpty(companyInfo.select(".iconfont.icon-diqu"))) {
+                String location = companyInfo.select(".iconfont.icon-diqu").next("div.info").text();
+                //地区：省、市
+                if (StringUtils.isNotEmpty(location) && null != location) {
+                    location = StringUtils.deleteWhitespace(location);
+                    if (location.contains("·")) {
+                        String[] string = location.split("·");
+                        province = string[0];
+                        city  = string[1];
+                    } else {
+                        province = location;
+                    }
+                }
             }
 
             //公司全称
-            if (null != companyInfo.get(2).select("span").text()) {
-                companyName = companyInfo.get(2).select("span").text();
+            if (!CollectionUtils.isEmpty(companyInfo.select(".iconfont-new.icon-gongshi"))) {
+                String companyNameString = companyInfo.select(".iconfont-new.icon-gongshi").next("div.info").text();
+                companyName = companyNameString.substring(companyNameString.indexOf("：") + 1);
             }
 
             //成立时间
-            if (null != companyInfo.last().text()) {
-                String establishTimeString = companyInfo.last().text();
+            if (!CollectionUtils.isEmpty(companyInfo.select(".iconfont-new.icon-shijian1"))) {
+                String establishTimeString = companyInfo.select(".iconfont-new.icon-shijian1").next("div.info").text();
                 String establishTime = establishTimeString.substring(establishTimeString.indexOf("：") + 1);
                 time = DateUtil.stringToDate(establishTime);
             }
@@ -155,11 +163,17 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         Element productElement = doc.getElementById("product_info");
         if (null != productElement) {
             //Todo 图片链接可能是List类型，暂不处理
-            productsUrl = productElement.select("div.photos-views").select("img").attr("src");
+            Elements productsUrlElements = productElement.select("div.photos-views").select("img");
+            if (null != productsUrlElements && !CollectionUtils.isEmpty(productsUrlElements) ) {
+                productsUrl = productElement.select("div.photos-views").select("img").first().attr("src");
+            }
 
             //产品网站 Todo 这里可能会有好几个产品网址，目前只取第一个
-            productsWebsite = productElement.select(".main-products-list").select("li").
-                    select("a[href]").first().attr("href");
+            Elements elements = productElement.select("ul.main-products-list");
+            if (null != elements && !CollectionUtils.isEmpty(elements)) {
+                productsWebsite = productElement.select(".main-products-list").select("li").first().
+                        select("a").attr("href");
+            }
         }
 
         //发展历程 Todo 目前没发现投融项目里有发展历程的，先不抓取
@@ -197,8 +211,9 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
      */
     List<String> getFinancingHistoryInvestorList(Element element) {
         List<String> result = new ArrayList<>();
+        //TODO 拉取的可能有投资人
         element.select("div.investors-list").select("a").forEach(element1 ->
-            result.add(BaseUtil.getIdfromUrl("institutions", element1.attr("href"))));
+            result.add(BaseUtil.getIdfromUrl("/", element1.attr("href"))));
         return result;
     }
 

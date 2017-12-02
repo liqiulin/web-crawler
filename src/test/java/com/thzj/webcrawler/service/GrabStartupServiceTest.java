@@ -1,11 +1,8 @@
 package com.thzj.webcrawler.service;
 
 import com.google.common.collect.Lists;
-import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
-import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
 import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
-import com.thzj.webcrawler.crawler.ctq.service.impl.GrabInvestorServiceImpl;
 import com.thzj.webcrawler.crawler.ctq.service.impl.GrabStartUpServiceImpl;
 import org.junit.Test;
 
@@ -23,6 +20,8 @@ public class GrabStartupServiceTest {
         List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
         result = grabStartUpService.grabStartUpInfo(userIds);
         System.out.println(result);
+        System.out.println(result.size());
+        System.out.println(userIds.size());
 
     }
 
