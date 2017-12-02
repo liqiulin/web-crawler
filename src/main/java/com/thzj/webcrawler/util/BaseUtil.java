@@ -2,6 +2,7 @@ package com.thzj.webcrawler.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +24,14 @@ public class BaseUtil {
      */
     public static Document connect(String url) {
         try {
-            Document doc = Jsoup.connect(url).userAgent(USER_AGENT).timeout(30000).get();
+            Connection con = Jsoup.connect(url);
+            con.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            con.header("Accept-Encoding", "gzip, deflate");
+            con.header("Accept-Language", "zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
+            con.header("Connection", "keep-alive");
+            con.header("Host", url);
+            con.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0");
+            Document doc = con.get();
             return doc;
         } catch (IOException ie) {
             ie.printStackTrace();
@@ -34,12 +42,13 @@ public class BaseUtil {
 
     /**
      * 从Url中提取数值类型ID
+     *
      * @return
      */
     public static String getIdfromUrl(String pattern, String url) {
         int patternLocation = url.lastIndexOf(pattern);
         if (patternLocation < 0) {
-            log.warn("url中没有匹配的字符串，emailPattern[{}], url[{}], patterLocation[{}]",
+            log.warn("url中没有匹配的字符串，Pattern[{}], url[{}], patterLocation[{}]",
                     pattern, url, patternLocation);
             return "";
         }
@@ -50,10 +59,11 @@ public class BaseUtil {
 
     /**
      * 匹配是否为邮箱
+     *
      * @param s
      * @return
      */
-    public static boolean emailPattern(String s){
+    public static boolean emailPattern(String s) {
         //电子邮件
         String check = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
         Pattern regex = Pattern.compile(check);
@@ -64,16 +74,13 @@ public class BaseUtil {
     /**
      * 从类似"北京 · 朝阳区"抽取出省市
      */
-    public static void getLocation(String location, String province, String city) {
+    public static Object getLocation(String location) {
         location = org.apache.commons.lang.StringUtils.deleteWhitespace(location);
-        if (!StringUtils.isEmpty(location)) {
-            if (location.contains("·")) {
-                String[] string = location.split("·");
-                province = string[0];
-                city = string[1];
-            } else {
-                province = location;
-            }
+        if (location.contains("·")) {
+            String[] string = location.split("·");
+            return string;
+        } else {
+            return location;
         }
     }
 
@@ -83,4 +90,12 @@ public class BaseUtil {
 
         System.out.println(getIdfromUrl(emailPattern, url));
     }*/
+
+    public static void main(String[] args) {
+        String location = "上海 · 徐汇区";
+        String province = "";
+        String city = "";
+
+        //getLocation(location, province, city);
+    }
 }

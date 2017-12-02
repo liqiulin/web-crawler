@@ -123,7 +123,16 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         String city = "";
         if (null != doc.getElementsByClass("authenticated").select("li.location")) {
             location = doc.getElementsByClass("authenticated").select("li.location").select("span").text();
-            BaseUtil.getLocation(location, province, city);
+            if (StringUtils.isNotEmpty(location) && null != location) {
+                location = StringUtils.deleteWhitespace(location);
+                if (location.contains("·")) {
+                    String[] string = location.split("·");
+                    province = string[0];
+                    city  = string[1];
+                } else {
+                    province = location;
+                }
+            }
         }
 
         investor.setName(name);
