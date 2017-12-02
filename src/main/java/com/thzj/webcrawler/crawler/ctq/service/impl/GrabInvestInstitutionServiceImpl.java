@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
@@ -183,8 +184,13 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             Date invsetTime = DateUtil.stringToDate(element.getElementsByClass("cell date").text());
             investCase.setTime(invsetTime);
             String name = element.select("div.name").select("a").text();
+            String industry = element.select("div.name").select("span").text();
             String startupIdString = element.select("div.name").select("a").attr("href");
+            List<String> investInstitutions = element.select("div.cell.keywords").select("a").eachText();
+            String investInstitution = Joiner.on(",").skipNulls().join(investInstitutions);
             investCase.setName(name);
+            investCase.setStartupIndustry(industry);
+            investCase.setInvestInstitutions(investInstitution);
             investCase.setStartupId(BaseUtil.getIdfromUrl("startups", startupIdString));
             investCase.setProfile(element.select("div.pitch").text());
             investCase.setAvatarUrl(element.select("cell avatar").select("img").attr("src"));
