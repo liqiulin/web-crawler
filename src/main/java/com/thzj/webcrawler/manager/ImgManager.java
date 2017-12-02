@@ -9,5 +9,5 @@ public interface ImgManager {
      */
     String getSavePathByImgPath(String imgUrl);
 
-    String downloadImg(String imgUrl);
+    String downloadAndSaveImg(String imgUrl);
 }
