@@ -109,10 +109,8 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_investor_industry (id, investor_id, industry
-      )
-    values (#{id,jdbcType=INTEGER}, #{investorId,jdbcType=INTEGER}, #{industry,jdbcType=VARCHAR}
-      )
+    insert into t_investor_industry (investor_id, industry)
+    values (#{investorId,jdbcType=INTEGER}, #{industry,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorIndustry">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -120,9 +118,6 @@
     </selectKey>
     insert into t_investor_industry
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="investorId != null">
         investor_id,
       </if>
@@ -131,9 +126,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="investorId != null">
         #{investorId,jdbcType=INTEGER},
       </if>

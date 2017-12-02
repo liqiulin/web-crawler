@@ -3,8 +3,9 @@ package com.thzj.webcrawler.dao;
 import com.thzj.webcrawler.entity.RbUser;
 import com.thzj.webcrawler.entity.RbUserExample;
 import com.thzj.webcrawler.entity.RbUserWithBLOBs;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RbUserMapper {
     long countByExample(RbUserExample example);

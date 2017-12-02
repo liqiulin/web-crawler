@@ -2,8 +2,9 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.TInvestorRound;
 import com.thzj.webcrawler.entity.TInvestorRoundExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TInvestorRoundMapper {
     long countByExample(TInvestorRoundExample example);

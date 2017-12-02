@@ -3,8 +3,9 @@ package com.thzj.webcrawler.dao;
 import com.thzj.webcrawler.entity.TProject;
 import com.thzj.webcrawler.entity.TProjectExample;
 import com.thzj.webcrawler.entity.TProjectWithBLOBs;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TProjectMapper {
     long countByExample(TProjectExample example);

@@ -18,6 +18,9 @@ public class RbUser implements Serializable {
 
     private String userPassword;
 
+    /**
+     * 该字段改为公司名
+     */
     private String userPaypassword;
 
     /**
@@ -100,6 +103,9 @@ public class RbUser implements Serializable {
 
     private String userCity;
 
+    /**
+     * 这个字段改为职位
+     */
     private String userArea;
 
     private String userAddress;

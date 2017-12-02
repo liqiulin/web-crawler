@@ -134,10 +134,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_development_history (id, project_id, add_time, 
-      stage, profile)
-    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
-      #{stage,jdbcType=VARCHAR}, #{profile,jdbcType=LONGVARCHAR})
+    insert into t_development_history (project_id, add_time, stage, 
+      profile)
+    values (#{projectId,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, #{stage,jdbcType=VARCHAR}, 
+      #{profile,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TDevelopmentHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,9 +145,6 @@
     </selectKey>
     insert into t_development_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="projectId != null">
         project_id,
       </if>
@@ -162,9 +159,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="projectId != null">
         #{projectId,jdbcType=INTEGER},
       </if>

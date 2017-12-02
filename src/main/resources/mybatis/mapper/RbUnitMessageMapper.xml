@@ -121,16 +121,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into rb_unit_message (id, user_id, company_name, 
-      company_industry, work, work_grade, 
-      zhiwei, serve_time, to_serve_time, 
-      work_year, work_tel, company_add, 
-      company_website, remark)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
-      #{companyIndustry,jdbcType=INTEGER}, #{work,jdbcType=INTEGER}, #{workGrade,jdbcType=VARCHAR}, 
-      #{zhiwei,jdbcType=VARCHAR}, #{serveTime,jdbcType=TIMESTAMP}, #{toServeTime,jdbcType=TIMESTAMP}, 
-      #{workYear,jdbcType=INTEGER}, #{workTel,jdbcType=VARCHAR}, #{companyAdd,jdbcType=VARCHAR}, 
-      #{companyWebsite,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+    insert into rb_unit_message (user_id, company_name, company_industry, 
+      work, work_grade, zhiwei, 
+      serve_time, to_serve_time, work_year, 
+      work_tel, company_add, company_website, 
+      remark)
+    values (#{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyIndustry,jdbcType=INTEGER}, 
+      #{work,jdbcType=INTEGER}, #{workGrade,jdbcType=VARCHAR}, #{zhiwei,jdbcType=VARCHAR}, 
+      #{serveTime,jdbcType=TIMESTAMP}, #{toServeTime,jdbcType=TIMESTAMP}, #{workYear,jdbcType=INTEGER}, 
+      #{workTel,jdbcType=VARCHAR}, #{companyAdd,jdbcType=VARCHAR}, #{companyWebsite,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.RbUnitMessage">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -138,9 +138,6 @@
     </selectKey>
     insert into rb_unit_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -182,9 +179,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>

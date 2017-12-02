@@ -2,8 +2,9 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.RbUnitMessage;
 import com.thzj.webcrawler.entity.RbUnitMessageExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RbUnitMessageMapper {
     long countByExample(RbUnitMessageExample example);

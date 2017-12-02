@@ -2,8 +2,9 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.TImgDownloadHis;
 import com.thzj.webcrawler.entity.TImgDownloadHisExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TImgDownloadHisMapper {
     long countByExample(TImgDownloadHisExample example);

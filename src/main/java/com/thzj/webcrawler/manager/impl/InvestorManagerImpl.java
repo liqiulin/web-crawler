@@ -2,7 +2,6 @@ package com.thzj.webcrawler.manager.impl;
 
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
-import com.thzj.webcrawler.dao.RbUserMapper;
 import com.thzj.webcrawler.dao.TInvestorMapper;
 import com.thzj.webcrawler.entity.InvestorFormEnum;
 import com.thzj.webcrawler.entity.TInvestor;

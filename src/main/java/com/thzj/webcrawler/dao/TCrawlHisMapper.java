@@ -2,8 +2,9 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.TCrawlHis;
 import com.thzj.webcrawler.entity.TCrawlHisExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TCrawlHisMapper {
     long countByExample(TCrawlHisExample example);

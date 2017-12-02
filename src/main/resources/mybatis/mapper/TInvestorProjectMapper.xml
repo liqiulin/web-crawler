@@ -11,6 +11,8 @@
     <result column="investment_rounds" jdbcType="VARCHAR" property="investmentRounds" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="project_company" jdbcType="VARCHAR" property="projectCompany" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_name, investment_id, investment_time, project_profile, project_url, investment_rounds, 
-    project_id, amount
+    project_id, amount, project_company, industry
   </sql>
   <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultMap="BaseResultMap">
     select
@@ -116,14 +118,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_investor_project (id, project_name, investment_id, 
-      investment_time, project_profile, project_url, 
-      investment_rounds, project_id, amount
-      )
-    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, 
-      #{investmentTime,jdbcType=TIMESTAMP}, #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, 
-      #{investmentRounds,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}
-      )
+    insert into t_investor_project (project_name, investment_id, investment_time, 
+      project_profile, project_url, investment_rounds, 
+      project_id, amount, project_company, 
+      industry)
+    values (#{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, #{investmentTime,jdbcType=TIMESTAMP}, 
+      #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, #{investmentRounds,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{projectCompany,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -131,9 +133,6 @@
     </selectKey>
     insert into t_investor_project
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="projectName != null">
         project_name,
       </if>
@@ -158,11 +157,14 @@
       <if test="amount != null">
         amount,
       </if>
+      <if test="projectCompany != null">
+        project_company,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="projectName != null">
         #{projectName,jdbcType=VARCHAR},
       </if>
@@ -186,6 +188,12 @@
       </if>
       <if test="amount != null">
         #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCompany != null">
+        #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -225,6 +233,12 @@
       <if test="record.amount != null">
         amount = #{record.amount,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectCompany != null">
+        project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -240,7 +254,9 @@
       project_url = #{record.projectUrl,jdbcType=VARCHAR},
       investment_rounds = #{record.investmentRounds,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=INTEGER},
-      amount = #{record.amount,jdbcType=VARCHAR}
+      amount = #{record.amount,jdbcType=VARCHAR},
+      project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +288,12 @@
       <if test="amount != null">
         amount = #{amount,jdbcType=VARCHAR},
       </if>
+      <if test="projectCompany != null">
+        project_company = #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -284,7 +306,9 @@
       project_url = #{projectUrl,jdbcType=VARCHAR},
       investment_rounds = #{investmentRounds,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=INTEGER},
-      amount = #{amount,jdbcType=VARCHAR}
+      amount = #{amount,jdbcType=VARCHAR},
+      project_company = #{projectCompany,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

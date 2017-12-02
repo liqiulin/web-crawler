@@ -714,6 +714,146 @@ public class TInvestorProjectExample {
             addCriterion("amount not between", value1, value2, "amount");
             return (Criteria) this;
         }
+
+        public Criteria andProjectCompanyIsNull() {
+            addCriterion("project_company is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyIsNotNull() {
+            addCriterion("project_company is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyEqualTo(String value) {
+            addCriterion("project_company =", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyNotEqualTo(String value) {
+            addCriterion("project_company <>", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyGreaterThan(String value) {
+            addCriterion("project_company >", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyGreaterThanOrEqualTo(String value) {
+            addCriterion("project_company >=", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyLessThan(String value) {
+            addCriterion("project_company <", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyLessThanOrEqualTo(String value) {
+            addCriterion("project_company <=", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyLike(String value) {
+            addCriterion("project_company like", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyNotLike(String value) {
+            addCriterion("project_company not like", value, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyIn(List<String> values) {
+            addCriterion("project_company in", values, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyNotIn(List<String> values) {
+            addCriterion("project_company not in", values, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyBetween(String value1, String value2) {
+            addCriterion("project_company between", value1, value2, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCompanyNotBetween(String value1, String value2) {
+            addCriterion("project_company not between", value1, value2, "projectCompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIsNull() {
+            addCriterion("industry is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIsNotNull() {
+            addCriterion("industry is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryEqualTo(String value) {
+            addCriterion("industry =", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotEqualTo(String value) {
+            addCriterion("industry <>", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryGreaterThan(String value) {
+            addCriterion("industry >", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryGreaterThanOrEqualTo(String value) {
+            addCriterion("industry >=", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLessThan(String value) {
+            addCriterion("industry <", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLessThanOrEqualTo(String value) {
+            addCriterion("industry <=", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLike(String value) {
+            addCriterion("industry like", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotLike(String value) {
+            addCriterion("industry not like", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIn(List<String> values) {
+            addCriterion("industry in", values, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotIn(List<String> values) {
+            addCriterion("industry not in", values, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryBetween(String value1, String value2) {
+            addCriterion("industry between", value1, value2, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotBetween(String value1, String value2) {
+            addCriterion("industry not between", value1, value2, "industry");
+            return (Criteria) this;
+        }
     }
 
     /**

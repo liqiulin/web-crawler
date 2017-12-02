@@ -161,26 +161,26 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_project (id, user_id, user_name, 
-      project_name, company_name, logo_url, 
-      my_identity, project_stage, province, 
-      city, industry, labelling, 
-      add_time, financing_rounds, auditor, 
-      audit_time, audit_state, remark, 
-      collect_number, amount_of_financing, financing_state, 
-      business_plan_url, is_open, company_set_up_time, 
-      develop_journey, products_url, website, 
-      instruction, team_lightspot)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{projectName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, 
-      #{myIdentity,jdbcType=VARCHAR}, #{projectStage,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{labelling,jdbcType=VARCHAR}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{financingRounds,jdbcType=VARCHAR}, #{auditor,jdbcType=VARCHAR}, 
-      #{auditTime,jdbcType=TIMESTAMP}, #{auditState,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{collectNumber,jdbcType=INTEGER}, #{amountOfFinancing,jdbcType=VARCHAR}, #{financingState,jdbcType=VARCHAR}, 
-      #{businessPlanUrl,jdbcType=VARCHAR}, #{isOpen,jdbcType=VARCHAR}, #{companySetUpTime,jdbcType=TIMESTAMP}, 
-      #{developJourney,jdbcType=VARCHAR}, #{productsUrl,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, 
-      #{instruction,jdbcType=LONGVARCHAR}, #{teamLightspot,jdbcType=LONGVARCHAR})
+    insert into t_project (user_id, user_name, project_name, 
+      company_name, logo_url, my_identity, 
+      project_stage, province, city, 
+      industry, labelling, add_time, 
+      financing_rounds, auditor, audit_time, 
+      audit_state, remark, collect_number, 
+      amount_of_financing, financing_state, business_plan_url, 
+      is_open, company_set_up_time, develop_journey, 
+      products_url, website, instruction, 
+      team_lightspot)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, #{myIdentity,jdbcType=VARCHAR}, 
+      #{projectStage,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{labelling,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{financingRounds,jdbcType=VARCHAR}, #{auditor,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, 
+      #{auditState,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{collectNumber,jdbcType=INTEGER}, 
+      #{amountOfFinancing,jdbcType=VARCHAR}, #{financingState,jdbcType=VARCHAR}, #{businessPlanUrl,jdbcType=VARCHAR}, 
+      #{isOpen,jdbcType=VARCHAR}, #{companySetUpTime,jdbcType=TIMESTAMP}, #{developJourney,jdbcType=VARCHAR}, 
+      #{productsUrl,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{instruction,jdbcType=LONGVARCHAR}, 
+      #{teamLightspot,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TProjectWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -188,9 +188,6 @@
     </selectKey>
     insert into t_project
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -277,9 +274,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>

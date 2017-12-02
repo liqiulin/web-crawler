@@ -159,31 +159,29 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.thzj.webcrawler.entity.TInvestor">
-      <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-          SELECT LAST_INSERT_ID()
-      </selectKey>
-    insert into t_investor (id, user_id, investor_form, 
-      province, city, area, 
-      real_name, investor_company, investor_position, 
-      investor_card, phone, weixin, 
-      visit_img, investor_asset, org_logo_img, 
-      org_name, org_license, org_website, 
-      org_members, invested_count, collect_number, 
-      auditor, auditor_state, auditor_time, 
-      auditor_comment, reqauth_time, mail_box, 
-      investors_profile, investors_company_name, 
-      org_introduce)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{investorForm,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
-      #{realName,jdbcType=VARCHAR}, #{investorCompany,jdbcType=VARCHAR}, #{investorPosition,jdbcType=VARCHAR}, 
-      #{investorCard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, 
-      #{visitImg,jdbcType=VARCHAR}, #{investorAsset,jdbcType=VARCHAR}, #{orgLogoImg,jdbcType=VARCHAR}, 
-      #{orgName,jdbcType=VARCHAR}, #{orgLicense,jdbcType=VARCHAR}, #{orgWebsite,jdbcType=VARCHAR}, 
-      #{orgMembers,jdbcType=INTEGER}, #{investedCount,jdbcType=INTEGER}, #{collectNumber,jdbcType=INTEGER}, 
-      #{auditor,jdbcType=VARCHAR}, #{auditorState,jdbcType=VARCHAR}, #{auditorTime,jdbcType=TIMESTAMP}, 
-      #{auditorComment,jdbcType=VARCHAR}, #{reqauthTime,jdbcType=TIMESTAMP}, #{mailBox,jdbcType=VARCHAR}, 
-      #{investorsProfile,jdbcType=VARCHAR}, #{investorsCompanyName,jdbcType=VARCHAR}, 
-      #{orgIntroduce,jdbcType=LONGVARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_investor (user_id, investor_form, province, 
+      city, area, real_name, 
+      investor_company, investor_position, investor_card, 
+      phone, weixin, visit_img, 
+      investor_asset, org_logo_img, org_name, 
+      org_license, org_website, org_members, 
+      invested_count, collect_number, auditor, 
+      auditor_state, auditor_time, auditor_comment, 
+      reqauth_time, mail_box, investors_profile, 
+      investors_company_name, org_introduce)
+    values (#{userId,jdbcType=INTEGER}, #{investorForm,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{investorCompany,jdbcType=VARCHAR}, #{investorPosition,jdbcType=VARCHAR}, #{investorCard,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{visitImg,jdbcType=VARCHAR}, 
+      #{investorAsset,jdbcType=VARCHAR}, #{orgLogoImg,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{orgLicense,jdbcType=VARCHAR}, #{orgWebsite,jdbcType=VARCHAR}, #{orgMembers,jdbcType=INTEGER}, 
+      #{investedCount,jdbcType=INTEGER}, #{collectNumber,jdbcType=INTEGER}, #{auditor,jdbcType=VARCHAR}, 
+      #{auditorState,jdbcType=VARCHAR}, #{auditorTime,jdbcType=TIMESTAMP}, #{auditorComment,jdbcType=VARCHAR}, 
+      #{reqauthTime,jdbcType=TIMESTAMP}, #{mailBox,jdbcType=VARCHAR}, #{investorsProfile,jdbcType=VARCHAR}, 
+      #{investorsCompanyName,jdbcType=VARCHAR}, #{orgIntroduce,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestor">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -191,9 +189,6 @@
     </selectKey>
     insert into t_investor
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -283,9 +278,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>

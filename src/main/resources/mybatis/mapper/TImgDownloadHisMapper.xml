@@ -110,10 +110,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_img_download_his (id, img_url, save_path, 
-      create_time)
-    values (#{id,jdbcType=INTEGER}, #{imgUrl,jdbcType=VARCHAR}, #{savePath,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into t_img_download_his (img_url, save_path, create_time
+      )
+    values (#{imgUrl,jdbcType=VARCHAR}, #{savePath,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TImgDownloadHis">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -121,9 +121,6 @@
     </selectKey>
     insert into t_img_download_his
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="imgUrl != null">
         img_url,
       </if>
@@ -135,9 +132,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="imgUrl != null">
         #{imgUrl,jdbcType=VARCHAR},
       </if>

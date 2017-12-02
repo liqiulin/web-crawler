@@ -52,6 +52,16 @@ public class TInvestorProject implements Serializable {
      */
     private String amount;
 
+    /**
+     * 项目方的公司
+     */
+    private String projectCompany;
+
+    /**
+     * 项目所属行业
+     */
+    private String industry;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -126,6 +136,22 @@ public class TInvestorProject implements Serializable {
         this.amount = amount;
     }
 
+    public String getProjectCompany() {
+        return projectCompany;
+    }
+
+    public void setProjectCompany(String projectCompany) {
+        this.projectCompany = projectCompany;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -146,7 +172,9 @@ public class TInvestorProject implements Serializable {
             && (this.getProjectUrl() == null ? other.getProjectUrl() == null : this.getProjectUrl().equals(other.getProjectUrl()))
             && (this.getInvestmentRounds() == null ? other.getInvestmentRounds() == null : this.getInvestmentRounds().equals(other.getInvestmentRounds()))
             && (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
-            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()));
+            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
+            && (this.getProjectCompany() == null ? other.getProjectCompany() == null : this.getProjectCompany().equals(other.getProjectCompany()))
+            && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()));
     }
 
     @Override
@@ -162,6 +190,8 @@ public class TInvestorProject implements Serializable {
         result = prime * result + ((getInvestmentRounds() == null) ? 0 : getInvestmentRounds().hashCode());
         result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
+        result = prime * result + ((getProjectCompany() == null) ? 0 : getProjectCompany().hashCode());
+        result = prime * result + ((getIndustry() == null) ? 0 : getIndustry().hashCode());
         return result;
     }
 
@@ -180,6 +210,8 @@ public class TInvestorProject implements Serializable {
         sb.append(", investmentRounds=").append(investmentRounds);
         sb.append(", projectId=").append(projectId);
         sb.append(", amount=").append(amount);
+        sb.append(", projectCompany=").append(projectCompany);
+        sb.append(", industry=").append(industry);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

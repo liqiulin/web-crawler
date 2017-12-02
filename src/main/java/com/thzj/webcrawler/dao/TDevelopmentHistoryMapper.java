@@ -2,8 +2,9 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.TDevelopmentHistory;
 import com.thzj.webcrawler.entity.TDevelopmentHistoryExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TDevelopmentHistoryMapper {
     long countByExample(TDevelopmentHistoryExample example);
