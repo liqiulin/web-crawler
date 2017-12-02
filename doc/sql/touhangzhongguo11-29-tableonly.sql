@@ -331,7 +331,7 @@ CREATE TABLE `t_service_agencies` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_team_members`;
 CREATE TABLE `t_team_members` (
-  `id` int(11) NOT NULL COMMENT '主键id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `project_id` int(11) DEFAULT NULL COMMENT '项目id',
   `members_name` varchar(255) DEFAULT NULL COMMENT '成员名字',
   `profile` text COMMENT '简介',

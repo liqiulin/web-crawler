@@ -66,9 +66,8 @@ public class ProjectSyncService {
             syncMembers(startup, entityId);
 
             // 同步发展历程   todo  创投圈还没看到相关内容，不知有些啥字段，待明确后再处理
-            syncDevelopmentHistory(startup, entityId);
+//            syncDevelopmentHistory(startup, entityId);
         });
-
 
         stopwatch.elapsed(MILLISECONDS);
         log.info("complete. elapsed[{}]", stopwatch);
@@ -83,6 +82,7 @@ public class ProjectSyncService {
                 investorProject.setAmount(financingHistory.getFinancingAmount());
                 investorProject.setInvestmentRounds(financingHistory.getRound());
                 investorProject.setInvestmentTime(financingHistory.getTime());
+                investorProjectList.add(investorProject);
             });
         }
         investorProjectManager.updateByProjectId(entityId, investorProjectList);
@@ -90,16 +90,18 @@ public class ProjectSyncService {
 
 
     private void syncDevelopmentHistory(Startup startup, int entityId) {
-//        List<TDevelopmentHistory> tDevelopmentHistoryList = Lists.newArrayList();
-//        if (!CollectionUtils.isEmpty(startup.getHistory())) {
-//            startup.getHistory().forEach(developmentHistory -> {
-//                TDevelopmentHistory tDevelopmentHistory = new TDevelopmentHistory();
-//                tDevelopmentHistory.setProjectId(entityId);
-//                todo
-//
-//            });
-//        }
-//        developmentHistoryManager.updateByProjectId(entityId, tDevelopmentHistoryList);
+        List<TDevelopmentHistory> tDevelopmentHistoryList = Lists.newArrayList();
+        if (!CollectionUtils.isEmpty(startup.getHistory())) {
+            startup.getHistory().forEach(developmentHistory -> {
+                TDevelopmentHistory tDevelopmentHistory = new TDevelopmentHistory();
+                tDevelopmentHistory.setProjectId(entityId);
+                tDevelopmentHistory.setProfile(developmentHistory.getProfile());
+                tDevelopmentHistory.setStage(developmentHistory.getInvestRound());
+                tDevelopmentHistory.setAddTime(developmentHistory.getHistoryTime());
+                tDevelopmentHistoryList.add(tDevelopmentHistory);
+            });
+        }
+        developmentHistoryManager.updateByProjectId(entityId, tDevelopmentHistoryList);
     }
 
     private void syncMembers(Startup startup, int entityId) {
@@ -113,6 +115,7 @@ public class ProjectSyncService {
                 teamMembers.setMembersName(startupMember.getMemberName());
                 teamMembers.setIdentity(startupMember.getIdentity());
                 teamMembers.setProfile(startupMember.getProfile());
+                tTeamMembersList.add(teamMembers);
             });
         }
         teamMemberManager.updateByProjectId(entityId, tTeamMembersList);
