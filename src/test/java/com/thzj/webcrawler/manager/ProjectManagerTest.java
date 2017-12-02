@@ -47,7 +47,7 @@ public class ProjectManagerTest {
         startup.setIndustry("电子产品");
 
         DevelopmentHistory developmentHistory = new DevelopmentHistory();
-        developmentHistory.setHistoryTime("1990-10-10");
+        developmentHistory.setHistoryTime(new Date());
         developmentHistory.setInvestRound("E+_+");
         developmentHistory.setProfile("hahahah");
         developmentHistory.setStartupId(startupId);
