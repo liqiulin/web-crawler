@@ -61,10 +61,9 @@ public class FileUtil {
         // 创建文件
         File file = new File(f, fileName);
         try {
-            List<String> lines = Files.readLines(file, Charsets.UTF_8);
-            return lines;
+            return Files.readLines(file, Charsets.UTF_8);
         } catch (IOException e) {
-            log.error("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
+            log.error("appendToFile failure! file[{}]", file, e);
         }
         return Lists.newArrayList();
     }
