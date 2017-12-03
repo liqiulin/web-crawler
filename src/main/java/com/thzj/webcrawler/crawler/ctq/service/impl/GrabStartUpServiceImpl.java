@@ -138,22 +138,26 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         }
 
         //项目简介
-        String profile = doc.getElementById("basic_info").select("item-content").select("p").text();
+        String profile = "";
+        Elements profileElements = doc.getElementsByClass("startups-info-card").select("div.item-content");
+        if (null != profileElements && !CollectionUtils.isEmpty(profileElements)) {
+            profile = profileElements.select("p").text();
+        }
 
         //融资历史 Todo 这里可能需要翻页处理，暂不处理
         List<FinancingHistory> financingHistories = Lists.newArrayList();
-        if (null != doc.getElementById("financing_info").getElementsByClass("financing-history")) {
-            Elements financingHistoryElements = doc.getElementById("financing_info").getElementsByClass("financing-history").select("li");
+        Elements financeElements = doc.getElementById("financing_info").getElementsByClass("financing-history");
+        if (null != financeElements && !CollectionUtils.isEmpty(financeElements)) {
+            Elements financingHistoryElements = financeElements.select("li");
             financingHistories = buildFinancingHistory(startupId, financingHistoryElements);
         }
 
 
         //项目成员 Todo 翻页-暂不处理
         List<StartupMember> startupMembers = Lists.newArrayList();
-        if (null != doc.getElementById("team_info").
-                getElementsByClass("div.startup_members")) {
-            Elements startupMembersElements = doc.getElementById("team_info").
-                    getElementsByClass("div.startup_members").select("li.member");
+        Elements startupMemberElements = doc.getElementById("team_info").getElementsByClass("div.startup_members");
+        if (null != startupMemberElements && !CollectionUtils.isEmpty(startupMemberElements)) {
+            Elements startupMembersElements = startupMemberElements.select("li.member");
             startupMembers = buildStartupMembers(startupId, startupMembersElements);
         }
 
