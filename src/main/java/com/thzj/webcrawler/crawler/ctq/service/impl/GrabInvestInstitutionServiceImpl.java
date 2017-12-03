@@ -56,7 +56,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 Document doc = BaseUtil.connect(url);
                 investInstitution = getInvestInstitution(doc, institutionId, url);
                 // 保存抓取结果
-                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investInstitution);
+                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVEST_INSTITUTION, investInstitution);
                 investInstitutionMap.put(institutionId, investInstitution);
             }
             return investInstitutionMap;

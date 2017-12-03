@@ -71,4 +71,11 @@ public class FileUtil {
         }
         return Lists.newArrayList();
     }
+
+    public final static void main(String[] args) {
+        String path = "/Users/liangk/Documents/ex-work/data/crawl/result/";
+        String filename = "test1";
+
+        appendToFile(path, filename, "hello");
+    }
 }
