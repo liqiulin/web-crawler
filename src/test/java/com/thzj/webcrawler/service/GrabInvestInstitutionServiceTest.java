@@ -21,9 +21,9 @@ public class GrabInvestInstitutionServiceTest {
     public void grabInvestInstitutionInfoTest() {
         //List<String> userIdList = grabInvestorService.getUserIds();
         Map<String, InvestInstitution> result;
-        //List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
-        List<String> userIds = Lists.newArrayList();
-        userIds.add("3020");
+        List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
+//        List<String> userIds = Lists.newArrayList();
+//        userIds.add("198");
         System.out.println(userIds.size());
         result = grabInvestInstitutionService.grabInvestInstitutionInfo(userIds);
         System.out.println(result);
