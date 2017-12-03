@@ -94,8 +94,9 @@ public class BaseUtil {
     }
 
     /**
-     * 休眠随机时间
-     * @param
+     * 休眠时间
+     * @param integer 休眠时间：小于零时休眠随机时间，大于零时休眠固定时间
+     * @return void
      */
     public static void sleep(Integer integer) {
         try {
@@ -112,7 +113,10 @@ public class BaseUtil {
 
     /**
      * 拆分字符串为列表
-     * @param
+     *
+     * @param target 目标字符串
+     * @param pattern 匹配模式
+     * @return  List<String></>
      */
     public static List<String> splitter(String target, char pattern) {
         return Lists.newArrayList(Splitter.on(pattern).trimResults().omitEmptyStrings().split(target));

@@ -35,9 +35,6 @@ public class CrawlServiceImpl implements CrawlService {
         log.info("grabStartup start...");
         List<String> startupIds = grabStartUpService.getStartUpIds();
 
-
-
-
         log.info("grabStartup startupIds[{}]", startupIds);
 
         Map<String, Startup> grabStartupInfoMap = grabStartUpService.grabStartUpInfo(startupIds);
