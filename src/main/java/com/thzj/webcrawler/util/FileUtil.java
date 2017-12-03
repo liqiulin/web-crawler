@@ -27,7 +27,7 @@ public class FileUtil {
             f.mkdirs();
         }
         String fullFileName = path.concat(fileName);
-
+        FileWriter writer = null;
         // 创建文件
         File file = new File(f, fileName);
         try {
@@ -35,16 +35,9 @@ public class FileUtil {
                 file.createNewFile();
             }
 
-            //FileOutputStream fop = new FileOutputStream(file);
-            // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
             //OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
-            FileWriter writer = new FileWriter(fullFileName, true);
+            writer = new FileWriter(fullFileName, true);
             writer.write(content);
-
-            //刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入
-            writer.close();
-            //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
-            //fop.close();
 
         } catch (Exception e) {
             log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
