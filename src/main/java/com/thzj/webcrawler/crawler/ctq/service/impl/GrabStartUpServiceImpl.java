@@ -57,28 +57,22 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         List<String> startUpIds = new ArrayList<>();
         String url;
 
-        try {
-            for (Integer i = 1; ; i++) {
-                url =  STARTUP_ID_URL + i.toString() + "&tab=t24&type=investment";
-                org.jsoup.nodes.Document doc = Jsoup.connect(url).get();
-                Elements tableList = doc.getElementById("investment-list").select("tbody");
-                Elements startUpInfo = tableList.select("tr");
-                if (null == startUpInfo || startUpInfo.isEmpty()) {
-                    break;
-                }
-
-                for (Element element : startUpInfo) {
-                    Elements elements = element.getElementsByClass("avatar square").select("a");
-                    String infoDetailsUrl = elements.attr("href");
-                    int startUpIndex = infoDetailsUrl.lastIndexOf("startups");
-                    String userId = infoDetailsUrl.substring(startUpIndex+9);
-                    startUpIds.add(userId);
-                }
+        for (Integer i = 1; ; i++) {
+            url = STARTUP_ID_URL + i.toString() + "&tab=t24&type=investment";
+            org.jsoup.nodes.Document doc = BaseUtil.connect(url);
+            Elements tableList = doc.getElementById("investment-list").select("tbody");
+            Elements startUpInfo = tableList.select("tr");
+            if (null == startUpInfo || startUpInfo.isEmpty()) {
+                break;
             }
-            return startUpIds;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+
+            for (Element element : startUpInfo) {
+                Elements elements = element.getElementsByClass("avatar square").select("a");
+                String infoDetailsUrl = elements.attr("href");
+                int startUpIndex = infoDetailsUrl.lastIndexOf("startups");
+                String userId = infoDetailsUrl.substring(startUpIndex + 9);
+                startUpIds.add(userId);
+            }
         }
         return startUpIds;
     }

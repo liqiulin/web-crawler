@@ -39,7 +39,7 @@ public class FileUtil {
 
             writer.append(content);
 
-            // 刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入
+            //刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入
             writer.close();
             //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
             fop.close();
