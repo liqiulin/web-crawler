@@ -37,7 +37,7 @@ public class FileUtil {
 
             //OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
             writer = new FileWriter(fullFileName, true);
-            writer.write(content);
+            writer.write(content + "\r\n");
 
         } catch (Exception e) {
             log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
@@ -76,6 +76,11 @@ public class FileUtil {
         String path = "/Users/liangk/Documents/ex-work/data/crawl/result/";
         String filename = "test1";
 
-        appendToFile(path, filename, "hello");
+        appendToFile(path, filename, "hello\r\n");
+        appendToFile(path, filename, "you\r\n");
+        appendToFile(path, filename, "hello\r\n");
+        List<String> lines = readLines(path, filename);
+        System.out.println(lines);
+
     }
 }
