@@ -25,8 +25,17 @@ public interface CrawlService {
     Optional<List<String>> getCrawlIdsFromSaveFile(CrawlTypeEnum crawlType);
 
     /**
+     * 从保存的文件中读取抓取结果
+     */
+    <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum);
+
+    /**
      * 保存抓取的ID列表
      */
     void saveCrawlIds(CrawlTypeEnum crawlType, List<String> crawIds);
 
+    /**
+     * 保存抓取结果到文件
+     */
+    void saveCrawlResultToFile(CrawlTypeEnum crawlType, Object crawlResult);
 }
