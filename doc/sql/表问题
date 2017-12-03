@@ -1,1 +1,2 @@
 1、T_INVESTOR.investors_profile 字段太小，改成2048
+2、rb_unit_message.company_name 字段太小，改为256

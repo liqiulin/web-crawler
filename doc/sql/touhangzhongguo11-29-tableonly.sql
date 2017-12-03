@@ -37,11 +37,11 @@ DROP TABLE IF EXISTS `rb_unit_message`;
 CREATE TABLE `rb_unit_message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL,
-  `company_name` varchar(50) DEFAULT NULL COMMENT '单位名称',
+  `company_name` varchar(1024) DEFAULT NULL COMMENT '单位名称',
   `company_industry` int(10) DEFAULT NULL COMMENT '单位性质',
   `work` int(10) DEFAULT NULL COMMENT '单位行业',
   `work_grade` varchar(300) DEFAULT NULL COMMENT '工作级别',
-  `zhiwei` varchar(255) DEFAULT NULL COMMENT '职 位',
+  `zhiwei` varchar(1024) DEFAULT NULL COMMENT '职 位',
   `serve_time` timestamp NULL DEFAULT NULL COMMENT '服务时间',
   `to_serve_time` timestamp NULL DEFAULT NULL COMMENT '服务时间',
   `work_year` int(10) DEFAULT NULL COMMENT '工作年限',
