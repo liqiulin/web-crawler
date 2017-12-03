@@ -70,7 +70,7 @@ public class CrawlServiceImpl implements CrawlService {
 
 
     @Override
-    public <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum) {
+    public <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum, Class<T> clazz) {
         String savePath = this.crawlResultSavePath;
         String fileName = getCrawlResultSaveFileName(crawlTypeEnum);
         List<String> crawlResultStringList = FileUtil.readLines(savePath, fileName);
@@ -78,7 +78,7 @@ public class CrawlServiceImpl implements CrawlService {
             return new ArrayList<>(0);
         }
         return crawlResultStringList.stream()
-                .map(crawlResultString -> JSONUtil.json2objectByType(crawlResultString, new TypeReference<T>() {}))
+                .map(crawlResultString -> JSONUtil.json2object(crawlResultString, clazz))
                 .collect(Collectors.toList());
 
     }

@@ -40,7 +40,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
     @Override
     public Map<String, Startup> grabStartUpInfo(List<String> startupIds) {
         // 先从保存的文件中获取已经抓取的结果
-        List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.STARTUP);
+        List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.STARTUP, Startup.class);
         Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         Startup startup;
         try {
