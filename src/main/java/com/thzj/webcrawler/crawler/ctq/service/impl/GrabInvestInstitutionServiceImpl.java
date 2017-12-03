@@ -129,22 +129,19 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         String province = "";
         String city = "";
         Elements contactUsElements = doc.getElementsByClass("details_institutions_sidebar").select("div.contact-us-item");
-        List<String> baseInfoList = Lists.newArrayList();
         if (Objects.nonNull(contactUsElements) && contactUsElements.size() > 0) {
-            if (null != contactUsElements.select("div.text") && !CollectionUtils.isEmpty(contactUsElements.select("div.text"))) {
-                baseInfoList = contactUsElements.select("div.text").eachText();
-                //模式匹配
-                for (String baseInfo : baseInfoList){
-                    if (BaseUtil.emailPattern(baseInfo)) {
-                        email = baseInfo;
-                    } else if (baseInfo.contains("-")) {
-                        phone = baseInfo;
-                    }
-                }
+            Elements phoneElements = contactUsElements.select("i.fa.fa-phone + div");
+            if (null != phoneElements && !CollectionUtils.isEmpty(phoneElements)) {
+                phone = phoneElements.text();
             }
 
-            if (null != contactUsElements.select("div.city")) {
-                String location = contactUsElements.select("div.city").text();
+            Elements emailElements = contactUsElements.select("i.fa.fa-envelope + div");
+            if (null != emailElements && !CollectionUtils.isEmpty(emailElements)) {
+                email = emailElements.text();
+            }
+
+            if (null != contactUsElements.select("div.city") && !CollectionUtils.isEmpty(contactUsElements.select("div.city"))) {
+                String location = contactUsElements.select("div.city").first().text();
                 if (StringUtils.isNotEmpty(location) && null != location) {
                     location = StringUtils.deleteWhitespace(location);
                     if (location.contains("·")) {
