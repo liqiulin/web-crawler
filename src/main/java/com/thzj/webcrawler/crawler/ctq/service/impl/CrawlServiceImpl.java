@@ -65,7 +65,7 @@ public class CrawlServiceImpl implements CrawlService {
                 throw new RuntimeException("crawlType["+crawlTypeEnum+"] error. ");
             }
             log.info("结束从目标网站抓取crawlIds. crawlTypeEnum[{}] crawlIds[{}]", crawlTypeEnum, crawlIds );
-            this.saveCrawlIds(CrawlTypeEnum.STARTUP, crawlIds);
+            this.saveCrawlIds(crawlTypeEnum, crawlIds);
         }
         return crawlIds;
     }
@@ -91,7 +91,7 @@ public class CrawlServiceImpl implements CrawlService {
     }
 
     private String getCrawlIdsSaveFileName(CrawlTypeEnum crawlType) {
-        return crawlType + "_" + LocalDate.now().toString();
+        return "crawlIds_"+ crawlType + "_" + LocalDate.now().toString();
     }
 
     @Override
