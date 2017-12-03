@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Matthew
@@ -28,14 +29,16 @@ public class FileUtil {
 
         // 创建文件
         File file = new File(f, fileName);
+        FileOutputStream fop = null;
+        OutputStreamWriter writer = null;
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
 
-            FileOutputStream fop = new FileOutputStream(file);
+            fop = new FileOutputStream(file);
             // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
-            OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
+            writer = new OutputStreamWriter(fop, Charsets.UTF_8);
 
             writer.append(content);
 
@@ -44,8 +47,23 @@ public class FileUtil {
             //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
             fop.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
+        } finally {
+            if (Objects.nonNull(fop)) {
+                try {
+                    fop.close();
+                } catch (Exception e1) {
+                    log.error("", e1);
+                }
+            }
+            if (Objects.nonNull(writer)) {
+                try {
+                    writer.close();
+                } catch (Exception e1) {
+                    log.error("", e1);
+                }
+            }
         }
     }
 
