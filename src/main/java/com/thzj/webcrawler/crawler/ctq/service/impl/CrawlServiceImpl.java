@@ -1,20 +1,25 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 
+import com.alibaba.fastjson.TypeReference;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
-import com.thzj.webcrawler.crawler.ctq.model.FinancingHistory;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.crawler.ctq.service.*;
+import com.thzj.webcrawler.util.FileUtil;
+import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import javax.annotation.Resource;
-import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 
 @Slf4j
@@ -33,44 +38,66 @@ public class CrawlServiceImpl implements CrawlService {
     @Override
     public void grabStartup() {
         log.info("grabStartup start...");
-        List<String> startupIds = grabStartUpService.getStartUpIds();
+        List<String> startupCrawlIds = this.getCrawlIds(CrawlTypeEnum.STARTUP);
+        log.info("grabStartup userIds[{}]", startupCrawlIds);
 
-
-
-
-        log.info("grabStartup startupIds[{}]", startupIds);
-
-        Map<String, Startup> grabStartupInfoMap = grabStartUpService.grabStartUpInfo(startupIds);
+        Map<String, Startup> grabStartupInfoMap = grabStartUpService.grabStartUpInfo(startupCrawlIds);
         log.info("grabStartup grabStartupInfoMap[{}]", grabStartupInfoMap);
 
         CrawlResult.STARTUP.putAll(grabStartupInfoMap);
     }
 
-    private void saveCrawlIds(CrawlTypeEnum crawlType) {
-        File crawlIdsSaveFile = gettCrawlIdsSaveFile(crawlType);
-
-
-
+    private List<String> getCrawlIds(CrawlTypeEnum crawlTypeEnum) {
+        Optional<List<String>> crawlIdsOptional = getCrawlIdsFromSaveFile(crawlTypeEnum);
+        List<String> crawlIds;
+        if (crawlIdsOptional.isPresent()) {
+            crawlIds = crawlIdsOptional.get();
+            log.info("从文件中读到 crawlType[{}] crawlIds [[}]", crawlTypeEnum, crawlIds);
+        } else {
+            log.info("开始从目标网站抓取crawlIds. crawlTypeEnum[{}]", crawlTypeEnum);
+            if (Objects.equals(CrawlTypeEnum.STARTUP, crawlTypeEnum)) {
+                crawlIds = grabStartUpService.getStartUpIds();
+            } else if (Objects.equals(CrawlTypeEnum.INVESTOR, crawlTypeEnum)) {
+                crawlIds = grabInvestorService.getUserIds();
+            } else if (Objects.equals(CrawlTypeEnum.INVEST_INSTITUTION, crawlTypeEnum)) {
+                crawlIds = grabInvestInstitutionService.getInstitutionIds();
+            } else {
+                throw new RuntimeException("crawlType["+crawlTypeEnum+"] error. ");
+            }
+            log.info("结束从目标网站抓取crawlIds. crawlTypeEnum[{}] crawlIds[{}]", crawlTypeEnum, crawlIds );
+            this.saveCrawlIds(CrawlTypeEnum.STARTUP, crawlIds);
+        }
+        return crawlIds;
     }
 
-
-    private File gettCrawlIdsSaveFile(CrawlTypeEnum crawlType) {
-        File savePathFile = new File(crawlResultSavePath);
-        if (!savePathFile.exists()) {
-            if (!savePathFile.mkdirs()) {
-                log.error("创建保存抓取ID的文件目录失败 savePathFile[{}]", savePathFile);
-                throw new RuntimeException("创建保存抓取ID的文件目录失败 savePathFile["+savePathFile+"]");
-            }
+    @Override
+    public Optional<List<String>> getCrawlIdsFromSaveFile(CrawlTypeEnum crawlType) {
+        String savePath = this.crawlResultSavePath;
+        String fileName = getCrawlIdsSaveFileName(crawlType);
+        List<String> idsList = FileUtil.readLines(savePath, fileName);
+        if (CollectionUtils.isEmpty(idsList)) {
+            return Optional.empty();
+        } else {
+            String idsJsonStr = idsList.get(idsList.size() - 1);
+            return Optional.of(JSONUtil.json2objectByType(idsJsonStr, new TypeReference<List<String>>(){}));
         }
+    }
 
-        String resultSaveFileName = crawlType + "_" + LocalDate.now().toString();
-        return new File(savePathFile + "/" + resultSaveFileName);
+    @Override
+    public void saveCrawlIds(CrawlTypeEnum crawlType, List<String> crawIds) {
+        String savePath = this.crawlResultSavePath;
+        String fileName = getCrawlIdsSaveFileName(crawlType);
+        FileUtil.appendToFile(savePath, fileName, JSONUtil.object2json(crawIds));
+    }
+
+    private String getCrawlIdsSaveFileName(CrawlTypeEnum crawlType) {
+        return crawlType + "_" + LocalDate.now().toString();
     }
 
     @Override
     public void grabInvestor() {
         log.info("grabInvestor start...");
-        List<String> userIds = grabInvestorService.getUserIds();
+        List<String> userIds = this.getCrawlIds(CrawlTypeEnum.INVESTOR);
         log.info("grabInvestor userIds[{}]", userIds);
 
         Map<String, Investor> grabInvestorInfoMap = grabInvestorService.grabInvestorInfo(userIds);
@@ -82,7 +109,7 @@ public class CrawlServiceImpl implements CrawlService {
     @Override
     public void grabInvestInstitution() {
         log.info("grabInvestInstitution start...");
-        List<String> institutionIds = grabInvestInstitutionService.getInstitutionIds();
+        List<String> institutionIds = this.getCrawlIds(CrawlTypeEnum.INVEST_INSTITUTION);
         log.info("grabInvestInstitution institutionIds[{}]", institutionIds);
 
         Map<String, InvestInstitution> grabInvestInstitutionInfoMap =
