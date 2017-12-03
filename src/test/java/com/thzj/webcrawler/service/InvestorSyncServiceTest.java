@@ -18,8 +18,8 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@Transactional
-@Rollback
+//@Transactional
+//@Rollback
 public class InvestorSyncServiceTest {
 
     @Resource
@@ -36,7 +36,6 @@ public class InvestorSyncServiceTest {
         investor.setPosition("创始合伙人");
         investor.setProfile("haaha, test a a ");
         investor.setProvince("上海");
-        investor.setInstitutionId("6155");
 
         InvestCase investCase = new InvestCase();
         investCase.setAvatarUrl("https://assets0.vc.cn/assets.vc.cn/system/startup/avatars/80373/thumb/d6cb96794a9232cb476a885c8ba325d4.jpg?1510728891");

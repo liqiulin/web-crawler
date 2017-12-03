@@ -55,6 +55,10 @@ public class ImgManagerImpl implements ImgManager {
     @Override
     public String downloadAndSaveImg(String imgUrl) {
         String suffix = imgUrl.substring(imgUrl.lastIndexOf("."));
+        int i = suffix.lastIndexOf('?');
+        if (i > -1) {
+            suffix = suffix.substring(0, i);
+        }
         String fileName = UUID.randomUUID().toString() + suffix;
         String nowDateStr = LocalDate.now().toString();
         String savePath = File.separator + nowDateStr + File.separator;

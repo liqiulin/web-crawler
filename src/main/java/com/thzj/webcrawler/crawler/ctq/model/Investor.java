@@ -19,7 +19,6 @@ public class Investor implements Serializable {
     private String detailUrl;                                          //详情URL
     private String name;                                               //姓名
     private String avatarUrl;                                          //头像
-    private String institutionId;                                     //所属机构ID
     private String company;                                            //所属机构名称
     private String position;                                           //职位
     private String province;                                           //所在地址：省
