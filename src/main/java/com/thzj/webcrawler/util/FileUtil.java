@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Matthew
@@ -45,8 +46,16 @@ public class FileUtil {
             //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
             //fop.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
+        } finally {
+            if (Objects.nonNull(writer)) {
+                try {
+                    writer.close();
+                } catch (Exception e1) {
+                    log.error("", e1);
+                }
+            }
         }
     }
 
@@ -68,15 +77,5 @@ public class FileUtil {
             log.error("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
         }
         return Lists.newArrayList();
-    }
-
-    public final static void main(String[] args) {
-        String path = "/Users/liangk/Documents/ex-work/data/crawl/result";
-        String fileName = "testResult";
-        List<String> result = Lists.newArrayList();
-        //result = readLines(path, fileName);
-
-         appendToFile(path, "/test", "hello \n");
-         appendToFile(path, "/test", "you \n");
     }
 }
