@@ -72,6 +72,11 @@ public class InvestorManagerImpl implements InvestorManager {
         return tInvestor.getId();
     }
 
+    @Override
+    public TInvestor queryById(int id) {
+        return tInvestorMapper.selectByPrimaryKey(id);
+    }
+
     private void setCrawInstitutionProperty(InvestInstitution institution, TInvestor tInvestor) {
         tInvestor.setOrgName(institution.getName());
         tInvestor.setOrgWebsite(institution.getHomePage());
