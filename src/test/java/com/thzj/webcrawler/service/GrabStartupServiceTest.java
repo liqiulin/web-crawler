@@ -19,7 +19,9 @@ public class GrabStartupServiceTest {
     @Test
     public void grabStartupInfoTest() {
         Map<String, Startup> result;
-        List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
+        //List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
+        List<String> userIds = Lists.newArrayList();
+        userIds.add("99927");
         result = grabStartUpService.grabStartUpInfo(userIds);
         System.out.println(result);
         System.out.println(result.size());
