@@ -5,6 +5,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
+import com.thzj.webcrawler.crawler.ctq.model.Startup;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
@@ -18,6 +21,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,26 +35,36 @@ import static com.thzj.webcrawler.common.Constants.INSTITUTION_ID_URL;
 @Slf4j
 @Service
 public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionService{
+    @Resource
+    private CrawlService crawlService;
 
     @Override
     public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
         String url = "";
-        Map<String, InvestInstitution> investInstitutions = Maps.newConcurrentMap();
+        // 先从保存的文件中获取已经抓取的结果
+        List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
+        Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, institution -> institution));
         InvestInstitution investInstitution;
         try {
             for (String institutionId : instituteIdList) {
+                if (investInstitutionMap.containsKey(institutionId)) {
+                    break;
+                }
+
                 url = INSTITUTION_DETAIL_URL + institutionId;
                 Document doc = BaseUtil.connect(url);
                 investInstitution = getInvestInstitution(doc, institutionId, url);
-                investInstitutions.put(institutionId, investInstitution);
+                // 保存抓取结果
+                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investInstitution);
+                investInstitutionMap.put(institutionId, investInstitution);
             }
-            return investInstitutions;
+            return investInstitutionMap;
         } catch (Exception e) {
-            e.printStackTrace();
-            log.warn("grabInvestInstitutionInfo failed! url[{}]", url, e);
+            log.warn("grabInvestInstitutionInfo failed! ", e);
         }
-        return investInstitutions;
+        return investInstitutionMap;
     }
+
 
 
     /**

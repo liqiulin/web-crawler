@@ -16,10 +16,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -70,6 +68,21 @@ public class CrawlServiceImpl implements CrawlService {
         return crawlIds;
     }
 
+
+    @Override
+    public <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum) {
+        String savePath = this.crawlResultSavePath;
+        String fileName = getCrawlResultSaveFileName(crawlTypeEnum);
+        List<String> crawlResultStringList = FileUtil.readLines(savePath, fileName);
+        if (CollectionUtils.isEmpty(crawlResultStringList)) {
+            return new ArrayList<>(0);
+        }
+        return crawlResultStringList.stream()
+                .map(crawlResultString -> JSONUtil.json2objectByType(crawlResultString, new TypeReference<T>() {}))
+                .collect(Collectors.toList());
+
+    }
+
     @Override
     public Optional<List<String>> getCrawlIdsFromSaveFile(CrawlTypeEnum crawlType) {
         String savePath = this.crawlResultSavePath;
@@ -88,6 +101,17 @@ public class CrawlServiceImpl implements CrawlService {
         String savePath = this.crawlResultSavePath;
         String fileName = getCrawlIdsSaveFileName(crawlType);
         FileUtil.appendToFile(savePath, fileName, JSONUtil.object2json(crawIds));
+    }
+
+    @Override
+    public void saveCrawlResultToFile(CrawlTypeEnum crawlType, Object crawlResult) {
+        String savePath = this.crawlResultSavePath;
+        String fileName = getCrawlResultSaveFileName(crawlType);
+        FileUtil.appendToFile(savePath, fileName, JSONUtil.object2json(crawlResult));
+    }
+
+    private String getCrawlResultSaveFileName(CrawlTypeEnum crawlTypeEnum) {
+        return "crawlResult_" + crawlTypeEnum + "_" + LocalDate.now().toString();
     }
 
     private String getCrawlIdsSaveFileName(CrawlTypeEnum crawlType) {

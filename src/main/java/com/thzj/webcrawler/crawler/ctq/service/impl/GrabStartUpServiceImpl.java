@@ -3,6 +3,8 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
@@ -15,11 +17,13 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
@@ -32,22 +36,32 @@ import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
 @Slf4j
 @Service
 public class GrabStartUpServiceImpl implements GrabStartUpService {
+    @Resource
+    private CrawlService crawlService;
 
     @Override
     public Map<String, Startup> grabStartUpInfo(List<String> startupIds) {
-        Map<String, Startup> startupMaps = Maps.newConcurrentMap();
+        // 先从保存的文件中获取已经抓取的结果
+        List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.STARTUP);
+        Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, startup -> startup));
         Startup startup;
         try {
             for (String startupId : startupIds) {
+                if (startupMaps.containsKey(startupId)) {
+                    break;
+                }
+
                 String url = STARTUP_DETAIL_URL + startupId + "?show_investment=true";
                 Document doc = BaseUtil.connect(url);
                 startup = getStartUpFromHtml(doc, startupId, url);
+
+                // 保存抓取结果
+                crawlService.saveCrawlResultToFile(CrawlTypeEnum.STARTUP, startup);
                 startupMaps.put(startupId, startup);
             }
             return startupMaps;
         } catch (Exception e) {
-            e.printStackTrace();
-            log.warn("grabStartupInfo failed! startupIdList[{}]", startupIds, e);
+            log.warn("grabStartupInfo failed!", e);
         }
         return startupMaps;
     }

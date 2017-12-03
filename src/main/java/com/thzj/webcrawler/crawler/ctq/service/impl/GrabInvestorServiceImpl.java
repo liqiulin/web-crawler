@@ -6,8 +6,11 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
+import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
@@ -21,11 +24,13 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INVERTOR_ID_URL;
 import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
@@ -34,25 +39,31 @@ import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
 @Service
 public class GrabInvestorServiceImpl implements GrabInvestorService {
 
-
+    @Resource
+    private CrawlService crawlService;
 
     @Override
     public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
-        Map<String, Investor> investors = Maps.newConcurrentMap();
-
+        // 先从保存的文件中获取已经抓取的结果
+        List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
+        Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, investor -> investor));
         try {
             for (String userId : userIdList) {
+                if (investorMap.containsKey(userId)) {
+                    break;
+                }
                 String url = USER_DETAIL_URL + userId;
                 Document doc = BaseUtil.connect(url);
                 Investor investor = getInvestor(userId, doc, url);
-                investors.put(userId, investor);
+                // 保存抓取结果
+                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investor);
+                investorMap.put(userId, investor);
             }
-            return investors;
+            return investorMap;
         } catch (Exception e) {
-            e.printStackTrace();
             log.warn("grabInvestorInfo failed!", e);
         }
-        return investors;
+        return investorMap;
     }
 
     private Investor getInvestor(String userId, Document doc, String url) throws IOException {
