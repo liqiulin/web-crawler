@@ -1,12 +1,11 @@
 package com.thzj.webcrawler.util;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -33,9 +32,10 @@ public class FileUtil {
             if (!file.exists()) {
                 file.createNewFile();
             }
+
             FileOutputStream fop = new FileOutputStream(file);
             // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
-            OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
+            OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
 
             writer.append(content);
 
@@ -56,7 +56,16 @@ public class FileUtil {
      * @return
      */
     public static List<String> readLines(String path, String fileName) {
+        File f = new File(path);
 
+        // 创建文件
+        File file = new File(f, fileName);
+        try {
+            List<String> lines = Files.readLines(file, Charsets.UTF_8);
+            return lines;
+        } catch (IOException e) {
+            log.error("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
+        }
         return Lists.newArrayList();
     }
 }
