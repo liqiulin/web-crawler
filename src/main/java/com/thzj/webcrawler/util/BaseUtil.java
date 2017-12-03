@@ -1,5 +1,7 @@
 package com.thzj.webcrawler.util;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Connection;
@@ -8,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,6 +108,14 @@ public class BaseUtil {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 拆分字符串为列表
+     * @param
+     */
+    public static List<String> spilt(String target, char pattern) {
+        return Lists.newArrayList(Splitter.on(pattern).trimResults().omitEmptyStrings().split(target));
     }
 
 /*    public static void main (String[] args) {

@@ -235,7 +235,8 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             Date time = DateUtil.stringToDate(element.select("div.time").text());
             financingHistory.setTime(time);
             financingHistory.setRound(element.select("div.round").select("a").text());
-            financingHistory.setFinancingAmount(element.select("div.number").text());
+            String amount = element.select("div.number").text().substring(4);
+            financingHistory.setFinancingAmount(amount);
             financingHistory.setStartupId(startupId);
             List<String> investInstitutionIds = getFinancingHistoryInvestorList(element);
             financingHistory.setInvestInstitutionIds(investInstitutionIds);
