@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INVERTOR_ID_URL;
@@ -46,7 +47,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
     public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
         // 先从保存的文件中获取已经抓取的结果
         List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
-        Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, investor -> investor));
+        Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         try {
             for (String userId : userIdList) {
                 if (investorMap.containsKey(userId)) {

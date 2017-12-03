@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
@@ -43,7 +44,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         String url = "";
         // 先从保存的文件中获取已经抓取的结果
         List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
-        Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, institution -> institution));
+        Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         InvestInstitution investInstitution;
         try {
             for (String institutionId : instituteIdList) {

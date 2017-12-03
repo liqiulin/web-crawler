@@ -19,10 +19,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
@@ -43,7 +41,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
     public Map<String, Startup> grabStartUpInfo(List<String> startupIds) {
         // 先从保存的文件中获取已经抓取的结果
         List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.STARTUP);
-        Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, startup -> startup));
+        Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         Startup startup;
         try {
             for (String startupId : startupIds) {
