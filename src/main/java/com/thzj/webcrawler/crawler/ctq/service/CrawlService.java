@@ -27,7 +27,7 @@ public interface CrawlService {
     /**
      * 从保存的文件中读取抓取结果
      */
-    <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum);
+    <T> List<T> getCrawlResultFromSaveFile(CrawlTypeEnum crawlTypeEnum, Class<T> clazz);
 
     /**
      * 保存抓取的ID列表

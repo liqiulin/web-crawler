@@ -46,7 +46,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
     @Override
     public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
         // 先从保存的文件中获取已经抓取的结果
-        List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
+        List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVESTOR, Investor.class);
         Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         try {
             for (String userId : userIdList) {

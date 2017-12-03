@@ -43,7 +43,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
     public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
         String url = "";
         // 先从保存的文件中获取已经抓取的结果
-        List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION);
+        List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION, InvestInstitution.class);
         Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         InvestInstitution investInstitution;
         try {
