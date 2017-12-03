@@ -1,11 +1,13 @@
 package com.thzj.webcrawler.util;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 /**
  * @author Matthew
@@ -14,11 +16,12 @@ import java.io.OutputStreamWriter;
 public class FileUtil {
 
     /**
-     *
+     * 写内容到到文件尾部
+     * @param path 写入路径
+     * @param fileName 写入文件名
+     * @param content 写入内容
      */
-    public static void saveResultToFile(String fileName, String result) {
-        //path表示你所创建文件的路径
-        String path = "/Users/liangk/Documents/ex-work/data";
+    public static void appendToFile(String path, String fileName, String content) {
         File f = new File(path);
         if (!f.exists()) {
             f.mkdirs();
@@ -34,7 +37,7 @@ public class FileUtil {
             // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
             OutputStreamWriter writer = new OutputStreamWriter(fop, "UTF-8");
 
-            writer.append(result);
+            writer.append(content);
 
             // 刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入
             writer.close();
@@ -42,11 +45,18 @@ public class FileUtil {
             fop.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            log.warn("saveResultTOFile failure! file:[{}], fileName[{}], result[{}]", file, fileName, result, e);
+            log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
         }
+    }
 
+    /**
+     * 将文件内容按行读取返回
+     * @param path
+     * @param fileName
+     * @return
+     */
+    public static List<String> readLines(String path, String fileName) {
 
-
+        return Lists.newArrayList();
     }
 }

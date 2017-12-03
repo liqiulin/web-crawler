@@ -2,16 +2,17 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
+import com.thzj.webcrawler.crawler.ctq.model.FinancingHistory;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
-import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
-import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
-import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
-import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
+import com.thzj.webcrawler.crawler.ctq.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -22,23 +23,48 @@ public class CrawlServiceImpl implements CrawlService {
 
     @Resource
     private GrabInvestorService grabInvestorService;
-
     @Resource
     private GrabInvestInstitutionService grabInvestInstitutionService;
-
     @Resource
     private GrabStartUpService grabStartUpService;
+    @Value("${crawl.result.save.path}")
+    private String crawlResultSavePath;
 
     @Override
     public void grabStartup() {
         log.info("grabStartup start...");
         List<String> startupIds = grabStartUpService.getStartUpIds();
+
+
+
+
         log.info("grabStartup startupIds[{}]", startupIds);
 
         Map<String, Startup> grabStartupInfoMap = grabStartUpService.grabStartUpInfo(startupIds);
         log.info("grabStartup grabStartupInfoMap[{}]", grabStartupInfoMap);
 
         CrawlResult.STARTUP.putAll(grabStartupInfoMap);
+    }
+
+    private void saveCrawlIds(CrawlTypeEnum crawlType) {
+        File crawlIdsSaveFile = gettCrawlIdsSaveFile(crawlType);
+
+
+
+    }
+
+
+    private File gettCrawlIdsSaveFile(CrawlTypeEnum crawlType) {
+        File savePathFile = new File(crawlResultSavePath);
+        if (!savePathFile.exists()) {
+            if (!savePathFile.mkdirs()) {
+                log.error("创建保存抓取ID的文件目录失败 savePathFile[{}]", savePathFile);
+                throw new RuntimeException("创建保存抓取ID的文件目录失败 savePathFile["+savePathFile+"]");
+            }
+        }
+
+        String resultSaveFileName = crawlType + "_" + LocalDate.now().toString();
+        return new File(savePathFile + "/" + resultSaveFileName);
     }
 
     @Override
