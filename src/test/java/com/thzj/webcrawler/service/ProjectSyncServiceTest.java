@@ -16,8 +16,8 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@Transactional
-@Rollback
+//@Transactional
+//@Rollback
 public class ProjectSyncServiceTest {
 
     @Resource

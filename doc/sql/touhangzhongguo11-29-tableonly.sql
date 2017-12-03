@@ -37,11 +37,11 @@ DROP TABLE IF EXISTS `rb_unit_message`;
 CREATE TABLE `rb_unit_message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL,
-  `company_name` varchar(50) DEFAULT NULL COMMENT '单位名称',
+  `company_name` varchar(1024) DEFAULT NULL COMMENT '单位名称',
   `company_industry` int(10) DEFAULT NULL COMMENT '单位性质',
   `work` int(10) DEFAULT NULL COMMENT '单位行业',
   `work_grade` varchar(300) DEFAULT NULL COMMENT '工作级别',
-  `zhiwei` varchar(255) DEFAULT NULL COMMENT '职 位',
+  `zhiwei` varchar(1024) DEFAULT NULL COMMENT '职 位',
   `serve_time` timestamp NULL DEFAULT NULL COMMENT '服务时间',
   `to_serve_time` timestamp NULL DEFAULT NULL COMMENT '服务时间',
   `work_year` int(10) DEFAULT NULL COMMENT '工作年限',
@@ -208,7 +208,7 @@ CREATE TABLE `t_investor` (
   `auditor_comment` varchar(255) DEFAULT NULL COMMENT '审核备注',
   `reqauth_time` datetime DEFAULT NULL COMMENT '投资人认证申请时间',
   `mail_box` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `investors_profile` varchar(255) DEFAULT NULL COMMENT '投资人简介',
+  `investors_profile` varchar(2048) DEFAULT NULL COMMENT '投资人简介',
   `investors_company_name` varchar(255) DEFAULT NULL COMMENT '公司全名',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='投资人认证';

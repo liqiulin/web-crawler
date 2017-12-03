@@ -31,6 +31,9 @@ public class ImgManagerImpl implements ImgManager {
     @Value("${img.save.base.path}")
     private String imgSaveBasePath;
 
+    @Value("${img.save.path}")
+    private String imgSavePath;
+
     /**
      * 图片下载，如果已经下载过则不重复下载，直接返回图片的保存地址
      * @param imgUrl 图片地址
@@ -61,14 +64,14 @@ public class ImgManagerImpl implements ImgManager {
         }
         String fileName = UUID.randomUUID().toString() + suffix;
         String nowDateStr = LocalDate.now().toString();
-        String savePath = File.separator + nowDateStr + File.separator;
+        String savePath = String.format(imgSavePath, nowDateStr);
         String fullSavePath = this.imgSaveBasePath + savePath;
         if (downloadImg(fullSavePath, fileName, imgUrl)) {
             // 保存下载记录
             TImgDownloadHis imgDownloadHis = new TImgDownloadHis();
             imgDownloadHis.setCreateTime(new Date());
             imgDownloadHis.setImgUrl(imgUrl);
-            imgDownloadHis.setSavePath(savePath);
+            imgDownloadHis.setSavePath(savePath + fileName);
             imgDownloadHisMapper.insertSelective(imgDownloadHis);
         }
 
