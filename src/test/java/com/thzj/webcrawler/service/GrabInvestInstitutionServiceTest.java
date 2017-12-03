@@ -22,6 +22,8 @@ public class GrabInvestInstitutionServiceTest {
         //List<String> userIdList = grabInvestorService.getUserIds();
         Map<String, InvestInstitution> result;
         List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
+//        List<String> userIds = Lists.newArrayList();
+//        userIds.add("198");
         System.out.println(userIds.size());
         result = grabInvestInstitutionService.grabInvestInstitutionInfo(userIds);
         System.out.println(result);
@@ -37,6 +39,7 @@ public class GrabInvestInstitutionServiceTest {
     }
 
 
+/*
     private final static Integer[] ints = {188, 637, 2996, 491, 273, 538, 2842, 311, 1932, 2962, 2995, 2752, 3019, 3020,
 
                 2776, 575, 1137, 2982, 5145, 565, 574, 6729, 859, 2139, 4192, 2937, 915, 1695, 2207, 2986, 2656, 6752, 2926,
@@ -71,8 +74,8 @@ public class GrabInvestInstitutionServiceTest {
             3670, 1933, 1015, 1312, 1680, 935, 2771, 5897, 5657, 2876, 863, 874, 439, 2797, 6700, 2866, 6589, 1239, 1670, 5312, 474, 4627,
             1070, 358, 488, 2832, 1321, 607, 2753, 2811, 5672, 5676, 2165, 662, 1440, 1257, 6378, 1283, 4006, 2874, 1251, 5899, 4916, 2914,
             1707, 191, 6704, 2789, 6133, 2892, 1240, 6721, 2101, 418, 4599, 582, 2538, 1141, 1186, 939, 1040, 5769, 1430, 5811, 965, 2810};
-//
-//    private final static Integer[] ints = {188, 637, 2996, 491, 273, 538, 2842, 311, 1932, 2962, 2995, 2752, 3019, 3020,
-//            2776, 575, 1137, 2982, 5145, 565, 574, 6729, 859, 2139, 4192, 2937, 915, 1695, 2207, 2986, 2656, 6752, 2926,
-//            2193, 2978, 2979, 3004, 3013, 198, 2774, 2785, 2928, 5768, 5297, 2999, 446, 3018, 3857, 6465, 1134, 2787, 2809};
+*/
+
+    private final static Integer[] ints = {188, 637, 2996, 491, 273, 538, 2842, 311, 1932, 2962, 2995, 2752, 3019, 3020,
+            2193, 2978, 2979, 3004, 3013, 198, 2774, 2785, 2928, 5768, 5297, 2999, 446, 3018, 3857, 6465, 1134, 2787, 2809};
 }

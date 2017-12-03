@@ -114,7 +114,7 @@ public class BaseUtil {
      * 拆分字符串为列表
      * @param
      */
-    public static List<String> spilt(String target, char pattern) {
+    public static List<String> splitter(String target, char pattern) {
         return Lists.newArrayList(Splitter.on(pattern).trimResults().omitEmptyStrings().split(target));
     }
 

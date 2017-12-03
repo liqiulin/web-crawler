@@ -25,9 +25,9 @@ public class GrabInvestorServiceTest {
     public void grabInvestorInfo() {
         //List<String> userIdList = grabInvestorService.getUserIds();
         Map<String, Investor> result;
-        //List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
-        List<String> userIds = Lists.newArrayList();
-        userIds.add("25616");
+        List<String> userIds = Arrays.stream(ints).map(integer -> integer.toString()).collect(Collectors.toList());
+        //List<String> userIds = Lists.newArrayList();
+        //userIds.add("25616");
         result = grabInvestorService.grabInvestorInfo(userIds);
         System.out.println(result);
         log.info("{}", JSONUtil.object2json(result));
