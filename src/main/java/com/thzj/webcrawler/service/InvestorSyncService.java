@@ -79,7 +79,8 @@ public class InvestorSyncService {
             investorRoundManager.update(entityId, crawlInvestor.getInvestRounds());
 
             // 处理工作经历
-            unitMessageManager.update(entityId, crawlInvestor.getWorkExperiences());
+            int userId = investorManager.queryById(entityId).getUserId();
+            unitMessageManager.update(userId, crawlInvestor.getWorkExperiences());
 
             // 处理投资案例
             syncInvestCase(crawlInvestor, entityId);

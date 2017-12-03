@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface UnitMessageManager {
 
-    void update(int investorId, List<WorkExperience> workExperiences);
+    void update(int userId, List<WorkExperience> workExperiences);
 }
