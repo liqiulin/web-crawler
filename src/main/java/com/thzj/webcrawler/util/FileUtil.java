@@ -25,6 +25,7 @@ public class FileUtil {
         if (!f.exists()) {
             f.mkdirs();
         }
+        String fullFileName = path.concat(fileName);
 
         // 创建文件
         File file = new File(f, fileName);
@@ -33,16 +34,16 @@ public class FileUtil {
                 file.createNewFile();
             }
 
-            FileOutputStream fop = new FileOutputStream(file);
+            //FileOutputStream fop = new FileOutputStream(file);
             // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
-            OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
-
-            writer.append(content);
+            //OutputStreamWriter writer = new OutputStreamWriter(fop, Charsets.UTF_8);
+            FileWriter writer = new FileWriter(fullFileName, true);
+            writer.write(content);
 
             //刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入
             writer.close();
             //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
-            fop.close();
+            //fop.close();
 
         } catch (IOException e) {
             log.error("appendToFile failure! path:[{}], fileName[{}], content[{}]", file, fileName, content, e);
@@ -67,5 +68,15 @@ public class FileUtil {
             log.error("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
         }
         return Lists.newArrayList();
+    }
+
+    public final static void main(String[] args) {
+        String path = "/Users/liangk/Documents/ex-work/data/crawl/result";
+        String fileName = "testResult";
+        List<String> result = Lists.newArrayList();
+        //result = readLines(path, fileName);
+
+         appendToFile(path, "/test", "hello \n");
+         appendToFile(path, "/test", "you \n");
     }
 }
