@@ -160,9 +160,11 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
         //机构成员:这里只保存成员ID
         List<String> members = Lists.newArrayList();
-        if (!CollectionUtils.isEmpty(doc.getElementById("working-member-list").select("a"))) {
-            members = doc.getElementById("working-member-list").select("a").stream().map(
-                    (e) -> e.attr("href").substring(7)).collect(Collectors.toList());
+        Elements membersElements = doc.getElementsByClass("member-list");
+        if (null != membersElements && !CollectionUtils.isEmpty(membersElements)) {
+            log.info("institutionID:[{}]", instituteId);
+            members = doc.getElementsByClass("member-list").select("div.avatar").select("a").stream().map(
+                    e -> e.attr("href").substring(7)).collect(Collectors.toList());
         }
         investInstitution.setName(name);
         investInstitution.setId(instituteId);

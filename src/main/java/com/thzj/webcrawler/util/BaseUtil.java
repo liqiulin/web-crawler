@@ -28,11 +28,17 @@ public class BaseUtil {
             con.header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             con.header("Accept-Encoding", "gzip, deflate");
             con.header("Accept-Language", "zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3");
-            con.header("Connection", "keep-alive");
+            con.header("Connection", "close");
             con.header("Host", url);
             con.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0");
-            Document doc = con.get();
+            Connection.Response responese = con.execute();
+
+            Document doc = responese.parse();
+            sleep(-1);
             return doc;
+        } catch (HttpStatusException e) {
+            sleep(6000);
+            return connect(url);
         } catch (IOException ie) {
             ie.printStackTrace();
             log.warn("grabInvestorInfo failed!", ie);
@@ -81,6 +87,23 @@ public class BaseUtil {
             return string;
         } else {
             return location;
+        }
+    }
+
+    /**
+     * 休眠随机时间
+     * @param
+     */
+    public static void sleep(Integer integer) {
+        try {
+            if (integer < 0) {
+                Thread.sleep((int)Math.random()*2000);
+            }
+            else {
+                Thread.sleep(integer);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
