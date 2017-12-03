@@ -1,6 +1,9 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
@@ -16,6 +19,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -154,6 +158,9 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
     //Todo 翻页暂不处理
     private void getInvestCase(Document doc, List<InvestCase> investCaseList) {
         Elements investCases = doc.getElementById("invest_cases").getElementsByClass("case_card");
+        if (null == investCases || CollectionUtils.isEmpty(investCases)) {
+            return;
+        }
         for (Element element : investCases) {
             InvestCase investCase = new InvestCase();
             investCase.setAvatarUrl(element.getElementsByTag("img").attr("src"));
@@ -169,6 +176,11 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
 
     private void buildWorkExperience(Document doc, List<WorkExperience> workExperienceList) {
         Elements workExperiences = doc.getElementById("module_work").getElementsByClass("experience-item");
+
+        if ( null == workExperiences || CollectionUtils.isEmpty(workExperiences)) {
+            return;
+        }
+
         for (Element element : workExperiences) {
             WorkExperience workExperience = new WorkExperience();
             String workPeriod = element.select(".date").select("span").text();
@@ -185,8 +197,13 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                     workExperience.setTimeTo(DateUtil.stringToDate(workPeriods[1]));
                 }
             }
-            workExperience.setCompany(element.getElementsByClass("info").select("div").get(0).text());
-            workExperience.setPosition(element.getElementsByClass("info").select("div").get(1).text());
+            Elements companyinfoElements =  element.select("td.info > div");
+            List<String> companyinfoList = Lists.newArrayList(Splitter.on(' ')
+                    .trimResults()
+                    .omitEmptyStrings()
+                    .split(companyinfoElements.first().text()));
+            workExperience.setCompany(companyinfoList.get(0));
+            workExperience.setPosition(companyinfoElements.get(1).text());
             workExperienceList.add(workExperience);
         }
     }
