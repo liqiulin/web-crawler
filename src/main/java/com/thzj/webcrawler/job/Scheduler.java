@@ -28,23 +28,24 @@ public class Scheduler {
         log.info("scheduled to sync start. swith[{}]", syncSwitch);
         if (SYNC_SWITCH_ON.equals(syncSwitch)) {
             syncService.doSync();
+//            syncService.doSynConcurrent();
         }
         log.info("scheduled to sync end. swith[{}]", syncSwitch);
     }
 
-    /**
-     * 每分钟执行一次
-     */
-    @Scheduled(cron="0 0/1 * * * ?")
-    public void statusCheck() {
-        log.info("每分钟执行一次。开始……");
-        log.info("每分钟执行一次。结束。");
-    }
-
-    @Scheduled(fixedRate=20000)
-    public void testTasks() {
-        log.info("每20秒执行一次。开始……");
-        //statusTask.healthCheck();
-        log.info("每20秒执行一次。结束。");
-    }
+//    /**
+//     * 每分钟执行一次
+//     */
+//    @Scheduled(cron="0 0/1 * * * ?")
+//    public void statusCheck() {
+//        log.info("每分钟执行一次。开始……");
+//        log.info("每分钟执行一次。结束。");
+//    }
+//
+//    @Scheduled(fixedRate=20000)
+//    public void testTasks() {
+//        log.info("每20秒执行一次。开始……");
+//        //statusTask.healthCheck();
+//        log.info("每20秒执行一次。结束。");
+//    }
 }
