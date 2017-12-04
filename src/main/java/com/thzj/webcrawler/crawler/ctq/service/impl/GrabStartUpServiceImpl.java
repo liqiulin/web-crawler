@@ -45,7 +45,9 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         Startup startup;
         try {
             for (String startupId : startupIds) {
+                log.info("项目抓取开始 crawlId[{}]", startupId);
                 if (startupMaps.containsKey(startupId)) {
+                    log.info("项目存在抓取历史 crawlId[{}]", startupId);
                     break;
                 }
 
@@ -53,10 +55,14 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                 Document doc = BaseUtil.connect(url);
                 startup = getStartUpFromHtml(doc, startupId, url);
 
+                log.info("项目抓取完成 crawlId[{}], crawlResult", startupId, startup);
+
                 // 保存抓取结果
                 crawlService.saveCrawlResultToFile(CrawlTypeEnum.STARTUP, startup);
                 startupMaps.put(startupId, startup);
             }
+
+            log.info("所有项目抓取完成， 共{}个", startupMaps.size());
             return startupMaps;
         } catch (Exception e) {
             log.warn("grabStartupInfo failed!", e);

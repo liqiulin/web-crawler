@@ -48,17 +48,24 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         InvestInstitution investInstitution;
         try {
             for (String institutionId : instituteIdList) {
+                log.info("机构抓取开始 crawlId[{}]", institutionId);
                 if (investInstitutionMap.containsKey(institutionId)) {
+                    log.info("机构存在抓取历史 crawlId[{}]", institutionId);
                     break;
                 }
 
                 url = INSTITUTION_DETAIL_URL + institutionId;
                 Document doc = BaseUtil.connect(url);
                 investInstitution = getInvestInstitution(doc, institutionId, url);
+
+                log.info("机构抓取完成 crawlId[{}], crawlResult", institutionId, investInstitution);
+
                 // 保存抓取结果
                 crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVEST_INSTITUTION, investInstitution);
                 investInstitutionMap.put(institutionId, investInstitution);
             }
+
+            log.info("所有机构抓取完成， 共{}个", investInstitutionMap.size());
             return investInstitutionMap;
         } catch (Exception e) {
             log.warn("grabInvestInstitutionInfo failed! ", e);

@@ -50,16 +50,23 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         try {
             for (String userId : userIdList) {
+                log.info("投资人抓取开始 crawlId[{}]", userId);
                 if (investorMap.containsKey(userId)) {
+                    log.info("投资人存在抓取历史 crawlId[{}]", userId);
                     break;
                 }
                 String url = USER_DETAIL_URL + userId;
                 Document doc = BaseUtil.connect(url);
                 Investor investor = getInvestor(userId, doc, url);
+
+                log.info("投资人抓取完成 crawlId[{}], crawlResult", userId, investor);
+
                 // 保存抓取结果
                 crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investor);
                 investorMap.put(userId, investor);
             }
+
+            log.info("所有投资人抓取完成， 共{}个", investorMap.size());
             return investorMap;
         } catch (Exception e) {
             log.warn("grabInvestorInfo failed!", e);
