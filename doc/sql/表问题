@@ -1,3 +1,4 @@
 1、T_INVESTOR.investors_profile 字段太小，改成2048
 2、rb_unit_message.company_name 字段太小，改为128
 3、rb_unit_message.zhiwei 字段太小，改为128
+4、rb_unit_message.serve_time 及to_serve_time 字段类型改为DATETIME， timestamp类型的值范围太小，建议把所有表TIMESTAMP类型的字段建议都改为Datetime类型
