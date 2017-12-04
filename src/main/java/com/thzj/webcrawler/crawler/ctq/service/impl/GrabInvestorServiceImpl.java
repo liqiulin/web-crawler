@@ -59,7 +59,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 Document doc = BaseUtil.connect(url);
                 Investor investor = getInvestor(userId, doc, url);
 
-                log.info("投资人抓取完成 crawlId[{}], crawlResult", userId, investor);
+                log.info("投资人抓取完成 crawlId[{}], crawlResult[{}]", userId, investor);
 
                 // 保存抓取结果
                 crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investor);

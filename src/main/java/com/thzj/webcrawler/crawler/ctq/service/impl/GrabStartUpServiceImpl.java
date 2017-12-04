@@ -55,7 +55,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                 Document doc = BaseUtil.connect(url);
                 startup = getStartUpFromHtml(doc, startupId, url);
 
-                log.info("项目抓取完成 crawlId[{}], crawlResult", startupId, startup);
+                log.info("项目抓取完成 crawlId[{}], crawlResult[{}]", startupId, startup);
 
                 // 保存抓取结果
                 crawlService.saveCrawlResultToFile(CrawlTypeEnum.STARTUP, startup);
