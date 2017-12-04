@@ -102,7 +102,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         List<String> investIndustries = new ArrayList<>();
         List<String> investRounds = new ArrayList<>();
         Elements elements = doc.getElementById("module_keyword").select(".details");
-        if (null != elements) {
+        if (null != elements && CollectionUtils.isEmpty(elements)) {
             //投资行业
             if (null != elements.select("li.field")) {
                 Elements focusIndustryElements = elements.select("li.field").select("a");

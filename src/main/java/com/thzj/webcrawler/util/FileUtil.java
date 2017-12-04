@@ -76,9 +76,9 @@ public class FileUtil {
         String path = "/Users/liangk/Documents/ex-work/data/crawl/result/";
         String filename = "test1";
 
-        appendToFile(path, filename, "hello\r\n");
-        appendToFile(path, filename, "you\r\n");
-        appendToFile(path, filename, "hello\r\n");
+        appendToFile(path, filename, "hello");
+        appendToFile(path, filename, "you");
+        appendToFile(path, filename, "hello");
         List<String> lines = readLines(path, filename);
         System.out.println(lines);
 
