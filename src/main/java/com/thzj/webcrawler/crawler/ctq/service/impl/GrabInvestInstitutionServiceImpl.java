@@ -51,7 +51,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 log.info("机构抓取开始 crawlId[{}]", institutionId);
                 if (investInstitutionMap.containsKey(institutionId)) {
                     log.info("机构存在抓取历史 crawlId[{}]", institutionId);
-                    break;
+                    continue;
                 }
 
                 url = INSTITUTION_DETAIL_URL + institutionId;

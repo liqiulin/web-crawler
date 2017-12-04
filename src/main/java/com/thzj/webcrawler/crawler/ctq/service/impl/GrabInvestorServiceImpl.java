@@ -53,7 +53,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                 log.info("投资人抓取开始 crawlId[{}]", userId);
                 if (investorMap.containsKey(userId)) {
                     log.info("投资人存在抓取历史 crawlId[{}]", userId);
-                    break;
+                    continue;
                 }
                 String url = USER_DETAIL_URL + userId;
                 Document doc = BaseUtil.connect(url);

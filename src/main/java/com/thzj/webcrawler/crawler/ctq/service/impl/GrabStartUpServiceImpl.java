@@ -48,7 +48,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                 log.info("项目抓取开始 crawlId[{}]", startupId);
                 if (startupMaps.containsKey(startupId)) {
                     log.info("项目存在抓取历史 crawlId[{}]", startupId);
-                    break;
+                    continue;
                 }
 
                 String url = STARTUP_DETAIL_URL + startupId + "?show_investment=true";
