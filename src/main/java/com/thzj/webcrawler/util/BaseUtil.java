@@ -40,6 +40,7 @@ public class BaseUtil {
             sleep(-1);
             return doc;
         } catch (HttpStatusException e) {
+            log.warn("connect have a HttpStatusException. url[{}]", url, e);
             sleep(6000);
             return connect(url);
         } catch (IOException ie) {
