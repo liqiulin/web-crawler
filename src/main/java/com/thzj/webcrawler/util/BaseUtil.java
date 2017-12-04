@@ -2,19 +2,19 @@ package com.thzj.webcrawler.util;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.thzj.webcrawler.common.Constants.USER_AGENT;
 
 /**
  * @author Matthew
@@ -41,6 +41,9 @@ public class BaseUtil {
             return doc;
         } catch (HttpStatusException e) {
             log.warn("connect have a HttpStatusException. url[{}]", url, e);
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
+                throw new GrabResourceNotFoundException("404 error. ", e);
+            }
             sleep(6000);
             return connect(url);
         } catch (IOException ie) {

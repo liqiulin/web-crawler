@@ -1,16 +1,15 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
+import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -39,9 +37,11 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
 
     @Override
     public Map<String, Startup> grabStartUpInfo(List<String> startupIds) {
+        CrawlTypeEnum crawlType = CrawlTypeEnum.STARTUP;
         // 先从保存的文件中获取已经抓取的结果
-        List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.STARTUP, Startup.class);
+        List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(crawlType, Startup.class);
         Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
+        List<String> notFoundIds = Lists.newArrayList();
         Startup startup;
         try {
             for (String startupId : startupIds) {
@@ -52,17 +52,25 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                 }
 
                 String url = STARTUP_DETAIL_URL + startupId + "?show_investment=true";
-                Document doc = BaseUtil.connect(url);
+                Document doc;
+                try {
+                    doc = BaseUtil.connect(url);
+                } catch (GrabResourceNotFoundException e) {
+                    log.warn("grab error. url[{}]", url, e);
+                    notFoundIds.add(startupId);
+                    continue;
+                }
                 startup = getStartUpFromHtml(doc, startupId, url);
 
                 log.info("项目抓取完成 crawlId[{}], crawlResult[{}]", startupId, startup);
 
                 // 保存抓取结果
-                crawlService.saveCrawlResultToFile(CrawlTypeEnum.STARTUP, startup);
+                crawlService.saveCrawlResultToFile(crawlType, startup);
                 startupMaps.put(startupId, startup);
             }
 
-            log.info("所有项目抓取完成， 共{}个", startupMaps.size());
+            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
+                    startupIds.size(), startupMaps.size(), notFoundIds.size(), notFoundIds);
             return startupMaps;
         } catch (Exception e) {
             log.warn("grabStartupInfo failed!", e);

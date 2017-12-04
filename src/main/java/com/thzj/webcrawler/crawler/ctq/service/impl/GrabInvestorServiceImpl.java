@@ -1,22 +1,18 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
-import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
+import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import com.thzj.webcrawler.common.Constants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,9 +41,11 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
 
     @Override
     public Map<String, Investor> grabInvestorInfo(List<String> userIdList) {
+        CrawlTypeEnum crawlType = CrawlTypeEnum.INVESTOR;
         // 先从保存的文件中获取已经抓取的结果
-        List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVESTOR, Investor.class);
+        List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(crawlType, Investor.class);
         Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
+        List<String> notFoundIds = Lists.newArrayList();
         try {
             for (String userId : userIdList) {
                 log.info("投资人抓取开始 crawlId[{}]", userId);
@@ -56,17 +54,25 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                     continue;
                 }
                 String url = USER_DETAIL_URL + userId;
-                Document doc = BaseUtil.connect(url);
-                Investor investor = getInvestor(userId, doc, url);
+                Document doc;
+                try {
+                    doc = BaseUtil.connect(url);
+                } catch (GrabResourceNotFoundException e) {
+                    log.warn("grab error. url[{}]", url, e);
+                    notFoundIds.add(userId);
+                    continue;
+                }
 
+                Investor investor = getInvestor(userId, doc, url);
                 log.info("投资人抓取完成 crawlId[{}], crawlResult[{}]", userId, investor);
 
                 // 保存抓取结果
-                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVESTOR, investor);
+                crawlService.saveCrawlResultToFile(crawlType, investor);
                 investorMap.put(userId, investor);
             }
 
-            log.info("所有投资人抓取完成， 共{}个", investorMap.size());
+            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
+                    userIdList.size(), investorMap.size(), notFoundIds.size(), notFoundIds);
             return investorMap;
         } catch (Exception e) {
             log.warn("grabInvestorInfo failed!", e);

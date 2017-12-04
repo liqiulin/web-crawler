@@ -2,13 +2,12 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
-import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
 import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
+import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import com.thzj.webcrawler.util.JSONUtil;
@@ -41,11 +40,12 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
     @Override
     public Map<String, InvestInstitution> grabInvestInstitutionInfo(List<String> instituteIdList) {
-        String url = "";
+        CrawlTypeEnum crawlType = CrawlTypeEnum.INVEST_INSTITUTION;
         // 先从保存的文件中获取已经抓取的结果
-        List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(CrawlTypeEnum.INVEST_INSTITUTION, InvestInstitution.class);
+        List<InvestInstitution> savedInstitutionList = crawlService.getCrawlResultFromSaveFile(crawlType, InvestInstitution.class);
         Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         InvestInstitution investInstitution;
+        List<String> notFoundIds = Lists.newArrayList();
         try {
             for (String institutionId : instituteIdList) {
                 log.info("机构抓取开始 crawlId[{}]", institutionId);
@@ -54,18 +54,26 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                     continue;
                 }
 
-                url = INSTITUTION_DETAIL_URL + institutionId;
-                Document doc = BaseUtil.connect(url);
+                String url = INSTITUTION_DETAIL_URL + institutionId;
+                Document doc;
+                try {
+                    doc = BaseUtil.connect(url);
+                } catch (GrabResourceNotFoundException e) {
+                    log.warn("grab error. url[{}]", url, e);
+                    notFoundIds.add(institutionId);
+                    continue;
+                }
                 investInstitution = getInvestInstitution(doc, institutionId, url);
 
                 log.info("机构抓取完成 crawlId[{}], crawlResult[{}]", institutionId, investInstitution);
 
                 // 保存抓取结果
-                crawlService.saveCrawlResultToFile(CrawlTypeEnum.INVEST_INSTITUTION, investInstitution);
+                crawlService.saveCrawlResultToFile(crawlType, investInstitution);
                 investInstitutionMap.put(institutionId, investInstitution);
             }
 
-            log.info("所有机构抓取完成， 共{}个", investInstitutionMap.size());
+            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
+                    instituteIdList.size(), investInstitutionMap.size(), notFoundIds.size(), notFoundIds);
             return investInstitutionMap;
         } catch (Exception e) {
             log.warn("grabInvestInstitutionInfo failed! ", e);
