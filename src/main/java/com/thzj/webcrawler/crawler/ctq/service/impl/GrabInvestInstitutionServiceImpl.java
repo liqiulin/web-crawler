@@ -147,8 +147,12 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         String homePage = institutionInfo.select("div.url").select("a").attr("href");
 
         //投资机构简介
-        Element profileElement = doc.getElementById("user_intro");
-        String profile = String.join("",profileElement.getElementsByTag("p").eachText());
+        String profile = "";
+        Elements profileElements = doc.getElementsByClass("user_intro user_intro_overflow");
+        if (null != profileElements && !CollectionUtils.isEmpty(profileElements)) {
+            profile = String.join("",profileElements.select("div.cont").select("p").eachText());
+        }
+
 
         //投资风格：关注行业&投资轮次
         Elements investStyle = doc.getElementById("module_style").getElementsByClass("tag-list row");
