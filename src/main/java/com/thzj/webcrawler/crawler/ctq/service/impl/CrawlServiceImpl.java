@@ -2,6 +2,7 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.base.Stopwatch;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
@@ -17,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -36,11 +38,13 @@ public class CrawlServiceImpl implements CrawlService {
     @Override
     public void grabStartup() {
         log.info("grabStartup start...");
-        List<String> startupCrawlIds = this.getCrawlIds(CrawlTypeEnum.STARTUP);
-        log.info("grabStartup userIds[{}]", startupCrawlIds);
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
+        List<String> startupCrawlIds = this.getCrawlIds(CrawlTypeEnum.STARTUP);
         Map<String, Startup> grabStartupInfoMap = grabStartUpService.grabStartUpInfo(startupCrawlIds);
-        log.info("grabStartup grabStartupInfoMap[{}]", grabStartupInfoMap);
+
+        stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        log.info("grabStartup end. elapsed[{}]", stopwatch);
 
         CrawlResult.STARTUP.putAll(grabStartupInfoMap);
     }
@@ -122,11 +126,13 @@ public class CrawlServiceImpl implements CrawlService {
     @Override
     public void grabInvestor() {
         log.info("grabInvestor start...");
-        List<String> userIds = this.getCrawlIds(CrawlTypeEnum.INVESTOR);
-        log.info("grabInvestor userIds[{}]", userIds);
+        Stopwatch stopwatch = Stopwatch.createStarted();
 
+        List<String> userIds = this.getCrawlIds(CrawlTypeEnum.INVESTOR);
         Map<String, Investor> grabInvestorInfoMap = grabInvestorService.grabInvestorInfo(userIds);
-        log.info("grabInvestor grabInvestorInfoMap[{}]", grabInvestorInfoMap);
+
+        stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        log.info("grabInvestor end. elapsed[{}]", stopwatch);
 
         CrawlResult.INVESTOR.putAll(grabInvestorInfoMap);
     }
@@ -134,12 +140,15 @@ public class CrawlServiceImpl implements CrawlService {
     @Override
     public void grabInvestInstitution() {
         log.info("grabInvestInstitution start...");
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
         List<String> institutionIds = this.getCrawlIds(CrawlTypeEnum.INVEST_INSTITUTION);
-        log.info("grabInvestInstitution institutionIds[{}]", institutionIds);
 
         Map<String, InvestInstitution> grabInvestInstitutionInfoMap =
                 grabInvestInstitutionService.grabInvestInstitutionInfo(institutionIds);
-        log.info("grabInvestInstitution grabInvestInstitutionInfoMap[{}]", grabInvestInstitutionInfoMap);
+
+        stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        log.info("grabInvestInstitution end. elapsed[{}]", stopwatch);
 
         CrawlResult.INVESTINSTITUTION.putAll(grabInvestInstitutionInfoMap);
     }
