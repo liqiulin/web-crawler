@@ -45,7 +45,8 @@ public class CrawlServiceImpl implements CrawlService {
         CrawlResult.STARTUP.putAll(grabStartupInfoMap);
     }
 
-    private List<String> getCrawlIds(CrawlTypeEnum crawlTypeEnum) {
+    @Override
+    public List<String> getCrawlIds(CrawlTypeEnum crawlTypeEnum) {
         Optional<List<String>> crawlIdsOptional = getCrawlIdsFromSaveFile(crawlTypeEnum);
         List<String> crawlIds;
         if (crawlIdsOptional.isPresent()) {
@@ -111,11 +112,11 @@ public class CrawlServiceImpl implements CrawlService {
     }
 
     private String getCrawlResultSaveFileName(CrawlTypeEnum crawlTypeEnum) {
-        return "crawlResult_" + crawlTypeEnum + "_" + LocalDate.now().toString();
+        return "crawlResult_" + crawlTypeEnum + "_" + LocalDate.now().toString()+".txt";
     }
 
     private String getCrawlIdsSaveFileName(CrawlTypeEnum crawlType) {
-        return "crawlIds_"+ crawlType + "_" + LocalDate.now().toString();
+        return "crawlIds_"+ crawlType + "_" + LocalDate.now().toString()+".txt";
     }
 
     @Override

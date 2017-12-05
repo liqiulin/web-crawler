@@ -1,6 +1,7 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
@@ -23,6 +24,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
@@ -88,15 +90,22 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
      */
     @Override
     public List<String> getInstitutionIds() {
+        log.info("getInstitutionIds start...");
+        Stopwatch stopwatchOuter = Stopwatch.createStarted();
+
         List<String> institutionIds = new ArrayList<>();
         String url = "";
-
         try {
             for (Integer i = 1; ; i++) {
+                log.info("getInstitutionIds 第{}次 start...", i);
+                Stopwatch stopwatchInner = Stopwatch.createStarted();
+
                 url =  INSTITUTION_ID_URL + i.toString() + "&type=active";
                 Document doc = BaseUtil.connect(url);
                 Elements tableList = doc.getElementById("institutions-list").select("tbody.table-list");
                 Elements institutionInfo = tableList.select("tr");
+                log.debug("{}", institutionInfo);
+
                 if (null == institutionInfo || institutionInfo.isEmpty()) {
                     break;
                 }
@@ -107,7 +116,13 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                     String userId = infoDetailsUrl.substring(14);
                     institutionIds.add(userId);
                 }
+
+                stopwatchInner.elapsed(TimeUnit.MILLISECONDS);
+                log.info("getInstitutionIds 第{}次 end. 共抓到{}个Id,  elapsed[{}]", i, institutionIds.size(), stopwatchInner);
             }
+
+            stopwatchOuter.elapsed(TimeUnit.MILLISECONDS);
+            log.info("getInstitutionIds end. total[{}] elapsed[{}]", institutionIds.size(), stopwatchOuter);
             return institutionIds;
         } catch (Exception e) {
             e.printStackTrace();

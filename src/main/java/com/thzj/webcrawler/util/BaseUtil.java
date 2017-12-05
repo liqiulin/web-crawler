@@ -34,23 +34,27 @@ public class BaseUtil {
             con.header("Connection", "close");
             con.header("Host", url);
             con.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0");
-            Connection.Response responese = con.execute();
-
-            Document doc = responese.parse();
-            sleep(-1);
-            return doc;
+            Connection.Response response = con.execute();
+            return response.parse();
         } catch (HttpStatusException e) {
-            log.warn("connect have a HttpStatusException. url[{}]", url, e);
+            log.warn("connect with HttpStatusException. statusCode[{}],  url[{}]", e.getStatusCode(), url);
             if (e.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
                 throw new GrabResourceNotFoundException("404 error. ", e);
             }
-            sleep(6000);
-            return connect(url);
+            if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS.value()) {
+                int sleepTime = 6000;
+                log.info("retry after[{}]ms", sleepTime);
+                sleep(sleepTime);
+                return connect(url);
+            }
         } catch (IOException ie) {
-            ie.printStackTrace();
-            log.warn("grabInvestorInfo failed!", ie);
-            throw new RuntimeException("IOException IO异常");
+            log.warn("connect with IOException. url[{}]", url, ie);
+            int sleepTime = 10000;
+            log.info("retry after[{}]ms", sleepTime);
+            sleep(sleepTime);
+            return connect(url);
         }
+        return null;
     }
 
     /**

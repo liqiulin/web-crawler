@@ -1,6 +1,7 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
@@ -27,10 +28,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INVERTOR_ID_URL;
 import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Slf4j
 @Service
@@ -238,15 +241,22 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
      */
     @Override
     public List<String> getUserIds() {
+        log.info("getUserIds start...");
+        Stopwatch stopwatchOuter = Stopwatch.createStarted();
+
         List<String> userIds = new ArrayList<>();
         String url;
 
         try {
             for (Integer i = 1; ; i++) {
+                log.info("getUserIds 第{}次 start...", i);
+                Stopwatch stopwatchInner = Stopwatch.createStarted();
                 url = INVERTOR_ID_URL + i.toString();
                 Document doc = Jsoup.connect(url).get();
                 Element tableList = doc.getElementById("user-list");
                 Elements personalInfo = tableList.getElementsByTag("tr");
+                log.debug("{}", personalInfo);
+
                 if (null == personalInfo || personalInfo.isEmpty()) {
                     break;
                 }
@@ -256,7 +266,12 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                     String userId = infoDetailsUrl.substring(7);
                     userIds.add(userId);
                 }
+                stopwatchInner.elapsed(TimeUnit.MILLISECONDS);
+                log.info("getUserIds 第{}次 end. 共抓到{}个Id,  elapsed[{}]", i, userIds.size(), stopwatchInner);
             }
+
+            stopwatchOuter.elapsed(TimeUnit.MILLISECONDS);
+            log.info("getUserIds end. total[{}] elapsed[{}]", userIds.size(), stopwatchOuter);
             return userIds;
         } catch (IOException e) {
             e.printStackTrace();

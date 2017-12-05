@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.crawler.ctq.service.impl;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
@@ -19,10 +20,12 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * 抓取投融项目详情
@@ -80,14 +83,22 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
 
     @Override
     public List<String> getStartUpIds() {
+        log.info("getStartUpIds start...");
+        Stopwatch stopwatchOuter = Stopwatch.createStarted();
+
         List<String> startUpIds = new ArrayList<>();
         String url;
 
         for (Integer i = 1; ; i++) {
+            log.info("getStartUpIds 第{}次 start...", i);
+            Stopwatch stopwatchInner = Stopwatch.createStarted();
+
             url = STARTUP_ID_URL + i.toString() + "&tab=t24&type=investment";
             org.jsoup.nodes.Document doc = BaseUtil.connect(url);
             Elements tableList = doc.getElementById("investment-list").select("tbody");
             Elements startUpInfo = tableList.select("tr");
+            log.debug("{}", startUpInfo);
+
             if (null == startUpInfo || startUpInfo.isEmpty()) {
                 break;
             }
@@ -99,7 +110,12 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                 String userId = infoDetailsUrl.substring(startUpIndex + 9);
                 startUpIds.add(userId);
             }
+            stopwatchInner.elapsed(TimeUnit.MILLISECONDS);
+            log.info("getStartUpIds 第{}次 end. 共抓到{}个Id,  elapsed[{}]", i, startUpInfo.size(), stopwatchInner);
         }
+
+        stopwatchOuter.elapsed(TimeUnit.MILLISECONDS);
+        log.info("getStartUpIds end. total[{}] elapsed[{}]", startUpIds.size(), stopwatchOuter);
         return startUpIds;
     }
 

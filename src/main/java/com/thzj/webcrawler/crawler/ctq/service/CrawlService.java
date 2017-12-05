@@ -20,6 +20,13 @@ public interface CrawlService {
     void grabInvestInstitution();
 
     /**
+     * 获取抓取对象的ID列表，先从文件中读取，若没有再从目标网站抓取并保存到文件
+     * @param crawlTypeEnum
+     * @return
+     */
+    List<String> getCrawlIds(CrawlTypeEnum crawlTypeEnum);
+
+    /**
      * 从保存的文件中获取抓取的ID记录
      */
     Optional<List<String>> getCrawlIdsFromSaveFile(CrawlTypeEnum crawlType);

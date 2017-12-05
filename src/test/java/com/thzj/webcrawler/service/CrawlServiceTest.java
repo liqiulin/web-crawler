@@ -30,6 +30,13 @@ public class CrawlServiceTest {
     private GrabStartUpService grabStartUpService;
 
     @Test
+    public void getCrawlIds_All_Success() {
+        crawlService.getCrawlIds(CrawlTypeEnum.STARTUP);
+        crawlService.getCrawlIds(CrawlTypeEnum.INVEST_INSTITUTION);
+        crawlService.getCrawlIds(CrawlTypeEnum.INVESTOR);
+    }
+
+    @Test
     public void getInvestorIdsFromSaveFileTest() {
         List<String> crawlIds = grabInvestorService.getUserIds();
         crawlService.saveCrawlIds(CrawlTypeEnum.INVESTOR, crawlIds);
