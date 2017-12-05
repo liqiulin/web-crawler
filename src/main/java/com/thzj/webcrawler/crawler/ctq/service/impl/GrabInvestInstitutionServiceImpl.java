@@ -48,7 +48,8 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         Map<String, InvestInstitution> investInstitutionMap = savedInstitutionList.stream().collect(Collectors.toMap(InvestInstitution::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         InvestInstitution investInstitution;
         List<String> notFoundIds = Lists.newArrayList();
-        try {
+        List<String> exceptionIds = Lists.newArrayList();
+         try {
             for (String institutionId : instituteIdList) {
                 log.info("机构抓取开始 crawlId[{}]", institutionId);
                 if (investInstitutionMap.containsKey(institutionId)) {
@@ -65,17 +66,23 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                     notFoundIds.add(institutionId);
                     continue;
                 }
-                investInstitution = getInvestInstitution(doc, institutionId, url);
 
-                log.info("机构抓取完成 crawlId[{}], crawlResult[{}]", institutionId, investInstitution);
+                try {
+                    investInstitution = getInvestInstitution(doc, institutionId, url);
+                    log.info("机构抓取完成 crawlId[{}], crawlResult[{}]", institutionId, investInstitution);
+                    crawlService.saveCrawlResultToFile(crawlType, investInstitution);
 
-                // 保存抓取结果
-                crawlService.saveCrawlResultToFile(crawlType, investInstitution);
-                investInstitutionMap.put(institutionId, investInstitution);
+                    // 保存抓取结果
+                    investInstitutionMap.put(institutionId, investInstitution);
+                } catch (Exception e) {
+                    log.warn("getInvestInstitution failed!  crawlId[{}]", institutionId, e);
+                    exceptionIds.add(institutionId);
+                    continue;
+                }
+
             }
-
-            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
-                    instituteIdList.size(), investInstitutionMap.size(), notFoundIds.size(), notFoundIds);
+            log.info("所有项目抓取完成, 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}], exceptionIds.size[{}], exceptionIds[{}]",
+                    instituteIdList.size(), investInstitutionMap.size(), notFoundIds.size(), notFoundIds, exceptionIds.size(), exceptionIds);
             return investInstitutionMap;
         } catch (Exception e) {
             log.warn("grabInvestInstitutionInfo failed! ", e);

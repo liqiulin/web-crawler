@@ -49,6 +49,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         List<Investor> savedInvestorList = crawlService.getCrawlResultFromSaveFile(crawlType, Investor.class);
         Map<String, Investor> investorMap = savedInvestorList.stream().collect(Collectors.toMap(Investor::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         List<String> notFoundIds = Lists.newArrayList();
+        List<String> exceptionIds = Lists.newArrayList();
         try {
             for (String userId : userIdList) {
                 log.info("投资人抓取开始 crawlId[{}]", userId);
@@ -66,16 +67,22 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                     continue;
                 }
 
-                Investor investor = getInvestor(userId, doc, url);
-                log.info("投资人抓取完成 crawlId[{}], crawlResult[{}]", userId, investor);
+                try {
+                    Investor investor = getInvestor(userId, doc, url);
+                    log.info("投资人抓取完成 crawlId[{}], crawlResult[{}]", userId, investor);
 
-                // 保存抓取结果
-                crawlService.saveCrawlResultToFile(crawlType, investor);
-                investorMap.put(userId, investor);
+                    // 保存抓取结果
+                    crawlService.saveCrawlResultToFile(crawlType, investor);
+                    investorMap.put(userId, investor);
+                } catch (Exception e) {
+                    log.warn("getInvestor failed!  crawlId[{}]", userId, e);
+                    exceptionIds.add(userId);
+                    continue;
+                }
             }
 
-            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
-                    userIdList.size(), investorMap.size(), notFoundIds.size(), notFoundIds);
+            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}], exceptionIds.size[{}], exceptionIds[{}]",
+                    userIdList.size(), investorMap.size(), notFoundIds.size(), notFoundIds, exceptionIds.size(), exceptionIds);
             return investorMap;
         } catch (Exception e) {
             log.warn("grabInvestorInfo failed!", e);

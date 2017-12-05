@@ -45,6 +45,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         List<Startup> savedStartupList = crawlService.getCrawlResultFromSaveFile(crawlType, Startup.class);
         Map<String, Startup> startupMaps = savedStartupList.stream().collect(Collectors.toMap(Startup::getId, o -> o, (n, o)-> o, ConcurrentHashMap::new));
         List<String> notFoundIds = Lists.newArrayList();
+        List<String> exceptionIds = Lists.newArrayList();
         Startup startup;
         try {
             for (String startupId : startupIds) {
@@ -63,17 +64,24 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
                     notFoundIds.add(startupId);
                     continue;
                 }
-                startup = getStartUpFromHtml(doc, startupId, url);
 
-                log.info("项目抓取完成 crawlId[{}], crawlResult[{}]", startupId, startup);
+                try {
+                    startup = getStartUpFromHtml(doc, startupId, url);
 
-                // 保存抓取结果
-                crawlService.saveCrawlResultToFile(crawlType, startup);
-                startupMaps.put(startupId, startup);
+                    log.info("项目抓取完成 crawlId[{}], crawlResult[{}]", startupId, startup);
+
+                    // 保存抓取结果
+                    crawlService.saveCrawlResultToFile(crawlType, startup);
+                    startupMaps.put(startupId, startup);
+                } catch (Exception e) {
+                    log.warn("getStartUpFromHtml failed!  crawlId[{}]", startupId, e);
+                    exceptionIds.add(startupId);
+                    continue;
+                }
             }
 
-            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}]",
-                    startupIds.size(), startupMaps.size(), notFoundIds.size(), notFoundIds);
+            log.info("所有项目抓取完成， 共有ID[{}]个， 共抓取到[{}]个对象, notFoundIds.size[{}], notFoundIds[{}], exceptionIds.size[{}], exceptionIds[{}]",
+                    startupIds.size(), startupMaps.size(), notFoundIds.size(), notFoundIds, exceptionIds.size(), exceptionIds);
             return startupMaps;
         } catch (Exception e) {
             log.warn("grabStartupInfo failed!", e);
