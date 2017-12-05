@@ -31,9 +31,9 @@ public class SyncService {
         initBeforeSync();
 
         // 抓取目前内容
-        crawlService.grabStartup();
         crawlService.grabInvestInstitution();
         crawlService.grabInvestor();
+        crawlService.grabStartup();
 
         // 同步抓取内容到业务目标
         investInstitutionSyncService.doSync();
