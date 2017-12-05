@@ -41,7 +41,7 @@ public class BaseUtil {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
                 throw new GrabResourceNotFoundException("404 error. ", e);
             } else {
-                int sleepTime = 6000;
+                int sleepTime = 30000;
                 log.info("retry after[{}]ms", sleepTime);
                 sleep(sleepTime);
                 return connect(url);
