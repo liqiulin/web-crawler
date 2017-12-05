@@ -37,11 +37,10 @@ public class BaseUtil {
             Connection.Response response = con.execute();
             return response.parse();
         } catch (HttpStatusException e) {
-            log.warn("connect with HttpStatusException. statusCode[{}],  url[{}]", e.getStatusCode(), url);
+            log.warn("HttpStatusException. statusCode[{}],  url[{}]", e.getStatusCode(), url);
             if (e.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
                 throw new GrabResourceNotFoundException("404 error. ", e);
-            }
-            if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS.value()) {
+            } else {
                 int sleepTime = 6000;
                 log.info("retry after[{}]ms", sleepTime);
                 sleep(sleepTime);
@@ -54,7 +53,6 @@ public class BaseUtil {
             sleep(sleepTime);
             return connect(url);
         }
-        return null;
     }
 
     /**
