@@ -255,8 +255,11 @@ CREATE TABLE `t_investor_project` (
   `amount` varchar(255) DEFAULT NULL COMMENT '融投金额',
   `project_company` varchar(255) DEFAULT NULL COMMENT '项目方的公司',
   `industry` varchar(255) DEFAULT NULL COMMENT '项目所属行业',
+  `audit_state` varchar(11) DEFAULT NULL COMMENT '审核状态(0表示未审核，1表示审核通过，2表示审核未通过)',
+  `audit_man` varchar(255) DEFAULT NULL COMMENT '审核人',
+  `audit_time` datetime DEFAULT NULL COMMENT '审核时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 -- ----------------------------
 -- Table structure for `t_investor_round`
