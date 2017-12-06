@@ -82,6 +82,12 @@ public class ProjectSyncService {
                 investorProject.setAmount(financingHistory.getFinancingAmount());
                 investorProject.setInvestmentRounds(financingHistory.getRound());
                 investorProject.setInvestmentTime(financingHistory.getTime());
+
+                // 默认字段
+                investorProject.setAuditMan("超级管理员");
+                investorProject.setAuditState("1");
+                investorProject.setAuditTime(new Date());
+
                 investorProjectList.add(investorProject);
             });
         }
