@@ -185,7 +185,7 @@ CREATE TABLE `t_investor` (
   `investor_form` varchar(20) DEFAULT NULL COMMENT '投资人类型(1表示投资人，2表示投资机构)',
   `province` varchar(50) DEFAULT NULL COMMENT '省',
   `city` varchar(50) DEFAULT NULL COMMENT '市',
-  `area` varchar(255) DEFAULT NULL COMMENT '名片地址',
+  `area` varchar(1024) DEFAULT NULL COMMENT '名片地址',
   `real_name` varchar(50) DEFAULT NULL COMMENT '真实姓名',
   `investor_company` varchar(500) DEFAULT NULL COMMENT '投资人所属公司简称',
   `investor_position` varchar(100) DEFAULT NULL COMMENT '职位',
@@ -208,10 +208,11 @@ CREATE TABLE `t_investor` (
   `auditor_comment` varchar(255) DEFAULT NULL COMMENT '审核备注',
   `reqauth_time` datetime DEFAULT NULL COMMENT '投资人认证申请时间',
   `mail_box` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `investors_profile` varchar(2048) DEFAULT NULL COMMENT '投资人简介',
+  `investors_profile` varchar(255) DEFAULT NULL COMMENT '投资人简介',
   `investors_company_name` varchar(255) DEFAULT NULL COMMENT '公司全名',
+  `investment_time` datetime DEFAULT NULL COMMENT '最新投资时间,用于排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
 
 -- ----------------------------
 -- Table structure for `t_investor_answer`
