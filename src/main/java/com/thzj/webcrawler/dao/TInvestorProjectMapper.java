@@ -2,9 +2,8 @@ package com.thzj.webcrawler.dao;
 
 import com.thzj.webcrawler.entity.TInvestorProject;
 import com.thzj.webcrawler.entity.TInvestorProjectExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TInvestorProjectMapper {
     long countByExample(TInvestorProjectExample example);

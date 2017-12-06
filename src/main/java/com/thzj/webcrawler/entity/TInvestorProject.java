@@ -62,6 +62,21 @@ public class TInvestorProject implements Serializable {
      */
     private String industry;
 
+    /**
+     * 审核状态(0表示未审核，1表示审核通过，2表示审核未通过)
+     */
+    private String auditState;
+
+    /**
+     * 审核人
+     */
+    private String auditMan;
+
+    /**
+     * 审核时间
+     */
+    private Date auditTime;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -152,6 +167,30 @@ public class TInvestorProject implements Serializable {
         this.industry = industry;
     }
 
+    public String getAuditState() {
+        return auditState;
+    }
+
+    public void setAuditState(String auditState) {
+        this.auditState = auditState;
+    }
+
+    public String getAuditMan() {
+        return auditMan;
+    }
+
+    public void setAuditMan(String auditMan) {
+        this.auditMan = auditMan;
+    }
+
+    public Date getAuditTime() {
+        return auditTime;
+    }
+
+    public void setAuditTime(Date auditTime) {
+        this.auditTime = auditTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -174,7 +213,10 @@ public class TInvestorProject implements Serializable {
             && (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
             && (this.getProjectCompany() == null ? other.getProjectCompany() == null : this.getProjectCompany().equals(other.getProjectCompany()))
-            && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()));
+            && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()))
+            && (this.getAuditState() == null ? other.getAuditState() == null : this.getAuditState().equals(other.getAuditState()))
+            && (this.getAuditMan() == null ? other.getAuditMan() == null : this.getAuditMan().equals(other.getAuditMan()))
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()));
     }
 
     @Override
@@ -192,6 +234,9 @@ public class TInvestorProject implements Serializable {
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         result = prime * result + ((getProjectCompany() == null) ? 0 : getProjectCompany().hashCode());
         result = prime * result + ((getIndustry() == null) ? 0 : getIndustry().hashCode());
+        result = prime * result + ((getAuditState() == null) ? 0 : getAuditState().hashCode());
+        result = prime * result + ((getAuditMan() == null) ? 0 : getAuditMan().hashCode());
+        result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         return result;
     }
 
@@ -212,6 +257,9 @@ public class TInvestorProject implements Serializable {
         sb.append(", amount=").append(amount);
         sb.append(", projectCompany=").append(projectCompany);
         sb.append(", industry=").append(industry);
+        sb.append(", auditState=").append(auditState);
+        sb.append(", auditMan=").append(auditMan);
+        sb.append(", auditTime=").append(auditTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

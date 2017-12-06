@@ -13,6 +13,363 @@
     <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="project_company" jdbcType="VARCHAR" property="projectCompany" />
     <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="audit_state" jdbcType="VARCHAR" property="auditState" />
+    <result column="audit_man" jdbcType="VARCHAR" property="auditMan" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, project_name, investment_id, investment_time, project_profile, project_url, investment_rounds, 
+    project_id, amount, project_company, industry, audit_state, audit_man, audit_time
+  </sql>
+  <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_investor_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_investor_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_investor_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample">
+    delete from t_investor_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_investor_project (project_name, investment_id, investment_time, 
+      project_profile, project_url, investment_rounds, 
+      project_id, amount, project_company, 
+      industry, audit_state, audit_man, 
+      audit_time)
+    values (#{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, #{investmentTime,jdbcType=TIMESTAMP}, 
+      #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, #{investmentRounds,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{projectCompany,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{auditState,jdbcType=VARCHAR}, #{auditMan,jdbcType=VARCHAR}, 
+      #{auditTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_investor_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="investmentId != null">
+        investment_id,
+      </if>
+      <if test="investmentTime != null">
+        investment_time,
+      </if>
+      <if test="projectProfile != null">
+        project_profile,
+      </if>
+      <if test="projectUrl != null">
+        project_url,
+      </if>
+      <if test="investmentRounds != null">
+        investment_rounds,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="projectCompany != null">
+        project_company,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="auditState != null">
+        audit_state,
+      </if>
+      <if test="auditMan != null">
+        audit_man,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentId != null">
+        #{investmentId,jdbcType=INTEGER},
+      </if>
+      <if test="investmentTime != null">
+        #{investmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectProfile != null">
+        #{projectProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="projectUrl != null">
+        #{projectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentRounds != null">
+        #{investmentRounds,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCompany != null">
+        #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="auditState != null">
+        #{auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultType="java.lang.Long">
+    select count(*) from t_investor_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_investor_project
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.investmentId != null">
+        investment_id = #{record.investmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.investmentTime != null">
+        investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectProfile != null">
+        project_profile = #{record.projectProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectUrl != null">
+        project_url = #{record.projectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.investmentRounds != null">
+        investment_rounds = #{record.investmentRounds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCompany != null">
+        project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditState != null">
+        audit_state = #{record.auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditMan != null">
+        audit_man = #{record.auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditTime != null">
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_investor_project
+    set id = #{record.id,jdbcType=INTEGER},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      investment_id = #{record.investmentId,jdbcType=INTEGER},
+      investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
+      project_profile = #{record.projectProfile,jdbcType=VARCHAR},
+      project_url = #{record.projectUrl,jdbcType=VARCHAR},
+      investment_rounds = #{record.investmentRounds,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=VARCHAR},
+      project_company = #{record.projectCompany,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      audit_state = #{record.auditState,jdbcType=VARCHAR},
+      audit_man = #{record.auditMan,jdbcType=VARCHAR},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    update t_investor_project
+    <set>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentId != null">
+        investment_id = #{investmentId,jdbcType=INTEGER},
+      </if>
+      <if test="investmentTime != null">
+        investment_time = #{investmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectProfile != null">
+        project_profile = #{projectProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="projectUrl != null">
+        project_url = #{projectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentRounds != null">
+        investment_rounds = #{investmentRounds,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCompany != null">
+        project_company = #{projectCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="auditState != null">
+        audit_state = #{auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        audit_man = #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
+    update t_investor_project
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      investment_id = #{investmentId,jdbcType=INTEGER},
+      investment_time = #{investmentTime,jdbcType=TIMESTAMP},
+      project_profile = #{projectProfile,jdbcType=VARCHAR},
+      project_url = #{projectUrl,jdbcType=VARCHAR},
+      investment_rounds = #{investmentRounds,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=VARCHAR},
+      project_company = #{projectCompany,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      audit_state = #{auditState,jdbcType=VARCHAR},
+      audit_man = #{auditMan,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.thzj.webcrawler.entity.TInvestorProject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="investment_id" jdbcType="INTEGER" property="investmentId" />
+    <result column="investment_time" jdbcType="TIMESTAMP" property="investmentTime" />
+    <result column="project_profile" jdbcType="VARCHAR" property="projectProfile" />
+    <result column="project_url" jdbcType="VARCHAR" property="projectUrl" />
+    <result column="investment_rounds" jdbcType="VARCHAR" property="investmentRounds" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="project_company" jdbcType="VARCHAR" property="projectCompany" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
