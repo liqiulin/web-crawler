@@ -141,7 +141,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         String name = baseInfo.select("li.name").text();
 
         //项目所属行业
-        String industry = baseInfo.select("li.industry").select("a").first().text();
+        String industry = baseInfo.select("li.industry").text();
 
         //项目摘要
         String summary = baseInfo.select("li.pitch").text();
