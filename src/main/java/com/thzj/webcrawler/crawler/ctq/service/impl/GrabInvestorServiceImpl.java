@@ -127,19 +127,17 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         Elements elements = doc.getElementById("module_keyword").select(".details");
         if (null != elements && CollectionUtils.isEmpty(elements)) {
             //投资行业
-            if (null != elements.select("li.field")) {
+            if (null != elements.select("li.field") && !CollectionUtils.isEmpty(elements.select("li.field"))) {
                 Elements focusIndustryElements = elements.select("li.field").select("a");
-                for (Element e : focusIndustryElements) {
-                    investIndustries.add(e.text());
-                }
+                List<String> investIndustriyList = focusIndustryElements.eachText();
+                investIndustries.add(BaseUtil.joiner(investIndustriyList, "、"));
             }
 
             //投资阶段
-            if (null != elements.select("li.stage")) {
+            if (null != elements.select("li.stage") && !CollectionUtils.isEmpty(elements.select("li.stage"))) {
                 Elements investStageElements = elements.select("li.stage").select("a");
-                for (Element e : investStageElements) {
-                    investRounds.add(e.text());
-                }
+                List<String> investRoundList = investStageElements.eachText();
+                investRounds.add(BaseUtil.joiner(investRoundList, "、"));
             }
         }
 
