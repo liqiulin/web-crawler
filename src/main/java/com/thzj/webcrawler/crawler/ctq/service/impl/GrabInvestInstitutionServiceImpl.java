@@ -219,7 +219,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         List<String> members = Lists.newArrayList();
         Elements membersElements = doc.getElementsByClass("member-list");
         if (null != membersElements && !CollectionUtils.isEmpty(membersElements)) {
-            log.info("institutionID:[{}]", instituteId);
+            log.debug("members institutionID:[{}]", instituteId);
             members = doc.getElementsByClass("member-list").select("div.avatar").select("a").stream().map(
                     e -> e.attr("href").substring(7)).collect(Collectors.toList());
         }
