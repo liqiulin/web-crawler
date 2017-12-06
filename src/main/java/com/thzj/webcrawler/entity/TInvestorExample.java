@@ -2084,6 +2084,66 @@ public class TInvestorExample {
             addCriterion("investors_company_name not between", value1, value2, "investorsCompanyName");
             return (Criteria) this;
         }
+
+        public Criteria andInvestmentTimeIsNull() {
+            addCriterion("investment_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeIsNotNull() {
+            addCriterion("investment_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeEqualTo(Date value) {
+            addCriterion("investment_time =", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeNotEqualTo(Date value) {
+            addCriterion("investment_time <>", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeGreaterThan(Date value) {
+            addCriterion("investment_time >", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("investment_time >=", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeLessThan(Date value) {
+            addCriterion("investment_time <", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeLessThanOrEqualTo(Date value) {
+            addCriterion("investment_time <=", value, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeIn(List<Date> values) {
+            addCriterion("investment_time in", values, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeNotIn(List<Date> values) {
+            addCriterion("investment_time not in", values, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeBetween(Date value1, Date value2) {
+            addCriterion("investment_time between", value1, value2, "investmentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentTimeNotBetween(Date value1, Date value2) {
+            addCriterion("investment_time not between", value1, value2, "investmentTime");
+            return (Criteria) this;
+        }
     }
 
     /**
