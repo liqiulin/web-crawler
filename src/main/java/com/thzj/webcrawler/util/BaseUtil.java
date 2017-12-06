@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.util;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
@@ -128,17 +129,23 @@ public class BaseUtil {
         return Lists.newArrayList(Splitter.on(pattern).trimResults().omitEmptyStrings().split(target));
     }
 
-/*    public static void main (String[] args) {
-        String url = "/startups/87176";
-        String emailPattern = "startups";
-
-        System.out.println(getIdfromUrl(emailPattern, url));
-    }*/
+    public static String joiner(List<String> stringList, String pattern) {
+        return Joiner.on(pattern).skipNulls().join(stringList.toArray());
+    }
 
     public static void main(String[] args) {
         String location = "上海 · 徐汇区";
         String province = "";
         String city = "";
+
+        List<String> strings = Lists.newArrayList();
+        strings.add("aaa");
+        strings.add("bbb");
+        strings.add("ccc");
+        strings.add("ddd");
+
+        System.out.println(joiner(strings, "、"));
+
 
         //getLocation(location, province, city);
     }

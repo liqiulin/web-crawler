@@ -162,16 +162,20 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
 
         //投资风格：关注行业&投资轮次
-        Elements investStyle = doc.getElementById("module_style").getElementsByClass("tag-list row");
         String tag;
-        List<String> investIndustries = new ArrayList<>();
         List<String> investRounds = new ArrayList<>();
-        for (Element element : investStyle) {
-            tag = element.getElementsByClass("cell label-name").text();
-            if ("投资行业：".equals(tag)) {
-                investIndustries = element.getElementsByClass("cell label-item").select("a").eachText();
-            } else {
-                investRounds = element.getElementsByClass("cell label-item").select("a").eachText();
+        List<String> investIndustries = new ArrayList<>();
+        Elements investStyle = doc.getElementById("module_style").getElementsByClass("tag-list row");
+        if (null != investStyle && !CollectionUtils.isEmpty(investStyle)) {
+            for (Element element : investStyle) {
+                tag = element.getElementsByClass("cell label-name").text();
+                if ("投资行业：".equals(tag)) {
+                    List<String> investIndustryList = element.getElementsByClass("cell label-item").select("a").eachText();
+                    investIndustries.add(BaseUtil.joiner(investIndustryList, "、"));
+                } else {
+                    List<String> investRoundList = element.getElementsByClass("cell label-item").select("a").eachText();
+                    investRounds.add(BaseUtil.joiner(investRoundList, "、"));
+                }
             }
         }
 
@@ -219,6 +223,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             members = doc.getElementsByClass("member-list").select("div.avatar").select("a").stream().map(
                     e -> e.attr("href").substring(7)).collect(Collectors.toList());
         }
+
         investInstitution.setName(name);
         investInstitution.setId(instituteId);
         investInstitution.setProfile(profile);
@@ -243,7 +248,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
                 select("div#invest_cases").select("div.case_card");
         List<InvestCase> investCaseList = Lists.newArrayList();
 
-        if (CollectionUtils.isEmpty(investCaseElements)) {
+        if (null == investCaseElements || CollectionUtils.isEmpty(investCaseElements)) {
             return investCaseList;
         }
 
