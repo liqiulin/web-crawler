@@ -101,7 +101,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             log.info("getStartUpIds 第{}次 start...", i);
             Stopwatch stopwatchInner = Stopwatch.createStarted();
 
-            url = STARTUP_ID_URL + i.toString() + "&tab=t24&type=investment";
+            url = STARTUP_ID_URL + i.toString() + "&tab=t14&type=investment";
             org.jsoup.nodes.Document doc = BaseUtil.connect(url);
             Elements tableList = doc.getElementById("investment-list").select("tbody");
             Elements startUpInfo = tableList.select("tr");
