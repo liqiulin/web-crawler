@@ -36,8 +36,7 @@ public class Constants {
     /**
      * 抓取投融项目ID的URL
      */
-    public static final String STARTUP_ID_URL = "https://www.vc.cn/investments?action=index&controller=investments&page=";
-
+    public static final String STARTUP_ID_URL = "https://www.vc.cn/startups?action=index&controller=startups&page=";
 
 
 
