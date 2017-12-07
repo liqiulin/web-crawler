@@ -1,9 +1,6 @@
-package com.thzj.webcrawler.service;
+package com.thzj.webcrawler.crawler.ctq.service;
 
-import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
-import com.thzj.webcrawler.crawler.ctq.model.Investor;
-import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.crawler.ctq.service.impl.GrabInvestInstitutionServiceImpl;
 import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;

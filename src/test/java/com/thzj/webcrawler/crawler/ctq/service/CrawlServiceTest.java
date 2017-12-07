@@ -1,6 +1,5 @@
-package com.thzj.webcrawler.service;
+package com.thzj.webcrawler.crawler.ctq.service;
 
-import com.thzj.webcrawler.crawler.ctq.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

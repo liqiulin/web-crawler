@@ -1,8 +1,7 @@
-package com.thzj.webcrawler.service;
+package com.thzj.webcrawler.crawler.ctq.service;
 
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
-import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
 import com.thzj.webcrawler.crawler.ctq.service.impl.GrabStartUpServiceImpl;
 import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest

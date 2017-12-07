@@ -1,16 +1,12 @@
-package com.thzj.webcrawler.service;
+package com.thzj.webcrawler.crawler.ctq.service;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
-import com.thzj.webcrawler.crawler.ctq.service.GrabInvestorService;
 import com.thzj.webcrawler.crawler.ctq.service.impl.GrabInvestorServiceImpl;
 import com.thzj.webcrawler.util.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
