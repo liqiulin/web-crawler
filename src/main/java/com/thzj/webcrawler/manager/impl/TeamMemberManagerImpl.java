@@ -19,13 +19,13 @@ public class TeamMemberManagerImpl implements TeamMemberManager {
 
     @Override
     public void updateByProjectId(int projectId, List<TTeamMembers> membersList) {
-        TTeamMembersExample deleteExample = new TTeamMembersExample();
-        deleteExample.createCriteria().andProjectIdEqualTo(projectId);
-        teamMembersMapper.deleteByExample(deleteExample);
-
         if (CollectionUtils.isEmpty(membersList)) {
             return;
         }
+
+        TTeamMembersExample deleteExample = new TTeamMembersExample();
+        deleteExample.createCriteria().andProjectIdEqualTo(projectId);
+        teamMembersMapper.deleteByExample(deleteExample);
 
         membersList.forEach(tTeamMembers -> teamMembersMapper.insertSelective(tTeamMembers));
     }
