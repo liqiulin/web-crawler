@@ -31,6 +31,7 @@
     <result column="mail_box" jdbcType="VARCHAR" property="mailBox" />
     <result column="investors_profile" jdbcType="VARCHAR" property="investorsProfile" />
     <result column="investors_company_name" jdbcType="VARCHAR" property="investorsCompanyName" />
+    <result column="investment_time" jdbcType="TIMESTAMP" property="investmentTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.thzj.webcrawler.entity.TInvestor">
     <result column="org_introduce" jdbcType="LONGVARCHAR" property="orgIntroduce" />
@@ -97,7 +98,8 @@
     id, user_id, investor_form, province, city, area, real_name, investor_company, investor_position, 
     investor_card, phone, weixin, visit_img, investor_asset, org_logo_img, org_name, 
     org_license, org_website, org_members, invested_count, collect_number, auditor, auditor_state, 
-    auditor_time, auditor_comment, reqauth_time, mail_box, investors_profile, investors_company_name
+    auditor_time, auditor_comment, reqauth_time, mail_box, investors_profile, investors_company_name, 
+    investment_time
   </sql>
   <sql id="Blob_Column_List">
     org_introduce
@@ -171,7 +173,8 @@
       invested_count, collect_number, auditor, 
       auditor_state, auditor_time, auditor_comment, 
       reqauth_time, mail_box, investors_profile, 
-      investors_company_name, org_introduce)
+      investors_company_name, investment_time, 
+      org_introduce)
     values (#{userId,jdbcType=INTEGER}, #{investorForm,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
       #{investorCompany,jdbcType=VARCHAR}, #{investorPosition,jdbcType=VARCHAR}, #{investorCard,jdbcType=VARCHAR}, 
@@ -181,7 +184,8 @@
       #{investedCount,jdbcType=INTEGER}, #{collectNumber,jdbcType=INTEGER}, #{auditor,jdbcType=VARCHAR}, 
       #{auditorState,jdbcType=VARCHAR}, #{auditorTime,jdbcType=TIMESTAMP}, #{auditorComment,jdbcType=VARCHAR}, 
       #{reqauthTime,jdbcType=TIMESTAMP}, #{mailBox,jdbcType=VARCHAR}, #{investorsProfile,jdbcType=VARCHAR}, 
-      #{investorsCompanyName,jdbcType=VARCHAR}, #{orgIntroduce,jdbcType=LONGVARCHAR})
+      #{investorsCompanyName,jdbcType=VARCHAR}, #{investmentTime,jdbcType=TIMESTAMP}, 
+      #{orgIntroduce,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestor">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -273,6 +277,9 @@
       <if test="investorsCompanyName != null">
         investors_company_name,
       </if>
+      <if test="investmentTime != null">
+        investment_time,
+      </if>
       <if test="orgIntroduce != null">
         org_introduce,
       </if>
@@ -361,6 +368,9 @@
       </if>
       <if test="investorsCompanyName != null">
         #{investorsCompanyName,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentTime != null">
+        #{investmentTime,jdbcType=TIMESTAMP},
       </if>
       <if test="orgIntroduce != null">
         #{orgIntroduce,jdbcType=LONGVARCHAR},
@@ -463,6 +473,9 @@
       <if test="record.investorsCompanyName != null">
         investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR},
       </if>
+      <if test="record.investmentTime != null">
+        investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.orgIntroduce != null">
         org_introduce = #{record.orgIntroduce,jdbcType=LONGVARCHAR},
       </if>
@@ -502,6 +515,7 @@
       mail_box = #{record.mailBox,jdbcType=VARCHAR},
       investors_profile = #{record.investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR},
+      investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
       org_introduce = #{record.orgIntroduce,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -537,7 +551,8 @@
       reqauth_time = #{record.reqauthTime,jdbcType=TIMESTAMP},
       mail_box = #{record.mailBox,jdbcType=VARCHAR},
       investors_profile = #{record.investorsProfile,jdbcType=VARCHAR},
-      investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR}
+      investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR},
+      investment_time = #{record.investmentTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -629,6 +644,9 @@
       <if test="investorsCompanyName != null">
         investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR},
       </if>
+      <if test="investmentTime != null">
+        investment_time = #{investmentTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="orgIntroduce != null">
         org_introduce = #{orgIntroduce,jdbcType=LONGVARCHAR},
       </if>
@@ -665,6 +683,7 @@
       mail_box = #{mailBox,jdbcType=VARCHAR},
       investors_profile = #{investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR},
+      investment_time = #{investmentTime,jdbcType=TIMESTAMP},
       org_introduce = #{orgIntroduce,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -697,7 +716,8 @@
       reqauth_time = #{reqauthTime,jdbcType=TIMESTAMP},
       mail_box = #{mailBox,jdbcType=VARCHAR},
       investors_profile = #{investorsProfile,jdbcType=VARCHAR},
-      investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR}
+      investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR},
+      investment_time = #{investmentTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

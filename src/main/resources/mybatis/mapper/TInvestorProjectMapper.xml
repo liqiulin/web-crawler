@@ -13,6 +13,9 @@
     <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="project_company" jdbcType="VARCHAR" property="projectCompany" />
     <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="audit_state" jdbcType="VARCHAR" property="auditState" />
+    <result column="audit_man" jdbcType="VARCHAR" property="auditMan" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_name, investment_id, investment_time, project_profile, project_url, investment_rounds, 
-    project_id, amount, project_company, industry
+    project_id, amount, project_company, industry, audit_state, audit_man, audit_time
   </sql>
   <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultMap="BaseResultMap">
     select
@@ -121,11 +124,13 @@
     insert into t_investor_project (project_name, investment_id, investment_time, 
       project_profile, project_url, investment_rounds, 
       project_id, amount, project_company, 
-      industry)
+      industry, audit_state, audit_man, 
+      audit_time)
     values (#{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, #{investmentTime,jdbcType=TIMESTAMP}, 
       #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, #{investmentRounds,jdbcType=VARCHAR}, 
       #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{projectCompany,jdbcType=VARCHAR}, 
-      #{industry,jdbcType=VARCHAR})
+      #{industry,jdbcType=VARCHAR}, #{auditState,jdbcType=VARCHAR}, #{auditMan,jdbcType=VARCHAR}, 
+      #{auditTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -163,6 +168,15 @@
       <if test="industry != null">
         industry,
       </if>
+      <if test="auditState != null">
+        audit_state,
+      </if>
+      <if test="auditMan != null">
+        audit_man,
+      </if>
+      <if test="auditTime != null">
+        audit_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectName != null">
@@ -194,6 +208,15 @@
       </if>
       <if test="industry != null">
         #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="auditState != null">
+        #{auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        #{auditTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -239,6 +262,15 @@
       <if test="record.industry != null">
         industry = #{record.industry,jdbcType=VARCHAR},
       </if>
+      <if test="record.auditState != null">
+        audit_state = #{record.auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditMan != null">
+        audit_man = #{record.auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditTime != null">
+        audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -256,7 +288,10 @@
       project_id = #{record.projectId,jdbcType=INTEGER},
       amount = #{record.amount,jdbcType=VARCHAR},
       project_company = #{record.projectCompany,jdbcType=VARCHAR},
-      industry = #{record.industry,jdbcType=VARCHAR}
+      industry = #{record.industry,jdbcType=VARCHAR},
+      audit_state = #{record.auditState,jdbcType=VARCHAR},
+      audit_man = #{record.auditMan,jdbcType=VARCHAR},
+      audit_time = #{record.auditTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -294,6 +329,15 @@
       <if test="industry != null">
         industry = #{industry,jdbcType=VARCHAR},
       </if>
+      <if test="auditState != null">
+        audit_state = #{auditState,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        audit_man = #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null">
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -308,7 +352,10 @@
       project_id = #{projectId,jdbcType=INTEGER},
       amount = #{amount,jdbcType=VARCHAR},
       project_company = #{projectCompany,jdbcType=VARCHAR},
-      industry = #{industry,jdbcType=VARCHAR}
+      industry = #{industry,jdbcType=VARCHAR},
+      audit_state = #{auditState,jdbcType=VARCHAR},
+      audit_man = #{auditMan,jdbcType=VARCHAR},
+      audit_time = #{auditTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

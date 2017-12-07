@@ -24,6 +24,6 @@
         <appender-ref ref="file" />
     </root>
 
-    <!--<logger name="com.example.logback" level="warn" />-->
+    <logger name="logging.level.com.thzj.webcrawler.dao" level="debug" />
 
 </configuration>

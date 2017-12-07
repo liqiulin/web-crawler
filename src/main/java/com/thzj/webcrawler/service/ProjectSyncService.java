@@ -12,6 +12,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -30,6 +32,24 @@ public class ProjectSyncService {
     private DevelopmentHistoryManager developmentHistoryManager;
     @Resource
     private InvestorProjectManager investorProjectManager;
+
+    private static ExecutorService executorService = Executors.newFixedThreadPool(30);
+
+    public void doSyncImgConcurrent() {
+        Map<String, Startup> investorMap = CrawlResult.STARTUP;
+        investorMap.forEach((crawlId, startup) -> {
+            executorService.submit(() -> {
+                log.info("statup avatar img sync start . id [{}]", startup.getId());
+                imgManager.getSavePathByImgPath(startup.getAvatarUrl());
+                log.info("statup avatar img sync end . id [{}]", startup.getId());
+            });
+            executorService.submit(() -> {
+                log.info("statup product img sync start . id [{}]", startup.getId());
+                imgManager.getSavePathByImgPath(startup.getProductImgUrl());
+                log.info("statup product img synced . id [{}]", startup.getId());
+            });
+        });
+    }
 
     public void doSync() {
         log.info("start ...");
@@ -82,6 +102,12 @@ public class ProjectSyncService {
                 investorProject.setAmount(financingHistory.getFinancingAmount());
                 investorProject.setInvestmentRounds(financingHistory.getRound());
                 investorProject.setInvestmentTime(financingHistory.getTime());
+
+                // 默认字段
+                investorProject.setAuditMan("超级管理员");
+                investorProject.setAuditState("1");
+                investorProject.setAuditTime(new Date());
+
                 investorProjectList.add(investorProject);
             });
         }

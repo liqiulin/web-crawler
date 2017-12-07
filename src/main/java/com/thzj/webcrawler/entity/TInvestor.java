@@ -150,6 +150,11 @@ public class TInvestor implements Serializable {
     private String investorsCompanyName;
 
     /**
+     * 最新投资时间,用于排序
+     */
+    private Date investmentTime;
+
+    /**
      * 投资机构介绍
      */
     private String orgIntroduce;
@@ -388,6 +393,14 @@ public class TInvestor implements Serializable {
         this.investorsCompanyName = investorsCompanyName;
     }
 
+    public Date getInvestmentTime() {
+        return investmentTime;
+    }
+
+    public void setInvestmentTime(Date investmentTime) {
+        this.investmentTime = investmentTime;
+    }
+
     public String getOrgIntroduce() {
         return orgIntroduce;
     }
@@ -437,6 +450,7 @@ public class TInvestor implements Serializable {
             && (this.getMailBox() == null ? other.getMailBox() == null : this.getMailBox().equals(other.getMailBox()))
             && (this.getInvestorsProfile() == null ? other.getInvestorsProfile() == null : this.getInvestorsProfile().equals(other.getInvestorsProfile()))
             && (this.getInvestorsCompanyName() == null ? other.getInvestorsCompanyName() == null : this.getInvestorsCompanyName().equals(other.getInvestorsCompanyName()))
+            && (this.getInvestmentTime() == null ? other.getInvestmentTime() == null : this.getInvestmentTime().equals(other.getInvestmentTime()))
             && (this.getOrgIntroduce() == null ? other.getOrgIntroduce() == null : this.getOrgIntroduce().equals(other.getOrgIntroduce()));
     }
 
@@ -473,6 +487,7 @@ public class TInvestor implements Serializable {
         result = prime * result + ((getMailBox() == null) ? 0 : getMailBox().hashCode());
         result = prime * result + ((getInvestorsProfile() == null) ? 0 : getInvestorsProfile().hashCode());
         result = prime * result + ((getInvestorsCompanyName() == null) ? 0 : getInvestorsCompanyName().hashCode());
+        result = prime * result + ((getInvestmentTime() == null) ? 0 : getInvestmentTime().hashCode());
         result = prime * result + ((getOrgIntroduce() == null) ? 0 : getOrgIntroduce().hashCode());
         return result;
     }
@@ -512,6 +527,7 @@ public class TInvestor implements Serializable {
         sb.append(", mailBox=").append(mailBox);
         sb.append(", investorsProfile=").append(investorsProfile);
         sb.append(", investorsCompanyName=").append(investorsCompanyName);
+        sb.append(", investmentTime=").append(investmentTime);
         sb.append(", orgIntroduce=").append(orgIntroduce);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

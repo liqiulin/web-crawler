@@ -3,6 +3,7 @@ package com.thzj.webcrawler.service;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.*;
+import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,24 @@ public class ProjectSyncServiceTest {
 
     @Resource
     private ProjectSyncService projectSyncService;
+    @Resource
+    private CrawlService crawlService;
+
+    @Test
+    public void doSyncImgConcurrnt_Success() {
+        crawlService.grabStartup();
+
+        projectSyncService.doSyncImgConcurrent();
+
+        while(true) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     @Test
     public void doSync_Success() {

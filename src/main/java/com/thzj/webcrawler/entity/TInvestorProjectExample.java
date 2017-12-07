@@ -854,6 +854,206 @@ public class TInvestorProjectExample {
             addCriterion("industry not between", value1, value2, "industry");
             return (Criteria) this;
         }
+
+        public Criteria andAuditStateIsNull() {
+            addCriterion("audit_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateIsNotNull() {
+            addCriterion("audit_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateEqualTo(String value) {
+            addCriterion("audit_state =", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateNotEqualTo(String value) {
+            addCriterion("audit_state <>", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateGreaterThan(String value) {
+            addCriterion("audit_state >", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateGreaterThanOrEqualTo(String value) {
+            addCriterion("audit_state >=", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateLessThan(String value) {
+            addCriterion("audit_state <", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateLessThanOrEqualTo(String value) {
+            addCriterion("audit_state <=", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateLike(String value) {
+            addCriterion("audit_state like", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateNotLike(String value) {
+            addCriterion("audit_state not like", value, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateIn(List<String> values) {
+            addCriterion("audit_state in", values, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateNotIn(List<String> values) {
+            addCriterion("audit_state not in", values, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateBetween(String value1, String value2) {
+            addCriterion("audit_state between", value1, value2, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStateNotBetween(String value1, String value2) {
+            addCriterion("audit_state not between", value1, value2, "auditState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManIsNull() {
+            addCriterion("audit_man is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManIsNotNull() {
+            addCriterion("audit_man is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManEqualTo(String value) {
+            addCriterion("audit_man =", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManNotEqualTo(String value) {
+            addCriterion("audit_man <>", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManGreaterThan(String value) {
+            addCriterion("audit_man >", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManGreaterThanOrEqualTo(String value) {
+            addCriterion("audit_man >=", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManLessThan(String value) {
+            addCriterion("audit_man <", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManLessThanOrEqualTo(String value) {
+            addCriterion("audit_man <=", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManLike(String value) {
+            addCriterion("audit_man like", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManNotLike(String value) {
+            addCriterion("audit_man not like", value, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManIn(List<String> values) {
+            addCriterion("audit_man in", values, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManNotIn(List<String> values) {
+            addCriterion("audit_man not in", values, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManBetween(String value1, String value2) {
+            addCriterion("audit_man between", value1, value2, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditManNotBetween(String value1, String value2) {
+            addCriterion("audit_man not between", value1, value2, "auditMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeIsNull() {
+            addCriterion("audit_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeIsNotNull() {
+            addCriterion("audit_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeEqualTo(Date value) {
+            addCriterion("audit_time =", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeNotEqualTo(Date value) {
+            addCriterion("audit_time <>", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeGreaterThan(Date value) {
+            addCriterion("audit_time >", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("audit_time >=", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeLessThan(Date value) {
+            addCriterion("audit_time <", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeLessThanOrEqualTo(Date value) {
+            addCriterion("audit_time <=", value, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeIn(List<Date> values) {
+            addCriterion("audit_time in", values, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeNotIn(List<Date> values) {
+            addCriterion("audit_time not in", values, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeBetween(Date value1, Date value2) {
+            addCriterion("audit_time between", value1, value2, "auditTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditTimeNotBetween(Date value1, Date value2) {
+            addCriterion("audit_time not between", value1, value2, "auditTime");
+            return (Criteria) this;
+        }
     }
 
     /**

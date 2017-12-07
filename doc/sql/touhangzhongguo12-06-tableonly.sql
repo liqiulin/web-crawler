@@ -208,7 +208,7 @@ CREATE TABLE `t_investor` (
   `auditor_comment` varchar(255) DEFAULT NULL COMMENT '审核备注',
   `reqauth_time` datetime DEFAULT NULL COMMENT '投资人认证申请时间',
   `mail_box` varchar(255) DEFAULT NULL COMMENT '邮箱',
-  `investors_profile` varchar(255) DEFAULT NULL COMMENT '投资人简介',
+  `investors_profile` varchar(2048) DEFAULT NULL COMMENT '投资人简介',
   `investors_company_name` varchar(255) DEFAULT NULL COMMENT '公司全名',
   `investment_time` datetime DEFAULT NULL COMMENT '最新投资时间,用于排序',
   PRIMARY KEY (`id`)

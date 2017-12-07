@@ -1,5 +1,7 @@
 package com.thzj.webcrawler.manager.impl;
 
+import com.google.common.collect.Lists;
+import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.dao.TInvestorMapper;
@@ -9,9 +11,12 @@ import com.thzj.webcrawler.manager.InvestorManager;
 import com.thzj.webcrawler.manager.UserManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -84,7 +89,22 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setMailBox(institution.getEmail());
         tInvestor.setProvince(institution.getProvince());
         tInvestor.setCity(institution.getCity());
+        //最新投资时间
+        tInvestor.setInvestmentTime(getLatestInvestTime(institution));
         tInvestor.setOrgIntroduce(institution.getProfile());
+    }
+
+    private Date getLatestInvestTime(InvestInstitution institution) {
+        if (!CollectionUtils.isEmpty(institution.getInvestCases())) {
+            Optional<InvestCase> lastInvestCaseOptional = institution.getInvestCases().stream()
+                    .sorted(Comparator.comparing(InvestCase::getTime).reversed())
+                    .findFirst();
+            if (lastInvestCaseOptional.isPresent()) {
+                return lastInvestCaseOptional.get().getTime();
+            }
+        }
+        return null;
+
     }
 
     private void setCrawInvestorProperty(Investor investor, TInvestor tInvestor) {
