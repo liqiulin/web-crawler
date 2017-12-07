@@ -2,6 +2,7 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
@@ -199,7 +200,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
 
         //项目成员 Todo 翻页-暂不处理
         List<StartupMember> startupMembers = Lists.newArrayList();
-        Elements startupMemberElements = doc.getElementById("team_info").getElementsByClass("div.startup_members");
+        Elements startupMemberElements = doc.getElementById("team_info").select("ul.members-list");
         if (null != startupMemberElements && !CollectionUtils.isEmpty(startupMemberElements)) {
             Elements startupMembersElements = startupMemberElements.select("li.member");
             startupMembers = buildStartupMembers(startupId, startupMembersElements);
