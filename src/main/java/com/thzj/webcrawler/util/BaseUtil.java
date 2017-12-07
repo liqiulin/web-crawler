@@ -9,7 +9,6 @@ import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +38,7 @@ public class BaseUtil {
             return response.parse();
         } catch (HttpStatusException e) {
             log.warn("HttpStatusException. statusCode[{}],  url[{}]", e.getStatusCode(), url);
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND.value()) {
+            if (e.getStatusCode() == 404) {
                 throw new GrabResourceNotFoundException("404 error. ", e);
             } else {
                 int sleepTime = 10000;
