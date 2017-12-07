@@ -101,9 +101,9 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             log.info("getStartUpIds 第{}次 start...", i);
             Stopwatch stopwatchInner = Stopwatch.createStarted();
 
-            url = STARTUP_ID_URL + i.toString() + "&tab=t14&type=investment";
+            url = STARTUP_ID_URL + i.toString() + "&type=hot";
             org.jsoup.nodes.Document doc = BaseUtil.connect(url);
-            Elements tableList = doc.getElementById("investment-list").select("tbody");
+            Elements tableList = doc.getElementById("startups-list").select("tbody");
             Elements startUpInfo = tableList.select("tr");
             log.debug("{}", startUpInfo);
 
@@ -112,7 +112,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             }
 
             for (Element element : startUpInfo) {
-                Elements elements = element.getElementsByClass("avatar square").select("a");
+                Element elements = element.select("td.cover-info").select("div.info").select("div.name").select("a").first();
                 String infoDetailsUrl = elements.attr("href");
                 int startUpIndex = infoDetailsUrl.lastIndexOf("startups");
                 String userId = infoDetailsUrl.substring(startUpIndex + 9);
