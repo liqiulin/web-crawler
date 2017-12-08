@@ -89,6 +89,13 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setMailBox(institution.getEmail());
         tInvestor.setProvince(institution.getProvince());
         tInvestor.setCity(institution.getCity());
+        // 投资行业及投资轮次，抓取程会把抓取内容拼接好设置到List中，同步时只需取第一条元素就好了
+        if (!CollectionUtils.isEmpty(institution.getInvestIndustries())) {
+            tInvestor.setIndustry(institution.getInvestIndustries().get(0));
+        }
+        if (!CollectionUtils.isEmpty(institution.getInvestRounds())) {
+            tInvestor.setRound(institution.getInvestRounds().get(0));
+        }
         //最新投资时间
         tInvestor.setInvestmentTime(getLatestInvestTime(institution));
         tInvestor.setOrgIntroduce(institution.getProfile());
@@ -113,6 +120,14 @@ public class InvestorManagerImpl implements InvestorManager {
         tInvestor.setInvestorPosition(investor.getPosition());
         tInvestor.setProvince(investor.getProvince());
         tInvestor.setCity(investor.getCity());
+        // 投资行业及投资轮次，抓取程会把抓取内容拼接好设置到List中，同步时只需取第一条元素就好了
+        if (!CollectionUtils.isEmpty(investor.getInvestIndustries())) {
+            tInvestor.setIndustry(investor.getInvestIndustries().get(0));
+        }
+        if (!CollectionUtils.isEmpty(investor.getInvestRounds())) {
+            tInvestor.setRound(investor.getInvestRounds().get(0));
+        }
+
         tInvestor.setInvestorsProfile(investor.getProfile());
     }
 }
