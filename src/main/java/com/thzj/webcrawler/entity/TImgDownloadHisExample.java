@@ -255,6 +255,76 @@ public class TImgDownloadHisExample {
             return (Criteria) this;
         }
 
+        public Criteria andImgUrlPathIsNull() {
+            addCriterion("img_url_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathIsNotNull() {
+            addCriterion("img_url_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathEqualTo(String value) {
+            addCriterion("img_url_path =", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathNotEqualTo(String value) {
+            addCriterion("img_url_path <>", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathGreaterThan(String value) {
+            addCriterion("img_url_path >", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathGreaterThanOrEqualTo(String value) {
+            addCriterion("img_url_path >=", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathLessThan(String value) {
+            addCriterion("img_url_path <", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathLessThanOrEqualTo(String value) {
+            addCriterion("img_url_path <=", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathLike(String value) {
+            addCriterion("img_url_path like", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathNotLike(String value) {
+            addCriterion("img_url_path not like", value, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathIn(List<String> values) {
+            addCriterion("img_url_path in", values, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathNotIn(List<String> values) {
+            addCriterion("img_url_path not in", values, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathBetween(String value1, String value2) {
+            addCriterion("img_url_path between", value1, value2, "imgUrlPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgUrlPathNotBetween(String value1, String value2) {
+            addCriterion("img_url_path not between", value1, value2, "imgUrlPath");
+            return (Criteria) this;
+        }
+
         public Criteria andSavePathIsNull() {
             addCriterion("save_path is null");
             return (Criteria) this;

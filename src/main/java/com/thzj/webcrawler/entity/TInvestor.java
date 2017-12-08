@@ -155,6 +155,16 @@ public class TInvestor implements Serializable {
     private Date investmentTime;
 
     /**
+     * 关注轮次
+     */
+    private String round;
+
+    /**
+     * 关注领域
+     */
+    private String industry;
+
+    /**
      * 投资机构介绍
      */
     private String orgIntroduce;
@@ -401,6 +411,22 @@ public class TInvestor implements Serializable {
         this.investmentTime = investmentTime;
     }
 
+    public String getRound() {
+        return round;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
     public String getOrgIntroduce() {
         return orgIntroduce;
     }
@@ -451,6 +477,8 @@ public class TInvestor implements Serializable {
             && (this.getInvestorsProfile() == null ? other.getInvestorsProfile() == null : this.getInvestorsProfile().equals(other.getInvestorsProfile()))
             && (this.getInvestorsCompanyName() == null ? other.getInvestorsCompanyName() == null : this.getInvestorsCompanyName().equals(other.getInvestorsCompanyName()))
             && (this.getInvestmentTime() == null ? other.getInvestmentTime() == null : this.getInvestmentTime().equals(other.getInvestmentTime()))
+            && (this.getRound() == null ? other.getRound() == null : this.getRound().equals(other.getRound()))
+            && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()))
             && (this.getOrgIntroduce() == null ? other.getOrgIntroduce() == null : this.getOrgIntroduce().equals(other.getOrgIntroduce()));
     }
 
@@ -488,6 +516,8 @@ public class TInvestor implements Serializable {
         result = prime * result + ((getInvestorsProfile() == null) ? 0 : getInvestorsProfile().hashCode());
         result = prime * result + ((getInvestorsCompanyName() == null) ? 0 : getInvestorsCompanyName().hashCode());
         result = prime * result + ((getInvestmentTime() == null) ? 0 : getInvestmentTime().hashCode());
+        result = prime * result + ((getRound() == null) ? 0 : getRound().hashCode());
+        result = prime * result + ((getIndustry() == null) ? 0 : getIndustry().hashCode());
         result = prime * result + ((getOrgIntroduce() == null) ? 0 : getOrgIntroduce().hashCode());
         return result;
     }
@@ -528,6 +558,8 @@ public class TInvestor implements Serializable {
         sb.append(", investorsProfile=").append(investorsProfile);
         sb.append(", investorsCompanyName=").append(investorsCompanyName);
         sb.append(", investmentTime=").append(investmentTime);
+        sb.append(", round=").append(round);
+        sb.append(", industry=").append(industry);
         sb.append(", orgIntroduce=").append(orgIntroduce);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

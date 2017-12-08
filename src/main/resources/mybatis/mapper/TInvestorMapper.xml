@@ -32,6 +32,8 @@
     <result column="investors_profile" jdbcType="VARCHAR" property="investorsProfile" />
     <result column="investors_company_name" jdbcType="VARCHAR" property="investorsCompanyName" />
     <result column="investment_time" jdbcType="TIMESTAMP" property="investmentTime" />
+    <result column="round" jdbcType="VARCHAR" property="round" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.thzj.webcrawler.entity.TInvestor">
     <result column="org_introduce" jdbcType="LONGVARCHAR" property="orgIntroduce" />
@@ -99,7 +101,7 @@
     investor_card, phone, weixin, visit_img, investor_asset, org_logo_img, org_name, 
     org_license, org_website, org_members, invested_count, collect_number, auditor, auditor_state, 
     auditor_time, auditor_comment, reqauth_time, mail_box, investors_profile, investors_company_name, 
-    investment_time
+    investment_time, round, industry
   </sql>
   <sql id="Blob_Column_List">
     org_introduce
@@ -174,7 +176,8 @@
       auditor_state, auditor_time, auditor_comment, 
       reqauth_time, mail_box, investors_profile, 
       investors_company_name, investment_time, 
-      org_introduce)
+      round, industry, org_introduce
+      )
     values (#{userId,jdbcType=INTEGER}, #{investorForm,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
       #{investorCompany,jdbcType=VARCHAR}, #{investorPosition,jdbcType=VARCHAR}, #{investorCard,jdbcType=VARCHAR}, 
@@ -185,7 +188,8 @@
       #{auditorState,jdbcType=VARCHAR}, #{auditorTime,jdbcType=TIMESTAMP}, #{auditorComment,jdbcType=VARCHAR}, 
       #{reqauthTime,jdbcType=TIMESTAMP}, #{mailBox,jdbcType=VARCHAR}, #{investorsProfile,jdbcType=VARCHAR}, 
       #{investorsCompanyName,jdbcType=VARCHAR}, #{investmentTime,jdbcType=TIMESTAMP}, 
-      #{orgIntroduce,jdbcType=LONGVARCHAR})
+      #{round,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{orgIntroduce,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestor">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -280,6 +284,12 @@
       <if test="investmentTime != null">
         investment_time,
       </if>
+      <if test="round != null">
+        round,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
       <if test="orgIntroduce != null">
         org_introduce,
       </if>
@@ -371,6 +381,12 @@
       </if>
       <if test="investmentTime != null">
         #{investmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="round != null">
+        #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
       </if>
       <if test="orgIntroduce != null">
         #{orgIntroduce,jdbcType=LONGVARCHAR},
@@ -476,6 +492,12 @@
       <if test="record.investmentTime != null">
         investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.round != null">
+        round = #{record.round,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
       <if test="record.orgIntroduce != null">
         org_introduce = #{record.orgIntroduce,jdbcType=LONGVARCHAR},
       </if>
@@ -516,6 +538,8 @@
       investors_profile = #{record.investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR},
       investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
+      round = #{record.round,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
       org_introduce = #{record.orgIntroduce,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -552,7 +576,9 @@
       mail_box = #{record.mailBox,jdbcType=VARCHAR},
       investors_profile = #{record.investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{record.investorsCompanyName,jdbcType=VARCHAR},
-      investment_time = #{record.investmentTime,jdbcType=TIMESTAMP}
+      investment_time = #{record.investmentTime,jdbcType=TIMESTAMP},
+      round = #{record.round,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -647,6 +673,12 @@
       <if test="investmentTime != null">
         investment_time = #{investmentTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="round != null">
+        round = #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
       <if test="orgIntroduce != null">
         org_introduce = #{orgIntroduce,jdbcType=LONGVARCHAR},
       </if>
@@ -684,6 +716,8 @@
       investors_profile = #{investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR},
       investment_time = #{investmentTime,jdbcType=TIMESTAMP},
+      round = #{round,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
       org_introduce = #{orgIntroduce,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -717,7 +751,9 @@
       mail_box = #{mailBox,jdbcType=VARCHAR},
       investors_profile = #{investorsProfile,jdbcType=VARCHAR},
       investors_company_name = #{investorsCompanyName,jdbcType=VARCHAR},
-      investment_time = #{investmentTime,jdbcType=TIMESTAMP}
+      investment_time = #{investmentTime,jdbcType=TIMESTAMP},
+      round = #{round,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

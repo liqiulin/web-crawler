@@ -35,10 +35,6 @@ public class InvestorSyncService {
     @Resource
     private InvestorManager investorManager;
     @Resource
-    private InvestorIndustryManager investorIndustryManager;
-    @Resource
-    private InvestorRoundManager investorRoundManager;
-    @Resource
     private UnitMessageManager unitMessageManager;
     @Resource
     private InvestorProjectManager investorProjectManager;
@@ -71,12 +67,6 @@ public class InvestorSyncService {
                 crawlHis.setCreateTime(new Date());
                 crawlHisManager.save(crawlHis);
             }
-
-            // 处理投资领域
-            investorIndustryManager.update(entityId, crawlInvestor.getInvestIndustries());
-
-            // 处理投资轮次
-            investorRoundManager.update(entityId, crawlInvestor.getInvestRounds());
 
             // 处理工作经历
             int userId = investorManager.queryById(entityId).getUserId();

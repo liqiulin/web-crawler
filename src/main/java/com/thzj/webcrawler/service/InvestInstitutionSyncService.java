@@ -32,10 +32,6 @@ public class InvestInstitutionSyncService {
     @Resource
     private ImgManager imgManager;
     @Resource
-    private InvestorIndustryManager investorIndustryManager;
-    @Resource
-    private InvestorRoundManager investorRoundManager;
-    @Resource
     private InvestorProjectManager investorProjectManager;
 
 
@@ -63,12 +59,6 @@ public class InvestInstitutionSyncService {
                 crawlHis.setCreateTime(new Date());
                 crawlHisManager.save(crawlHis);
             }
-
-            // 处理投资领域
-            investorIndustryManager.update(entityId, institution.getInvestIndustries());
-
-            // 处理投资轮次
-            investorRoundManager.update(entityId, institution.getInvestRounds());
 
             // 投资案例
             syncInvestCase(institution, entityId);

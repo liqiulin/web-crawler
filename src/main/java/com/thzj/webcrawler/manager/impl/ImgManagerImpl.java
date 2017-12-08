@@ -14,9 +14,7 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +35,9 @@ public class ImgManagerImpl implements ImgManager {
     @Value(("${img.save.switch}"))
     private String imgSaveSwitch;
 
+    @Value(("${img.url.domain}"))
+    private String imgUrlDomain;
+
     /**
      * 图片下载，如果已经下载过则不重复下载，直接返回图片的保存地址
      * @param imgUrl 图片地址
@@ -48,8 +49,9 @@ public class ImgManagerImpl implements ImgManager {
             return null;
         }
 
+        String imgUrlPath = getImgPath((imgUrl));
         TImgDownloadHisExample imgDownloadHisExample = new TImgDownloadHisExample();
-        imgDownloadHisExample.createCriteria().andImgUrlEqualTo(imgUrl);
+        imgDownloadHisExample.createCriteria().andImgUrlPathEqualTo(imgUrlPath);
         List<TImgDownloadHis> imgDownloadHisList = imgDownloadHisMapper.selectByExample(imgDownloadHisExample);
         if (!CollectionUtils.isEmpty(imgDownloadHisList)) {
             return imgDownloadHisList.get(0).getSavePath();
@@ -76,6 +78,7 @@ public class ImgManagerImpl implements ImgManager {
                 TImgDownloadHis imgDownloadHis = new TImgDownloadHis();
                 imgDownloadHis.setCreateTime(new Date());
                 imgDownloadHis.setImgUrl(imgUrl);
+                imgDownloadHis.setImgUrlPath(getImgPath((imgUrl)));
                 imgDownloadHis.setSavePath(savePath + fileName);
                 imgDownloadHisMapper.insertSelective(imgDownloadHis);
             }
@@ -126,19 +129,14 @@ public class ImgManagerImpl implements ImgManager {
         return false;
     }
 
-    public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString());
-
-        String imgUrl = "asdfsdf.asdf.33.png";
-        String suffix = imgUrl.substring(imgUrl.lastIndexOf("."));
-        String fileName = UUID.randomUUID().toString() + suffix;
-        String nowDateStr = LocalDate.now().toString();
-        String savePath = new StringBuilder(File.separator)
-                .append(nowDateStr)
-                .append(File.separator)
-                .append(fileName)
-                .toString();
-        System.out.println(savePath);
+    private String getImgPath(String imgUrl) {
+        String domain = imgUrlDomain;
+        if (imgUrl.contains(domain)) {
+            int startIndex = imgUrl.indexOf(domain) + domain.length();
+            return imgUrl.substring(startIndex);
+        } else {
+            return imgUrl;
+        }
     }
 
 }
