@@ -1,8 +1,5 @@
 package com.thzj.webcrawler.manager.impl;
 
-import com.thzj.webcrawler.dao.TInvestorRoundMapper;
-import com.thzj.webcrawler.entity.TInvestorRound;
-import com.thzj.webcrawler.entity.TInvestorRoundExample;
 import com.thzj.webcrawler.manager.InvestorRoundManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

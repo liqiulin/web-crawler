@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds">
 
-    <property name="log.file.path" value="D:\\thzj\\2017-12-07\\log\\web-crawler.log" />
+    <property name="log.file.path" value="D:\\thzj\\2017-12-08\\log\\web-crawler.log" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

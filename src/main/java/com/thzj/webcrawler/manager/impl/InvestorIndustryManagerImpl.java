@@ -1,8 +1,5 @@
 package com.thzj.webcrawler.manager.impl;
 
-import com.thzj.webcrawler.dao.TInvestorIndustryMapper;
-import com.thzj.webcrawler.entity.TInvestorIndustry;
-import com.thzj.webcrawler.entity.TInvestorIndustryExample;
 import com.thzj.webcrawler.manager.InvestorIndustryManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,5 @@
 package com.thzj.webcrawler;
 
-import com.thzj.webcrawler.dao.TInvestorRoundMapper;
-import com.thzj.webcrawler.entity.TInvestorRound;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;

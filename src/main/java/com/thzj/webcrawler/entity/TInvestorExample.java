@@ -2144,6 +2144,146 @@ public class TInvestorExample {
             addCriterion("investment_time not between", value1, value2, "investmentTime");
             return (Criteria) this;
         }
+
+        public Criteria andRoundIsNull() {
+            addCriterion("round is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundIsNotNull() {
+            addCriterion("round is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundEqualTo(String value) {
+            addCriterion("round =", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundNotEqualTo(String value) {
+            addCriterion("round <>", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundGreaterThan(String value) {
+            addCriterion("round >", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundGreaterThanOrEqualTo(String value) {
+            addCriterion("round >=", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundLessThan(String value) {
+            addCriterion("round <", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundLessThanOrEqualTo(String value) {
+            addCriterion("round <=", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundLike(String value) {
+            addCriterion("round like", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundNotLike(String value) {
+            addCriterion("round not like", value, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundIn(List<String> values) {
+            addCriterion("round in", values, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundNotIn(List<String> values) {
+            addCriterion("round not in", values, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundBetween(String value1, String value2) {
+            addCriterion("round between", value1, value2, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoundNotBetween(String value1, String value2) {
+            addCriterion("round not between", value1, value2, "round");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIsNull() {
+            addCriterion("industry is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIsNotNull() {
+            addCriterion("industry is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryEqualTo(String value) {
+            addCriterion("industry =", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotEqualTo(String value) {
+            addCriterion("industry <>", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryGreaterThan(String value) {
+            addCriterion("industry >", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryGreaterThanOrEqualTo(String value) {
+            addCriterion("industry >=", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLessThan(String value) {
+            addCriterion("industry <", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLessThanOrEqualTo(String value) {
+            addCriterion("industry <=", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryLike(String value) {
+            addCriterion("industry like", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotLike(String value) {
+            addCriterion("industry not like", value, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryIn(List<String> values) {
+            addCriterion("industry in", values, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotIn(List<String> values) {
+            addCriterion("industry not in", values, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryBetween(String value1, String value2) {
+            addCriterion("industry between", value1, value2, "industry");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndustryNotBetween(String value1, String value2) {
+            addCriterion("industry not between", value1, value2, "industry");
+            return (Criteria) this;
+        }
     }
 
     /**
