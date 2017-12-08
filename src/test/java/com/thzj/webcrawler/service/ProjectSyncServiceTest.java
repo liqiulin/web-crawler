@@ -25,12 +25,14 @@ public class ProjectSyncServiceTest {
     private ProjectSyncService projectSyncService;
     @Resource
     private CrawlService crawlService;
+    @Resource
+    private ImgSyncService imgSyncService;
 
     @Test
     public void doSyncImgConcurrnt_Success() {
         crawlService.grabStartup();
 
-        projectSyncService.doSyncImgConcurrent();
+        imgSyncService.doSyncImgConcurrent();
 
         while(true) {
             try {

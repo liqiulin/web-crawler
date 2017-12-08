@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
+import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
 import com.thzj.webcrawler.entity.CrawlTypeEnum;
 import com.thzj.webcrawler.entity.TCrawlHis;

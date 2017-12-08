@@ -33,24 +33,6 @@ public class ProjectSyncService {
     @Resource
     private InvestorProjectManager investorProjectManager;
 
-    private static ExecutorService executorService = Executors.newFixedThreadPool(30);
-
-    public void doSyncImgConcurrent() {
-        Map<String, Startup> investorMap = CrawlResult.STARTUP;
-        investorMap.forEach((crawlId, startup) -> {
-            executorService.submit(() -> {
-                log.info("statup avatar img sync start . id [{}]", startup.getId());
-                imgManager.getSavePathByImgPath(startup.getAvatarUrl());
-                log.info("statup avatar img sync end . id [{}]", startup.getId());
-            });
-            executorService.submit(() -> {
-                log.info("statup product img sync start . id [{}]", startup.getId());
-                imgManager.getSavePathByImgPath(startup.getProductImgUrl());
-                log.info("statup product img synced . id [{}]", startup.getId());
-            });
-        });
-    }
-
     public void doSync() {
         log.info("start ...");
         Stopwatch stopwatch = Stopwatch.createStarted();
