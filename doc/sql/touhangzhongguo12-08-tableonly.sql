@@ -211,6 +211,8 @@ CREATE TABLE `t_investor` (
   `investors_profile` varchar(2048) DEFAULT NULL COMMENT '投资人简介',
   `investors_company_name` varchar(255) DEFAULT NULL COMMENT '公司全名',
   `investment_time` datetime DEFAULT NULL COMMENT '最新投资时间,用于排序',
+  `round` varchar(1024) DEFAULT NULL COMMENT '关注轮次',
+  `industry` varchar(1024) DEFAULT NULL COMMENT '关注领域',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
 
