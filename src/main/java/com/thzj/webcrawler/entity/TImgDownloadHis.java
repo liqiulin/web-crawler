@@ -15,6 +15,11 @@ public class TImgDownloadHis implements Serializable {
     private String imgUrl;
 
     /**
+     * 图片地址path
+     */
+    private String imgUrlPath;
+
+    /**
      * 保存地址
      */
     private String savePath;
@@ -40,6 +45,14 @@ public class TImgDownloadHis implements Serializable {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getImgUrlPath() {
+        return imgUrlPath;
+    }
+
+    public void setImgUrlPath(String imgUrlPath) {
+        this.imgUrlPath = imgUrlPath;
     }
 
     public String getSavePath() {
@@ -72,6 +85,7 @@ public class TImgDownloadHis implements Serializable {
         TImgDownloadHis other = (TImgDownloadHis) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getImgUrl() == null ? other.getImgUrl() == null : this.getImgUrl().equals(other.getImgUrl()))
+            && (this.getImgUrlPath() == null ? other.getImgUrlPath() == null : this.getImgUrlPath().equals(other.getImgUrlPath()))
             && (this.getSavePath() == null ? other.getSavePath() == null : this.getSavePath().equals(other.getSavePath()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
@@ -82,6 +96,7 @@ public class TImgDownloadHis implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getImgUrl() == null) ? 0 : getImgUrl().hashCode());
+        result = prime * result + ((getImgUrlPath() == null) ? 0 : getImgUrlPath().hashCode());
         result = prime * result + ((getSavePath() == null) ? 0 : getSavePath().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
@@ -95,6 +110,7 @@ public class TImgDownloadHis implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", imgUrl=").append(imgUrl);
+        sb.append(", imgUrlPath=").append(imgUrlPath);
         sb.append(", savePath=").append(savePath);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);

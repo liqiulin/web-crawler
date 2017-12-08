@@ -262,6 +262,7 @@ DROP TABLE IF EXISTS `t_img_download_his`;
 CREATE TABLE `t_img_download_his` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `img_url` varchar(2000) NOT NULL COMMENT '图片地址',
+  `img_url_path` varchar(2000) NOT NULL COMMENT '图片地址path',
   `save_path` varchar(1000) NOT NULL COMMENT '保存地址',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
