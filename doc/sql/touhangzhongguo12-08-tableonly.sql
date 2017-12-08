@@ -14,21 +14,6 @@ Date: 2017-11-29 21:34:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
--- ----------------------------
--- Table structure for `rb_attach`
--- ----------------------------
-DROP TABLE IF EXISTS `rb_attach`;
-CREATE TABLE `rb_attach` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attach_title` varchar(200) DEFAULT NULL,
-  `attach_real_title` varchar(100) DEFAULT NULL,
-  `attach_file_type` varchar(200) DEFAULT NULL,
-  `attach_sequence` int(11) DEFAULT NULL,
-  `attach_path` varchar(1024) DEFAULT NULL,
-  `attach_tablename` varchar(50) DEFAULT NULL,
-  `attach_relate_id` int(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=462 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `rb_unit_message`
@@ -115,48 +100,6 @@ CREATE TABLE `rb_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1676 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Table structure for `t_article`
--- ----------------------------
-DROP TABLE IF EXISTS `t_article`;
-CREATE TABLE `t_article` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL COMMENT '标题',
-  `image` varchar(1024) DEFAULT NULL COMMENT '图片',
-  `keyword` varchar(255) DEFAULT NULL COMMENT '关键字',
-  `author_id` int(11) NOT NULL COMMENT '作者',
-  `type` int(11) NOT NULL COMMENT '分类1:投融事件, 2:投资人说, 3:行业观察, 4:创业心路',
-  `publish_date` datetime DEFAULT NULL COMMENT '发布时间',
-  `content` text COMMENT '文章类容',
-  `external_url` varchar(1024) DEFAULT NULL COMMENT '外部文章地址',
-  `summary` varchar(1024) DEFAULT NULL COMMENT '概要',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Table structure for `t_bp_primary_table`
--- ----------------------------
-DROP TABLE IF EXISTS `t_bp_primary_table`;
-CREATE TABLE `t_bp_primary_table` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
-  `generation_time` datetime DEFAULT NULL,
-  `industry` varchar(50) DEFAULT NULL COMMENT '行业',
-  `stage` varchar(50) DEFAULT NULL COMMENT '阶段（1初创阶段，2成长阶段，3稳定阶段）',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for `t_bp_slave_table`
--- ----------------------------
-DROP TABLE IF EXISTS `t_bp_slave_table`;
-CREATE TABLE `t_bp_slave_table` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'bp从表id',
-  `bp_id` int(11) DEFAULT NULL COMMENT 'bp主表id',
-  `node` varchar(255) DEFAULT NULL COMMENT '节点',
-  `content` text COMMENT '内容',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `t_development_history`
@@ -216,31 +159,6 @@ CREATE TABLE `t_investor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
 
--- ----------------------------
--- Table structure for `t_investor_answer`
--- ----------------------------
-DROP TABLE IF EXISTS `t_investor_answer`;
-CREATE TABLE `t_investor_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `investor_id` int(11) DEFAULT NULL COMMENT '投资人/投资机构ID',
-  `question_from_id` int(11) DEFAULT NULL COMMENT '提问人ID',
-  `question_text` varchar(500) DEFAULT NULL COMMENT '问题内容',
-  `reply_text` varchar(500) DEFAULT NULL COMMENT '回答内容',
-  `question_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '提问时间',
-  `reply_time` timestamp NULL DEFAULT NULL COMMENT '回答时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
-
--- ----------------------------
--- Table structure for `t_investor_industry`
--- ----------------------------
-DROP TABLE IF EXISTS `t_investor_industry`;
-CREATE TABLE `t_investor_industry` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `investor_id` int(11) DEFAULT NULL COMMENT '投资人/投资机构ID',
-  `industry` varchar(200) DEFAULT NULL COMMENT '关注领域',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 -- ----------------------------
 -- Table structure for `t_investor_project`
@@ -264,16 +182,6 @@ CREATE TABLE `t_investor_project` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
--- ----------------------------
--- Table structure for `t_investor_round`
--- ----------------------------
-DROP TABLE IF EXISTS `t_investor_round`;
-CREATE TABLE `t_investor_round` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `investor_id` int(11) DEFAULT NULL COMMENT '投资人/投资机构ID',
-  `round` varchar(200) DEFAULT NULL COMMENT '偏好轮次',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 -- ----------------------------
 -- Table structure for `t_project`
@@ -311,26 +219,6 @@ CREATE TABLE `t_project` (
   `website` varchar(255) DEFAULT NULL COMMENT '官网',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='深交所项目表';
-
--- ----------------------------
--- Table structure for `t_service_agencies`
--- ----------------------------
-DROP TABLE IF EXISTS `t_service_agencies`;
-CREATE TABLE `t_service_agencies` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL COMMENT '公司名称',
-  `picture_url` varchar(1024) DEFAULT NULL COMMENT '图片地址',
-  `profile` varchar(255) DEFAULT NULL COMMENT '简介',
-  `address_one` varchar(255) DEFAULT NULL,
-  `address_two` varchar(255) DEFAULT NULL,
-  `address_three` varchar(255) DEFAULT NULL,
-  `address_four` varchar(255) DEFAULT NULL,
-  `address_five` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL COMMENT '服务机构类型',
-  `key_word` varchar(255) DEFAULT NULL COMMENT '关键字',
-  `phone` varchar(255) DEFAULT NULL COMMENT '服务网站地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `t_team_members`
