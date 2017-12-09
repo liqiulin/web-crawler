@@ -74,6 +74,10 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
                     // 保存抓取结果
                     crawlService.saveCrawlResultToFile(crawlType, investor);
                     investorMap.put(userId, investor);
+
+                    // 下载并保存图片
+
+
                 } catch (Exception e) {
                     log.warn("getInvestor failed!  crawlId[{}]", userId, e);
                     exceptionIds.add(userId);

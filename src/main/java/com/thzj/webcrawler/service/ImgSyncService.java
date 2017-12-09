@@ -23,6 +23,14 @@ public class ImgSyncService {
     private ImgManager imgManager;
 
     public void doSyncImgConcurrent() {
+        doSyncStartupImg();
+
+        doSyncInvestorImg();
+
+        doSyncInvestmentImg();
+    }
+
+    public void doSyncStartupImg() {
         Map<String, Startup> startupMap = CrawlResult.STARTUP;
         startupMap.forEach((crawlId, startup) -> {
             executorService.submit(() -> {
@@ -36,22 +44,26 @@ public class ImgSyncService {
                 log.info("statup product img synced . id [{}]", startup.getId());
             });
         });
+    }
 
-        Map<String, Investor> investorMap = CrawlResult.INVESTOR;
-        investorMap.forEach((crawlId, investor) -> {
-            executorService.submit(() -> {
-                log.info("investor avatar img sync start . id [{}]", investor.getId());
-                imgManager.getSavePathByImgPath(investor.getAvatarUrl());
-                log.info("investor avatar img sync end . id [{}]", investor.getId());
-            });
-        });
-
+    public void doSyncInvestmentImg() {
         Map<String, InvestInstitution> investInstitutionMap = CrawlResult.INVESTINSTITUTION;
         investInstitutionMap.forEach((crawlId, institution) -> {
             executorService.submit(() -> {
                 log.info("institution avatar img sync start . id [{}]", institution.getId());
                 imgManager.getSavePathByImgPath(institution.getAvatarUrl());
                 log.info("institution avatar img sync end . id [{}]", institution.getId());
+            });
+        });
+    }
+
+    public void doSyncInvestorImg() {
+        Map<String, Investor> investorMap = CrawlResult.INVESTOR;
+        investorMap.forEach((crawlId, investor) -> {
+            executorService.submit(() -> {
+                log.info("investor avatar img sync start . id [{}]", investor.getId());
+                imgManager.getSavePathByImgPath(investor.getAvatarUrl());
+                log.info("investor avatar img sync end . id [{}]", investor.getId());
             });
         });
     }
