@@ -108,7 +108,7 @@ public class ImgManagerImpl implements ImgManager {
             out.close();
             is.close();
             return true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             log.error("downImages error, path[{}], imgName[{}], imgUrl[{}]", path, imgName, imgUrl, e);
             if (Objects.nonNull(is)) {
                 try {
@@ -125,8 +125,9 @@ public class ImgManagerImpl implements ImgManager {
                     log.warn("close out error", e1);
                 }
             }
+
+            return downloadImg(path, imgName, imgUrl);
         }
-        return false;
     }
 
     private String getImgPath(String imgUrl) {
