@@ -180,8 +180,9 @@ CREATE TABLE `t_investor_project` (
   `audit_man` varchar(255) DEFAULT NULL COMMENT '审核人',
   `audit_time` datetime DEFAULT NULL COMMENT '审核时间',
   `is_grab` varchar(255) DEFAULT NULL COMMENT '是否为抓取数据(0表示不是，1表示是)',
+  `project_region` varchar(255) DEFAULT NULL COMMENT '项目所属地区',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 
 -- ----------------------------
