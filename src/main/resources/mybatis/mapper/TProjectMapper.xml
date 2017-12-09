@@ -29,6 +29,8 @@
     <result column="develop_journey" jdbcType="VARCHAR" property="developJourney" />
     <result column="products_url" jdbcType="VARCHAR" property="productsUrl" />
     <result column="website" jdbcType="VARCHAR" property="website" />
+    <result column="is_grab" jdbcType="VARCHAR" property="isGrab" />
+    <result column="video_path" jdbcType="VARCHAR" property="videoPath" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.thzj.webcrawler.entity.TProjectWithBLOBs">
     <result column="instruction" jdbcType="LONGVARCHAR" property="instruction" />
@@ -96,7 +98,7 @@
     id, user_id, user_name, project_name, company_name, logo_url, my_identity, project_stage, 
     province, city, industry, labelling, add_time, financing_rounds, auditor, audit_time, 
     audit_state, remark, collect_number, amount_of_financing, financing_state, business_plan_url, 
-    is_open, company_set_up_time, develop_journey, products_url, website
+    is_open, company_set_up_time, develop_journey, products_url, website, is_grab, video_path
   </sql>
   <sql id="Blob_Column_List">
     instruction, team_lightspot
@@ -169,8 +171,9 @@
       audit_state, remark, collect_number, 
       amount_of_financing, financing_state, business_plan_url, 
       is_open, company_set_up_time, develop_journey, 
-      products_url, website, instruction, 
-      team_lightspot)
+      products_url, website, is_grab, 
+      video_path, instruction, team_lightspot
+      )
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
       #{companyName,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, #{myIdentity,jdbcType=VARCHAR}, 
       #{projectStage,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
@@ -179,8 +182,9 @@
       #{auditState,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{collectNumber,jdbcType=INTEGER}, 
       #{amountOfFinancing,jdbcType=VARCHAR}, #{financingState,jdbcType=VARCHAR}, #{businessPlanUrl,jdbcType=VARCHAR}, 
       #{isOpen,jdbcType=VARCHAR}, #{companySetUpTime,jdbcType=TIMESTAMP}, #{developJourney,jdbcType=VARCHAR}, 
-      #{productsUrl,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{instruction,jdbcType=LONGVARCHAR}, 
-      #{teamLightspot,jdbcType=LONGVARCHAR})
+      #{productsUrl,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{isGrab,jdbcType=VARCHAR}, 
+      #{videoPath,jdbcType=VARCHAR}, #{instruction,jdbcType=LONGVARCHAR}, #{teamLightspot,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TProjectWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -265,6 +269,12 @@
       </if>
       <if test="website != null">
         website,
+      </if>
+      <if test="isGrab != null">
+        is_grab,
+      </if>
+      <if test="videoPath != null">
+        video_path,
       </if>
       <if test="instruction != null">
         instruction,
@@ -351,6 +361,12 @@
       </if>
       <if test="website != null">
         #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="isGrab != null">
+        #{isGrab,jdbcType=VARCHAR},
+      </if>
+      <if test="videoPath != null">
+        #{videoPath,jdbcType=VARCHAR},
       </if>
       <if test="instruction != null">
         #{instruction,jdbcType=LONGVARCHAR},
@@ -450,6 +466,12 @@
       <if test="record.website != null">
         website = #{record.website,jdbcType=VARCHAR},
       </if>
+      <if test="record.isGrab != null">
+        is_grab = #{record.isGrab,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoPath != null">
+        video_path = #{record.videoPath,jdbcType=VARCHAR},
+      </if>
       <if test="record.instruction != null">
         instruction = #{record.instruction,jdbcType=LONGVARCHAR},
       </if>
@@ -490,6 +512,8 @@
       develop_journey = #{record.developJourney,jdbcType=VARCHAR},
       products_url = #{record.productsUrl,jdbcType=VARCHAR},
       website = #{record.website,jdbcType=VARCHAR},
+      is_grab = #{record.isGrab,jdbcType=VARCHAR},
+      video_path = #{record.videoPath,jdbcType=VARCHAR},
       instruction = #{record.instruction,jdbcType=LONGVARCHAR},
       team_lightspot = #{record.teamLightspot,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -524,7 +548,9 @@
       company_set_up_time = #{record.companySetUpTime,jdbcType=TIMESTAMP},
       develop_journey = #{record.developJourney,jdbcType=VARCHAR},
       products_url = #{record.productsUrl,jdbcType=VARCHAR},
-      website = #{record.website,jdbcType=VARCHAR}
+      website = #{record.website,jdbcType=VARCHAR},
+      is_grab = #{record.isGrab,jdbcType=VARCHAR},
+      video_path = #{record.videoPath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -610,6 +636,12 @@
       <if test="website != null">
         website = #{website,jdbcType=VARCHAR},
       </if>
+      <if test="isGrab != null">
+        is_grab = #{isGrab,jdbcType=VARCHAR},
+      </if>
+      <if test="videoPath != null">
+        video_path = #{videoPath,jdbcType=VARCHAR},
+      </if>
       <if test="instruction != null">
         instruction = #{instruction,jdbcType=LONGVARCHAR},
       </if>
@@ -647,6 +679,8 @@
       develop_journey = #{developJourney,jdbcType=VARCHAR},
       products_url = #{productsUrl,jdbcType=VARCHAR},
       website = #{website,jdbcType=VARCHAR},
+      is_grab = #{isGrab,jdbcType=VARCHAR},
+      video_path = #{videoPath,jdbcType=VARCHAR},
       instruction = #{instruction,jdbcType=LONGVARCHAR},
       team_lightspot = #{teamLightspot,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -678,7 +712,9 @@
       company_set_up_time = #{companySetUpTime,jdbcType=TIMESTAMP},
       develop_journey = #{developJourney,jdbcType=VARCHAR},
       products_url = #{productsUrl,jdbcType=VARCHAR},
-      website = #{website,jdbcType=VARCHAR}
+      website = #{website,jdbcType=VARCHAR},
+      is_grab = #{isGrab,jdbcType=VARCHAR},
+      video_path = #{videoPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

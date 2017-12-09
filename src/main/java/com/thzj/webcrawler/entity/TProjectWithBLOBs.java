@@ -73,6 +73,8 @@ public class TProjectWithBLOBs extends TProject implements Serializable {
             && (this.getDevelopJourney() == null ? other.getDevelopJourney() == null : this.getDevelopJourney().equals(other.getDevelopJourney()))
             && (this.getProductsUrl() == null ? other.getProductsUrl() == null : this.getProductsUrl().equals(other.getProductsUrl()))
             && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
+            && (this.getIsGrab() == null ? other.getIsGrab() == null : this.getIsGrab().equals(other.getIsGrab()))
+            && (this.getVideoPath() == null ? other.getVideoPath() == null : this.getVideoPath().equals(other.getVideoPath()))
             && (this.getInstruction() == null ? other.getInstruction() == null : this.getInstruction().equals(other.getInstruction()))
             && (this.getTeamLightspot() == null ? other.getTeamLightspot() == null : this.getTeamLightspot().equals(other.getTeamLightspot()));
     }
@@ -108,6 +110,8 @@ public class TProjectWithBLOBs extends TProject implements Serializable {
         result = prime * result + ((getDevelopJourney() == null) ? 0 : getDevelopJourney().hashCode());
         result = prime * result + ((getProductsUrl() == null) ? 0 : getProductsUrl().hashCode());
         result = prime * result + ((getWebsite() == null) ? 0 : getWebsite().hashCode());
+        result = prime * result + ((getIsGrab() == null) ? 0 : getIsGrab().hashCode());
+        result = prime * result + ((getVideoPath() == null) ? 0 : getVideoPath().hashCode());
         result = prime * result + ((getInstruction() == null) ? 0 : getInstruction().hashCode());
         result = prime * result + ((getTeamLightspot() == null) ? 0 : getTeamLightspot().hashCode());
         return result;
