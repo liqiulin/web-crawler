@@ -124,8 +124,9 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         //判断是否为空
         List<String> investIndustries = new ArrayList<>();
         List<String> investRounds = new ArrayList<>();
-        Elements elements = doc.getElementById("module_keyword").select(".details");
-        if (null != elements && CollectionUtils.isEmpty(elements)) {
+        Elements keywordElements = doc.getElementsByClass("details_users_info_card user_keyword");
+        if (null != keywordElements && CollectionUtils.isEmpty(keywordElements)) {
+            Elements elements = keywordElements.select(".details");
             //投资行业
             if (null != elements.select("li.field") && !CollectionUtils.isEmpty(elements.select("li.field"))) {
                 Elements focusIndustryElements = elements.select("li.field").select("a");
