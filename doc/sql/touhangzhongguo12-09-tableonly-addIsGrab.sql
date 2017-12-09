@@ -179,8 +179,9 @@ CREATE TABLE `t_investor_project` (
   `audit_state` varchar(11) DEFAULT NULL COMMENT '审核状态(0表示未审核，1表示审核通过，2表示审核未通过)',
   `audit_man` varchar(255) DEFAULT NULL COMMENT '审核人',
   `audit_time` datetime DEFAULT NULL COMMENT '审核时间',
+  `is_grab` varchar(255) DEFAULT NULL COMMENT '是否为抓取数据(0表示不是，1表示是)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 
 -- ----------------------------
@@ -217,8 +218,10 @@ CREATE TABLE `t_project` (
   `develop_journey` varchar(255) DEFAULT NULL COMMENT '发展历程',
   `products_url` varchar(1024) DEFAULT NULL COMMENT '产品图片',
   `website` varchar(255) DEFAULT NULL COMMENT '官网',
+  `is_grab` varchar(255) DEFAULT NULL COMMENT '是否为抓取到的数据(0不是，1代表是)',
+  `video_path` varchar(1024) DEFAULT NULL COMMENT '视频路径',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='深交所项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='深交所项目表';
 
 -- ----------------------------
 -- Table structure for `t_team_members`
