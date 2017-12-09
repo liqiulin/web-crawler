@@ -46,6 +46,8 @@ public class InvestorManagerImpl implements InvestorManager {
     public int saveByCrawlInstitution(InvestInstitution investInstitution, String orgLogoPath) {
         TInvestor tInvestor = new TInvestor();
 
+        tInvestor.setOrgLogoImg(orgLogoPath);
+
         // 默认属性
         tInvestor.setInvestorForm(InvestorFormEnum.INVEST_INSTITUTION.getCode());
         tInvestor.setAuditor("超级管理员");
@@ -64,6 +66,8 @@ public class InvestorManagerImpl implements InvestorManager {
         // 同步增加人员记录
         int userId = userManager.createByInvestorName(investor.getName());
         tInvestor.setUserId(userId);
+
+        tInvestor.setVisitImg(logoPath);
 
         // 默认属性
         tInvestor.setInvestorForm(InvestorFormEnum.INVESTOR.getCode());
