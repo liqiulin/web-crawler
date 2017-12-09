@@ -1954,6 +1954,146 @@ public class TProjectExample {
             addCriterion("website not between", value1, value2, "website");
             return (Criteria) this;
         }
+
+        public Criteria andIsGrabIsNull() {
+            addCriterion("is_grab is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabIsNotNull() {
+            addCriterion("is_grab is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabEqualTo(String value) {
+            addCriterion("is_grab =", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabNotEqualTo(String value) {
+            addCriterion("is_grab <>", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabGreaterThan(String value) {
+            addCriterion("is_grab >", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabGreaterThanOrEqualTo(String value) {
+            addCriterion("is_grab >=", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabLessThan(String value) {
+            addCriterion("is_grab <", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabLessThanOrEqualTo(String value) {
+            addCriterion("is_grab <=", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabLike(String value) {
+            addCriterion("is_grab like", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabNotLike(String value) {
+            addCriterion("is_grab not like", value, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabIn(List<String> values) {
+            addCriterion("is_grab in", values, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabNotIn(List<String> values) {
+            addCriterion("is_grab not in", values, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabBetween(String value1, String value2) {
+            addCriterion("is_grab between", value1, value2, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGrabNotBetween(String value1, String value2) {
+            addCriterion("is_grab not between", value1, value2, "isGrab");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIsNull() {
+            addCriterion("video_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIsNotNull() {
+            addCriterion("video_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathEqualTo(String value) {
+            addCriterion("video_path =", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotEqualTo(String value) {
+            addCriterion("video_path <>", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathGreaterThan(String value) {
+            addCriterion("video_path >", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathGreaterThanOrEqualTo(String value) {
+            addCriterion("video_path >=", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLessThan(String value) {
+            addCriterion("video_path <", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLessThanOrEqualTo(String value) {
+            addCriterion("video_path <=", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLike(String value) {
+            addCriterion("video_path like", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotLike(String value) {
+            addCriterion("video_path not like", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIn(List<String> values) {
+            addCriterion("video_path in", values, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotIn(List<String> values) {
+            addCriterion("video_path not in", values, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathBetween(String value1, String value2) {
+            addCriterion("video_path between", value1, value2, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotBetween(String value1, String value2) {
+            addCriterion("video_path not between", value1, value2, "videoPath");
+            return (Criteria) this;
+        }
     }
 
     /**

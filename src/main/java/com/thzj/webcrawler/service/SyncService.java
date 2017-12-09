@@ -22,6 +22,8 @@ public class SyncService {
     private ProjectSyncService projectSyncService;
     @Resource
     private CrawlService crawlService;
+    @Resource
+    private ImgSyncService imgSyncService;
 
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -34,6 +36,9 @@ public class SyncService {
         crawlService.grabInvestInstitution();
         crawlService.grabInvestor();
         crawlService.grabStartup();
+
+        // 下载图片
+        imgSyncService.doSyncImgConcurrent();
 
         // 同步抓取内容到业务目标
         investInstitutionSyncService.doSync();

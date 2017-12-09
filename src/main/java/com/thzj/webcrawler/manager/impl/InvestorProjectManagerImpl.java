@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.manager.impl;
 
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.dao.TInvestorProjectMapper;
 import com.thzj.webcrawler.entity.TInvestorProject;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +34,7 @@ public class InvestorProjectManagerImpl implements InvestorProjectManager {
         investorProject.setProjectName(investCase.getName());
         investorProject.setProjectProfile(investCase.getProfile());
         investorProject.setProjectUrl(imgManager.getSavePathByImgPath(investCase.getAvatarUrl()));
+
         return investorProject;
     }
 
@@ -44,6 +47,8 @@ public class InvestorProjectManagerImpl implements InvestorProjectManager {
         if (CollectionUtils.isEmpty(investorProjectList)) {
             return;
         }
+
+        setDefaultPrpoerty(investorProjectList);
 
         investorProjectList.forEach(investorProject -> investorProjectMapper.insertSelective(investorProject));
     }
@@ -58,6 +63,23 @@ public class InvestorProjectManagerImpl implements InvestorProjectManager {
             return;
         }
 
+        setDefaultPrpoerty(investorProjectList);
+
         investorProjectList.forEach(investorProject -> investorProjectMapper.insertSelective(investorProject));
+    }
+
+    private void setDefaultPrpoerty(List<TInvestorProject> investorProjectList) {
+        if (CollectionUtils.isEmpty(investorProjectList)) {
+            return;
+        }
+
+        investorProjectList.forEach(investorProject -> {
+            // 默认字段
+            investorProject.setAuditMan("超级管理员");
+            investorProject.setAuditState("1");
+            investorProject.setAuditTime(new Date());
+            investorProject.setIsGrab(Constants.PROJECT_IS_GRAB_TRUE);
+        });
+
     }
 }

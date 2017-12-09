@@ -2,6 +2,7 @@ package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.entity.*;
@@ -32,24 +33,6 @@ public class ProjectSyncService {
     private DevelopmentHistoryManager developmentHistoryManager;
     @Resource
     private InvestorProjectManager investorProjectManager;
-
-    private static ExecutorService executorService = Executors.newFixedThreadPool(30);
-
-    public void doSyncImgConcurrent() {
-        Map<String, Startup> investorMap = CrawlResult.STARTUP;
-        investorMap.forEach((crawlId, startup) -> {
-            executorService.submit(() -> {
-                log.info("statup avatar img sync start . id [{}]", startup.getId());
-                imgManager.getSavePathByImgPath(startup.getAvatarUrl());
-                log.info("statup avatar img sync end . id [{}]", startup.getId());
-            });
-            executorService.submit(() -> {
-                log.info("statup product img sync start . id [{}]", startup.getId());
-                imgManager.getSavePathByImgPath(startup.getProductImgUrl());
-                log.info("statup product img synced . id [{}]", startup.getId());
-            });
-        });
-    }
 
     public void doSync() {
         log.info("start ...");
@@ -107,6 +90,7 @@ public class ProjectSyncService {
                 investorProject.setAuditMan("超级管理员");
                 investorProject.setAuditState("1");
                 investorProject.setAuditTime(new Date());
+                investorProject.setIsGrab(Constants.PROJECT_IS_GRAB_TRUE);
 
                 investorProjectList.add(investorProject);
             });

@@ -141,6 +141,16 @@ public class TProject implements Serializable {
      */
     private String website;
 
+    /**
+     * 是否为抓取到的数据(0不是，1代表是)
+     */
+    private String isGrab;
+
+    /**
+     * 视频路径
+     */
+    private String videoPath;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -359,6 +369,22 @@ public class TProject implements Serializable {
         this.website = website;
     }
 
+    public String getIsGrab() {
+        return isGrab;
+    }
+
+    public void setIsGrab(String isGrab) {
+        this.isGrab = isGrab;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -397,7 +423,9 @@ public class TProject implements Serializable {
             && (this.getCompanySetUpTime() == null ? other.getCompanySetUpTime() == null : this.getCompanySetUpTime().equals(other.getCompanySetUpTime()))
             && (this.getDevelopJourney() == null ? other.getDevelopJourney() == null : this.getDevelopJourney().equals(other.getDevelopJourney()))
             && (this.getProductsUrl() == null ? other.getProductsUrl() == null : this.getProductsUrl().equals(other.getProductsUrl()))
-            && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()));
+            && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
+            && (this.getIsGrab() == null ? other.getIsGrab() == null : this.getIsGrab().equals(other.getIsGrab()))
+            && (this.getVideoPath() == null ? other.getVideoPath() == null : this.getVideoPath().equals(other.getVideoPath()));
     }
 
     @Override
@@ -431,6 +459,8 @@ public class TProject implements Serializable {
         result = prime * result + ((getDevelopJourney() == null) ? 0 : getDevelopJourney().hashCode());
         result = prime * result + ((getProductsUrl() == null) ? 0 : getProductsUrl().hashCode());
         result = prime * result + ((getWebsite() == null) ? 0 : getWebsite().hashCode());
+        result = prime * result + ((getIsGrab() == null) ? 0 : getIsGrab().hashCode());
+        result = prime * result + ((getVideoPath() == null) ? 0 : getVideoPath().hashCode());
         return result;
     }
 
@@ -467,6 +497,8 @@ public class TProject implements Serializable {
         sb.append(", developJourney=").append(developJourney);
         sb.append(", productsUrl=").append(productsUrl);
         sb.append(", website=").append(website);
+        sb.append(", isGrab=").append(isGrab);
+        sb.append(", videoPath=").append(videoPath);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
