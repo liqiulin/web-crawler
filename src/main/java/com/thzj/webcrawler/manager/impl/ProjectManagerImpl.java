@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.manager.impl;
 
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.dao.TProjectMapper;
 import com.thzj.webcrawler.entity.TProject;
@@ -16,7 +17,6 @@ import java.util.Date;
 public class ProjectManagerImpl implements ProjectManager {
     @Resource
     private TProjectMapper projectMapper;
-
 
     @Override
     public void updateByCrawlStartup(int entityId, Startup startup, String logoPath, String productImgPath) {
@@ -46,6 +46,7 @@ public class ProjectManagerImpl implements ProjectManager {
         entity.setAuditor("超级管理员");
         entity.setAuditState("1");
         entity.setAuditTime(new Date());
+        entity.setIsGrab(Constants.PROJECT_IS_GRAB_TRUE);
 
         // 抓取字段
         setCrawlStartupProperties(startup, logoPath, productImgPath, entity);

@@ -2,6 +2,11 @@ package com.thzj.webcrawler.common;
 
 public class Constants {
     /**
+     * 抓取项目标识
+     */
+    public static final String PROJECT_IS_GRAB_TRUE = "1";
+
+    /**
      * 主站
      */
     final static String HOME_PAGE_URL = "https://www.vc.cn";

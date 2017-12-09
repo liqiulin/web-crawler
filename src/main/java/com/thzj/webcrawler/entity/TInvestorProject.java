@@ -77,6 +77,11 @@ public class TInvestorProject implements Serializable {
      */
     private Date auditTime;
 
+    /**
+     * 是否为抓取数据(0表示不是，1表示是)
+     */
+    private String isGrab;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -191,6 +196,14 @@ public class TInvestorProject implements Serializable {
         this.auditTime = auditTime;
     }
 
+    public String getIsGrab() {
+        return isGrab;
+    }
+
+    public void setIsGrab(String isGrab) {
+        this.isGrab = isGrab;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -216,7 +229,8 @@ public class TInvestorProject implements Serializable {
             && (this.getIndustry() == null ? other.getIndustry() == null : this.getIndustry().equals(other.getIndustry()))
             && (this.getAuditState() == null ? other.getAuditState() == null : this.getAuditState().equals(other.getAuditState()))
             && (this.getAuditMan() == null ? other.getAuditMan() == null : this.getAuditMan().equals(other.getAuditMan()))
-            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()));
+            && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
+            && (this.getIsGrab() == null ? other.getIsGrab() == null : this.getIsGrab().equals(other.getIsGrab()));
     }
 
     @Override
@@ -237,6 +251,7 @@ public class TInvestorProject implements Serializable {
         result = prime * result + ((getAuditState() == null) ? 0 : getAuditState().hashCode());
         result = prime * result + ((getAuditMan() == null) ? 0 : getAuditMan().hashCode());
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
+        result = prime * result + ((getIsGrab() == null) ? 0 : getIsGrab().hashCode());
         return result;
     }
 
@@ -260,6 +275,7 @@ public class TInvestorProject implements Serializable {
         sb.append(", auditState=").append(auditState);
         sb.append(", auditMan=").append(auditMan);
         sb.append(", auditTime=").append(auditTime);
+        sb.append(", isGrab=").append(isGrab);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

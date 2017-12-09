@@ -3,6 +3,7 @@ package com.thzj.webcrawler.dao;
 import com.thzj.webcrawler.entity.TProject;
 import com.thzj.webcrawler.entity.TProjectExample;
 import com.thzj.webcrawler.entity.TProjectWithBLOBs;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

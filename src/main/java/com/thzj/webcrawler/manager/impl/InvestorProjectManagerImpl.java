@@ -1,5 +1,6 @@
 package com.thzj.webcrawler.manager.impl;
 
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.dao.TInvestorProjectMapper;
 import com.thzj.webcrawler.entity.TInvestorProject;
@@ -32,6 +33,7 @@ public class InvestorProjectManagerImpl implements InvestorProjectManager {
         investorProject.setProjectName(investCase.getName());
         investorProject.setProjectProfile(investCase.getProfile());
         investorProject.setProjectUrl(imgManager.getSavePathByImgPath(investCase.getAvatarUrl()));
+        investorProject.setIsGrab(Constants.PROJECT_IS_GRAB_TRUE);
         return investorProject;
     }
 
