@@ -26,7 +26,8 @@ for i in 1 10; do
     break
   fi
   echo "sleep 5s"
-  sleep 5
+#  sleep 5
+  sleep 1
 done
 
 #如果等待50秒还没有停止完，直接杀掉
