@@ -1124,6 +1124,76 @@ public class TInvestorProjectExample {
             addCriterion("is_grab not between", value1, value2, "isGrab");
             return (Criteria) this;
         }
+
+        public Criteria andProjectRegionIsNull() {
+            addCriterion("project_region is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionIsNotNull() {
+            addCriterion("project_region is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionEqualTo(String value) {
+            addCriterion("project_region =", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionNotEqualTo(String value) {
+            addCriterion("project_region <>", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionGreaterThan(String value) {
+            addCriterion("project_region >", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionGreaterThanOrEqualTo(String value) {
+            addCriterion("project_region >=", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionLessThan(String value) {
+            addCriterion("project_region <", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionLessThanOrEqualTo(String value) {
+            addCriterion("project_region <=", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionLike(String value) {
+            addCriterion("project_region like", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionNotLike(String value) {
+            addCriterion("project_region not like", value, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionIn(List<String> values) {
+            addCriterion("project_region in", values, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionNotIn(List<String> values) {
+            addCriterion("project_region not in", values, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionBetween(String value1, String value2) {
+            addCriterion("project_region between", value1, value2, "projectRegion");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectRegionNotBetween(String value1, String value2) {
+            addCriterion("project_region not between", value1, value2, "projectRegion");
+            return (Criteria) this;
+        }
     }
 
     /**

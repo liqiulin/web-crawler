@@ -54,4 +54,9 @@ public class ProjectManagerImpl implements ProjectManager {
         projectMapper.insertSelective(entity);
         return entity.getId();
     }
+
+    @Override
+    public TProject getById(int id) {
+        return this.projectMapper.selectByPrimaryKey(id);
+    }
 }

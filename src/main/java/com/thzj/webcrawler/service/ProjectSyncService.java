@@ -77,6 +77,7 @@ public class ProjectSyncService {
     }
 
     private void sycFinancingHistory(Startup startup, int entityId) {
+        TProject tProject = projectManager.getById(entityId);
         List<TInvestorProject> investorProjectList = Lists.newArrayList();
         if (!CollectionUtils.isEmpty(startup.getFinancingHistories())) {
             startup.getFinancingHistories().forEach(financingHistory -> {
@@ -85,6 +86,7 @@ public class ProjectSyncService {
                 investorProject.setAmount(financingHistory.getFinancingAmount());
                 investorProject.setInvestmentRounds(financingHistory.getRound());
                 investorProject.setInvestmentTime(financingHistory.getTime());
+                investorProject.setProjectRegion(tProject.getProvince());
 
                 // 默认字段
                 investorProject.setAuditMan("超级管理员");

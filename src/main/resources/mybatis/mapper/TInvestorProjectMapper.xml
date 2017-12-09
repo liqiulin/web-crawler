@@ -17,6 +17,7 @@
     <result column="audit_man" jdbcType="VARCHAR" property="auditMan" />
     <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
     <result column="is_grab" jdbcType="VARCHAR" property="isGrab" />
+    <result column="project_region" jdbcType="VARCHAR" property="projectRegion" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List">
     id, project_name, investment_id, investment_time, project_profile, project_url, investment_rounds, 
     project_id, amount, project_company, industry, audit_state, audit_man, audit_time, 
-    is_grab
+    is_grab, project_region
   </sql>
   <select id="selectByExample" parameterType="com.thzj.webcrawler.entity.TInvestorProjectExample" resultMap="BaseResultMap">
     select
@@ -127,12 +128,14 @@
       project_profile, project_url, investment_rounds, 
       project_id, amount, project_company, 
       industry, audit_state, audit_man, 
-      audit_time, is_grab)
+      audit_time, is_grab, project_region
+      )
     values (#{projectName,jdbcType=VARCHAR}, #{investmentId,jdbcType=INTEGER}, #{investmentTime,jdbcType=TIMESTAMP}, 
       #{projectProfile,jdbcType=VARCHAR}, #{projectUrl,jdbcType=VARCHAR}, #{investmentRounds,jdbcType=VARCHAR}, 
       #{projectId,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{projectCompany,jdbcType=VARCHAR}, 
       #{industry,jdbcType=VARCHAR}, #{auditState,jdbcType=VARCHAR}, #{auditMan,jdbcType=VARCHAR}, 
-      #{auditTime,jdbcType=TIMESTAMP}, #{isGrab,jdbcType=VARCHAR})
+      #{auditTime,jdbcType=TIMESTAMP}, #{isGrab,jdbcType=VARCHAR}, #{projectRegion,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.thzj.webcrawler.entity.TInvestorProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -182,6 +185,9 @@
       <if test="isGrab != null">
         is_grab,
       </if>
+      <if test="projectRegion != null">
+        project_region,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectName != null">
@@ -225,6 +231,9 @@
       </if>
       <if test="isGrab != null">
         #{isGrab,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRegion != null">
+        #{projectRegion,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -282,6 +291,9 @@
       <if test="record.isGrab != null">
         is_grab = #{record.isGrab,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectRegion != null">
+        project_region = #{record.projectRegion,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -303,7 +315,8 @@
       audit_state = #{record.auditState,jdbcType=VARCHAR},
       audit_man = #{record.auditMan,jdbcType=VARCHAR},
       audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
-      is_grab = #{record.isGrab,jdbcType=VARCHAR}
+      is_grab = #{record.isGrab,jdbcType=VARCHAR},
+      project_region = #{record.projectRegion,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -353,6 +366,9 @@
       <if test="isGrab != null">
         is_grab = #{isGrab,jdbcType=VARCHAR},
       </if>
+      <if test="projectRegion != null">
+        project_region = #{projectRegion,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -371,7 +387,8 @@
       audit_state = #{auditState,jdbcType=VARCHAR},
       audit_man = #{auditMan,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=TIMESTAMP},
-      is_grab = #{isGrab,jdbcType=VARCHAR}
+      is_grab = #{isGrab,jdbcType=VARCHAR},
+      project_region = #{projectRegion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
