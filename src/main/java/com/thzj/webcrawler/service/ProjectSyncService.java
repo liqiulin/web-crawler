@@ -2,6 +2,7 @@ package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
 import com.thzj.webcrawler.entity.*;
@@ -89,6 +90,7 @@ public class ProjectSyncService {
                 investorProject.setAuditMan("超级管理员");
                 investorProject.setAuditState("1");
                 investorProject.setAuditTime(new Date());
+                investorProject.setIsGrab(Constants.PROJECT_IS_GRAB_TRUE);
 
                 investorProjectList.add(investorProject);
             });
