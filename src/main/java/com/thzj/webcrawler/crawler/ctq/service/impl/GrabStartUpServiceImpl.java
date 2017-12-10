@@ -12,6 +12,7 @@ import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -26,7 +27,8 @@ import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static com.thzj.webcrawler.util.HttpClientUtils.httpGetRequest;
+
 
 /**
  * 抓取投融项目详情
@@ -189,16 +191,24 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             profile = profileElements.select("p").text();
         }
 
-        //融资历史 Todo 这里可能需要翻页处理，暂不处理
+        //融资历史
         List<FinancingHistory> financingHistories = Lists.newArrayList();
-        Elements financeElements = doc.getElementById("financing_info").getElementsByClass("financing-history");
-        if (null != financeElements && !CollectionUtils.isEmpty(financeElements)) {
-            Elements financingHistoryElements = financeElements.select("li");
-            financingHistories = buildFinancingHistory(startupId, financingHistoryElements);
+        if (null != doc.getElementById("financing_info")) {
+            Elements financeElements = doc.getElementById("financing_info").getElementsByClass("financing-history");
+            if (null != financeElements && !CollectionUtils.isEmpty(financeElements)) {
+                Elements financingHistoryElements = financeElements.select("li");
+                financingHistories = buildFinancingHistory(startupId, financingHistoryElements);
+            }
+            Elements loadMoreCaseElements = financeElements.select("div.center");
+            if (null != loadMoreCaseElements
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements)
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
+                getAllFinancingHistory(startupId, financingHistories);
+            }
         }
 
 
-        //项目成员 Todo 翻页-暂不处理
+        //项目成员
         List<StartupMember> startupMembers = Lists.newArrayList();
         Elements startupMemberElements = doc.getElementById("team_info").select("ul.members-list");
         if (null != startupMemberElements && !CollectionUtils.isEmpty(startupMemberElements)) {
@@ -211,13 +221,13 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
         String productsWebsite = "";
         Element productElement = doc.getElementById("product_info");
         if (null != productElement) {
-            //Todo 图片链接可能是List类型，暂不处理
+            // 图片链接可能是List类型，暂不处理
             Elements productsUrlElements = productElement.select("div.photos-views").select("img");
             if (null != productsUrlElements && !CollectionUtils.isEmpty(productsUrlElements) ) {
                 productsUrl = productElement.select("div.photos-views").select("img").first().attr("src");
             }
 
-            //产品网站 Todo 这里可能会有好几个产品网址，目前只取第一个
+            //产品网站 这里可能会有好几个产品网址，目前只取第一个
             Elements elements = productElement.select("ul.main-products-list");
             if (null != elements && !CollectionUtils.isEmpty(elements)) {
                 productsWebsite = productElement.select(".main-products-list").select("li").first().
@@ -275,6 +285,11 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
      */
     private List<FinancingHistory> buildFinancingHistory(String startupId, Elements financingHistoryElements) {
         List<FinancingHistory> financingHistories = Lists.newArrayList();
+
+        if (null == financingHistoryElements || CollectionUtils.isEmpty(financingHistoryElements)) {
+            return financingHistories;
+        }
+
         for (Element element : financingHistoryElements) {
             FinancingHistory financingHistory = new FinancingHistory();
             Date time = DateUtil.stringToDate(element.select("div.time").text());
@@ -288,6 +303,30 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             financingHistories.add(financingHistory);
         }
         return financingHistories;
+    }
+
+    private void getAllFinancingHistory(String startupId, List<FinancingHistory> financingHistories) {
+        String moreInvestCaseUrl = "https://www.vc.cn/startups/";
+        Map<String, Object> params = Maps.newHashMap();
+        String url = moreInvestCaseUrl + startupId + "/investments";
+        String result;
+        Document doc;
+
+        try {
+            for (int i = 2; ; i++) {
+                params.put("page", i);
+                result = httpGetRequest(url, params).substring(15);
+                if ("\";".equals(result)) {
+                    log.info("getAllStartupFinancingHistory finished.");
+                    break;
+                }
+                doc = Jsoup.parseBodyFragment(result);
+                Elements financingHistoryElements = doc.select("li");
+                financingHistories.addAll(buildFinancingHistory(startupId, financingHistoryElements));
+            }
+        } catch (Exception e) {
+            log.warn("getAllStartupFinancingHistory failed! crawlId[{}]", startupId, e);
+        }
     }
 
     private List<StartupMember> buildStartupMembers(String startupId, Elements startupMemberElements) {
@@ -307,10 +346,9 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
     }
 
 
-
-
     public static void main (String[] args) {
-        //List<String> list = getStartUpIds();
-        //System.out.println(list);
+/*        List<FinancingHistory> investCaseList = Lists.newArrayList();
+        getAllFinancingHistory1("80373", investCaseList);
+        System.out.println(investCaseList);*/
     }
 }
