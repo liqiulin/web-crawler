@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -22,28 +24,35 @@ public class SyncService {
     private ProjectSyncService projectSyncService;
     @Resource
     private CrawlService crawlService;
-    @Resource
-    private ImgSyncService imgSyncService;
+
+    private static final Lock syncLock = new ReentrantLock();
 
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
 
     public void doSync() {
-        // 同步前初始化
-        initBeforeSync();
+        if (syncLock.tryLock()) {
+            try {
+                // 同步前初始化
+                initBeforeSync();
 
-        // 抓取目前内容
-        crawlService.grabInvestInstitution();
-        crawlService.grabInvestor();
-        crawlService.grabStartup();
+                // 抓取目前内容
+                crawlService.grabInvestInstitution();
+                crawlService.grabInvestor();
+                crawlService.grabStartup();
 
-        // 下载图片
-        imgSyncService.doSyncImgConcurrent();
+                // 同步抓取内容到业务目标
+                investInstitutionSyncService.doSync();
+                investorSyncService.doSync();
+                projectSyncService.doSync();
+            } finally {
+                syncLock.unlock();
+            }
+        } else {
+            log.warn("syncLock.tryLock false");
+            throw new RuntimeException("doSync fail. 当前尚有未结束的同步操作");
+        }
 
-        // 同步抓取内容到业务目标
-        investInstitutionSyncService.doSync();
-        investorSyncService.doSync();
-        projectSyncService.doSync();
     }
 
     private void initBeforeSync() {
