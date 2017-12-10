@@ -187,7 +187,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         if (null != doc.getElementById("module_invest_case")) {
             Elements investCasesElements = doc.getElementById("module_invest_case").
                     select("div#invest_cases").select("div.case_card");
-            if (null != investCasesElements && CollectionUtils.isEmpty(investCasesElements)) {
+            if (null != investCasesElements && !CollectionUtils.isEmpty(investCasesElements)) {
                 investCases.addAll(buildInvestCaseList(investCasesElements));
             }
             Elements loadMoreCaseElements = doc.getElementById("module_invest_case").select("div.center.load_more_cases");
@@ -279,7 +279,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             investCase.setInvestInstitutions(investInstitution);
             investCase.setStartupId(BaseUtil.getIdfromUrl("startups", startupIdString));
             investCase.setProfile(element.select("div.pitch").text());
-            investCase.setAvatarUrl(element.select("cell avatar").select("img").attr("src"));
+            investCase.setAvatarUrl(element.select("div.cell.avatar").select("img").attr("src"));
             investCase.setInvestorRound(element.select("div.round").text());
             investCase.setInvestorMoney(element.select("div.money").text());
 
