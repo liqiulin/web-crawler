@@ -126,8 +126,9 @@ public class ImgManagerImpl implements ImgManager {
                 }
             }
 
-            return downloadImg(path, imgName, imgUrl);
+//            return downloadImg(path, imgName, imgUrl);
         }
+        return false;
     }
 
     private String getImgPath(String imgUrl) {
