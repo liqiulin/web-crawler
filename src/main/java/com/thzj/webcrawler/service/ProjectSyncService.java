@@ -87,6 +87,7 @@ public class ProjectSyncService {
                 investorProject.setInvestmentRounds(financingHistory.getRound());
                 investorProject.setInvestmentTime(financingHistory.getTime());
                 investorProject.setProjectRegion(tProject.getProvince());
+                investorProject.setInvestmentName(financingHistory.getInvestInstitutionNames());
 
                 // 默认字段
                 investorProject.setAuditMan("超级管理员");
