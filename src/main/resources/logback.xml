@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="10 seconds">
 
     <!--<property name="log.file.path" value="/Users/liangk/Documents/ex-work/data/logs/web-crawler.log" />-->
-    <property name="log.file.path" value="D:\\thzj\\2017-12-09\\log\\web-crawler.log" />
+    <property name="log.file.path" value="D:\\thzj\\2017-12-11\\log\\web-crawler.log" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

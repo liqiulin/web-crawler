@@ -82,9 +82,10 @@ public class ImgManagerImpl implements ImgManager {
                 imgDownloadHis.setSavePath(savePath + fileName);
                 imgDownloadHisMapper.insertSelective(imgDownloadHis);
             }
+            return savePath + fileName;
+        } else {
+            return "";
         }
-
-        return savePath + fileName;
     }
 
     public static boolean downloadImg(String path, String imgName, String imgUrl) {
@@ -126,7 +127,7 @@ public class ImgManagerImpl implements ImgManager {
                 }
             }
 
-//            return downloadImg(path, imgName, imgUrl);
+            // 如果是404 FileNotFound 最好记录下这种URL，以后也不要下载了
         }
         return false;
     }
