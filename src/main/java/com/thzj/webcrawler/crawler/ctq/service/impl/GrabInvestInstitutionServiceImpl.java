@@ -3,6 +3,7 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
@@ -11,10 +12,11 @@ import com.thzj.webcrawler.crawler.ctq.service.GrabInvestInstitutionService;
 import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
-import com.thzj.webcrawler.util.JSONUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_ID_URL;
+import static com.thzj.webcrawler.util.HttpClientUtils.httpGetRequest;
 
 
 /**
@@ -179,11 +182,23 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             }
         }
 
-        //投资案例:抓取全部信息 TODO 可能需要分页处理
+        //投资案例:抓取全部信息
         List<InvestCase> investCases = Lists.newArrayList();
-        investCases = buildInvestCaseList(doc);
+        if (null != doc.getElementById("module_invest_case")) {
+            Elements investCasesElements = doc.getElementById("module_invest_case").
+                    select("div#invest_cases").select("div.case_card");
+            if (null != investCasesElements && !CollectionUtils.isEmpty(investCasesElements)) {
+                investCases.addAll(buildInvestCaseList(investCasesElements));
+            }
+            Elements loadMoreCaseElements = doc.getElementById("module_invest_case").select("div.center.load_more_cases");
+            if (null != loadMoreCaseElements
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements)
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
+                getAllInvestCase(investCases, instituteId);
+            }
+        }
 
-        //投资机构基本信息：电话、邮箱、地址 Todo 处理边界条件
+        //投资机构基本信息：电话、邮箱、地址
         String email = "";
         String phone = "";
         String province = "";
@@ -242,10 +257,8 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         return investInstitution;
     }
 
-    //TODO 1）InvestCase里是否需要保存投资机构的ID 2）是否翻页处理
-    private List<InvestCase> buildInvestCaseList(Document doc) {
-        Elements investCaseElements = doc.getElementById("module_invest_case").
-                select("div#invest_cases").select("div.case_card");
+
+    private List<InvestCase> buildInvestCaseList(Elements investCaseElements) {
         List<InvestCase> investCaseList = Lists.newArrayList();
 
         if (null == investCaseElements || CollectionUtils.isEmpty(investCaseElements)) {
@@ -260,13 +273,13 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             String industry = element.select("div.name").select("span").text();
             String startupIdString = element.select("div.name").select("a").attr("href");
             List<String> investInstitutions = element.select("div.cell.keywords").select("a").eachText();
-            String investInstitution = Joiner.on(",").skipNulls().join(investInstitutions);
+            String investInstitution = Joiner.on("、").skipNulls().join(investInstitutions);
             investCase.setName(name);
             investCase.setStartupIndustry(industry);
             investCase.setInvestInstitutions(investInstitution);
             investCase.setStartupId(BaseUtil.getIdfromUrl("startups", startupIdString));
             investCase.setProfile(element.select("div.pitch").text());
-            investCase.setAvatarUrl(element.select("cell avatar").select("img").attr("src"));
+            investCase.setAvatarUrl(element.select("div.cell.avatar").select("img").attr("src"));
             investCase.setInvestorRound(element.select("div.round").text());
             investCase.setInvestorMoney(element.select("div.money").text());
 
@@ -275,16 +288,37 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
         return investCaseList;
     }
 
+    //InvestCase翻页处理
+    private void getAllInvestCase(List<InvestCase> investCaseList, String institutionId) {
+        String moreInvestCaseUrl = "https://www.vc.cn/institutions/";
+        Map<String, Object> params = Maps.newHashMap();
+        String url = moreInvestCaseUrl + institutionId + "/invest_cases";
+        String result;
+        Document doc;
 
-
+        try {
+            for (int i = 2; ; i++) {
+                params.put("page", i);
+                result = httpGetRequest(url, params).substring(15);
+                if ("\";".equals(result)) {
+                    log.info("getAllInstitutionInvestCase finished.");
+                    break;
+                }
+                doc = Jsoup.parseBodyFragment(result);
+                Elements investCaseElements = doc.select("div.case_card");
+                investCaseList.addAll(buildInvestCaseList(investCaseElements));
+            }
+        } catch (Exception e) {
+            log.warn("getAllInstitutionInvestCase failed! crawerId[{}]", institutionId, e);
+        }
+    }
 
     public static void main (String[] args) {
-        GrabInvestInstitutionService grabInvestInstitutionService = new GrabInvestInstitutionServiceImpl();
-
-        String grabId = "188";
-        Map<String, InvestInstitution> grabResult = grabInvestInstitutionService.grabInvestInstitutionInfo(Lists.newArrayList(grabId));
-        System.out.println(JSONUtil.object2json(grabResult));
-        System.out.println(JSONUtil.object2json(grabResult.get(grabId)));
+/*
+        List<InvestCase> investCaseList = Lists.newArrayList();
+        getAllInvestCase1(investCaseList, "1656");
+        System.out.println(investCaseList);
+*/
 
     }
 

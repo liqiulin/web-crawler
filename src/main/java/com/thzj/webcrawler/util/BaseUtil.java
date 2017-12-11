@@ -69,7 +69,7 @@ public class BaseUtil {
         }
 
         int length = pattern.length();
-        return url.substring(patternLocation + length + 1);
+        return url.substring(patternLocation + length);
     }
 
     /**
