@@ -203,7 +203,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             if (null != loadMoreCaseElements
                     && !CollectionUtils.isEmpty(loadMoreCaseElements)
                     && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
-                getAllFinancingHistory(startupId, financingHistories);
+                //getAllFinancingHistory(startupId, financingHistories);
             }
         }
 

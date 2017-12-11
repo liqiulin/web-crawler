@@ -29,9 +29,9 @@ public class HttpClientUtils {
         if (cm == null) {
             cm = new PoolingHttpClientConnectionManager();
             //整个连接池最大连接数
-            cm.setMaxTotal(50);
+            cm.setMaxTotal(5);
             //每路由最大连接数，默认值是2
-            cm.setDefaultMaxPerRoute(5);
+            cm.setDefaultMaxPerRoute(2);
         }
     }
 

@@ -195,7 +195,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             if (null != loadMoreCaseElements
                     && !CollectionUtils.isEmpty(loadMoreCaseElements)
                     && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
-                getAllInvestCase(investCases, instituteId);
+                //getAllInvestCase(investCases, instituteId);
             }
         }
 
