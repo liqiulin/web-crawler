@@ -3,6 +3,7 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 import com.google.common.base.Splitter;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.WorkExperience;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INVERTOR_ID_URL;
 import static com.thzj.webcrawler.common.Constants.USER_DETAIL_URL;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static com.thzj.webcrawler.util.HttpClientUtils.httpGetRequest;
 
 @Slf4j
 @Service
@@ -150,7 +151,16 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         //投资案例
         List<InvestCase> investCaseList = new ArrayList<>();
         if (null != doc.getElementById("invest_cases")) {
-            getInvestCase(doc, investCaseList);
+            Elements investCases = doc.getElementById("invest_cases").getElementsByClass("case_card");
+            if (null != investCases || !CollectionUtils.isEmpty(investCases)) {
+                investCaseList.addAll(buildInvestCaseList(investCases));
+            }
+            Elements loadMoreCaseElements = doc.select("div.center.load_more_cases");
+            if (null != loadMoreCaseElements
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements)
+                    && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
+                getAllInvestCase(investCaseList, userId);
+            }
         }
 
         //工作经历
@@ -193,11 +203,10 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
         return investor;
     }
 
-    //Todo 翻页暂不处理
-    private void getInvestCase(Document doc, List<InvestCase> investCaseList) {
-        Elements investCases = doc.getElementById("invest_cases").getElementsByClass("case_card");
+    private List<InvestCase> buildInvestCaseList(Elements investCases) {
+        List<InvestCase> investCaseList = Lists.newArrayList();
         if (null == investCases || CollectionUtils.isEmpty(investCases)) {
-            return;
+            return investCaseList;
         }
         for (Element element : investCases) {
             InvestCase investCase = new InvestCase();
@@ -209,6 +218,31 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
             Date investTime = DateUtil.stringToDate(element.getElementsByClass("cell date").text());
             investCase.setTime(investTime);
             investCaseList.add(investCase);
+        }
+        return investCaseList;
+    }
+
+    private void getAllInvestCase(List<InvestCase> investCaseList, String userId) {
+        String moreInvestCaseUrl = "https://www.vc.cn/users/";
+        Map<String, Object> params = Maps.newHashMap();
+        String url = moreInvestCaseUrl + userId + "/invest_cases";
+        String result;
+        Document doc;
+
+        try {
+            for (int i = 2; ; i++) {
+                params.put("page", i);
+                result = httpGetRequest(url, params).substring(15);
+                if ("\';".equals(result)) {
+                    log.info("getAllInvestorInvestCase finished.");
+                    break;
+                }
+                doc = Jsoup.parseBodyFragment(result);
+                Elements investCaseElements = doc.select("div.case_card");
+                investCaseList.addAll(buildInvestCaseList(investCaseElements));
+            }
+        } catch (Exception e) {
+            log.warn("getAllInvestorInvestCase failed! crawlId[{}]", userId, e);
         }
     }
 
@@ -291,12 +325,9 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
     }
 
 
-
-
     public static void main (String[] args) {
-        List<String> list = new ArrayList<>();
-//        Map<String, Investor> result = grabInvestorInfo(list);
-        //result = grabInvestorInfo(list);
- //       System.out.println(result);
+/*        List<InvestCase> investCaseList = Lists.newArrayList();
+        getAllInvestCase1(investCaseList, "56053");
+        System.out.println(investCaseList);*/
     }
 }
