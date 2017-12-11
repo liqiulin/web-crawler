@@ -112,6 +112,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
 
                 url =  INSTITUTION_ID_URL + i.toString() + "&type=active";
                 Document doc = BaseUtil.connect(url);
+                log.debug("grab result: url[{}], doc[{}]", url, doc);
                 Elements tableList = doc.getElementById("institutions-list").select("tbody.table-list");
                 Elements institutionInfo = tableList.select("tr");
                 log.debug("{}", institutionInfo);
