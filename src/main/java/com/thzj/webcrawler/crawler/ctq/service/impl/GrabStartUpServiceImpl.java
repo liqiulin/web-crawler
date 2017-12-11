@@ -277,6 +277,19 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
     }
 
     /**
+     * 获取融资历史的投资方姓名：顿号隔开
+     *
+     * @param element
+     * @return
+     */
+    private String getFinancingHistoryInvestorName(Element element) {
+        List<String> NameList = new ArrayList<>();
+        //TODO 拉取的可能有投资人
+        NameList = element.select("div.investors-list").select("a").eachText();
+        return BaseUtil.joiner(NameList, "、");
+    }
+
+    /**
      * 获取融资历史
      *
      * @param startupId
@@ -300,6 +313,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             financingHistory.setStartupId(startupId);
             List<String> investInstitutionIds = getFinancingHistoryInvestorList(element);
             financingHistory.setInvestInstitutionIds(investInstitutionIds);
+            financingHistory.setInvestInstitutionNames(getFinancingHistoryInvestorName(element));
             financingHistories.add(financingHistory);
         }
         return financingHistories;

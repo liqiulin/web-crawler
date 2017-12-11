@@ -19,5 +19,5 @@ public class FinancingHistory implements Serializable{
     private String startupId;                   //项目ID
 
     private List<String> investInstitutionIds;  //投资机构
-    private String investInstitutionNames;      //投资方名称（多个以逗号隔开）
+    private String investInstitutionNames;      //投资方名称（多个以顿号隔开）
 }
