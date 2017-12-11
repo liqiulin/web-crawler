@@ -109,7 +109,7 @@ public class HttpClientUtils {
         Map<String, Object> headers = Maps.newConcurrentMap();
 
         headers.put("host", "www.vc.cn");
-        headers.put("Connection", "keep-alive");
+        headers.put("Connection", "close");
         headers.put("Pragma", "no-cache");
         headers.put("Cache-Control", "no-cache");
         headers.put("Accept", "*/*;q=0.5, text/javascript, application/javascript, application/ecmascript, application/x-ecmascript");
