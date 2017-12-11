@@ -1194,6 +1194,76 @@ public class TInvestorProjectExample {
             addCriterion("project_region not between", value1, value2, "projectRegion");
             return (Criteria) this;
         }
+
+        public Criteria andInvestmentNameIsNull() {
+            addCriterion("investment_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameIsNotNull() {
+            addCriterion("investment_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameEqualTo(String value) {
+            addCriterion("investment_name =", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameNotEqualTo(String value) {
+            addCriterion("investment_name <>", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameGreaterThan(String value) {
+            addCriterion("investment_name >", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameGreaterThanOrEqualTo(String value) {
+            addCriterion("investment_name >=", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameLessThan(String value) {
+            addCriterion("investment_name <", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameLessThanOrEqualTo(String value) {
+            addCriterion("investment_name <=", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameLike(String value) {
+            addCriterion("investment_name like", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameNotLike(String value) {
+            addCriterion("investment_name not like", value, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameIn(List<String> values) {
+            addCriterion("investment_name in", values, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameNotIn(List<String> values) {
+            addCriterion("investment_name not in", values, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameBetween(String value1, String value2) {
+            addCriterion("investment_name between", value1, value2, "investmentName");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvestmentNameNotBetween(String value1, String value2) {
+            addCriterion("investment_name not between", value1, value2, "investmentName");
+            return (Criteria) this;
+        }
     }
 
     /**

@@ -87,6 +87,11 @@ public class TInvestorProject implements Serializable {
      */
     private String projectRegion;
 
+    /**
+     * 投资方名称
+     */
+    private String investmentName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -217,6 +222,14 @@ public class TInvestorProject implements Serializable {
         this.projectRegion = projectRegion;
     }
 
+    public String getInvestmentName() {
+        return investmentName;
+    }
+
+    public void setInvestmentName(String investmentName) {
+        this.investmentName = investmentName;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -244,7 +257,8 @@ public class TInvestorProject implements Serializable {
             && (this.getAuditMan() == null ? other.getAuditMan() == null : this.getAuditMan().equals(other.getAuditMan()))
             && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
             && (this.getIsGrab() == null ? other.getIsGrab() == null : this.getIsGrab().equals(other.getIsGrab()))
-            && (this.getProjectRegion() == null ? other.getProjectRegion() == null : this.getProjectRegion().equals(other.getProjectRegion()));
+            && (this.getProjectRegion() == null ? other.getProjectRegion() == null : this.getProjectRegion().equals(other.getProjectRegion()))
+            && (this.getInvestmentName() == null ? other.getInvestmentName() == null : this.getInvestmentName().equals(other.getInvestmentName()));
     }
 
     @Override
@@ -267,6 +281,7 @@ public class TInvestorProject implements Serializable {
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         result = prime * result + ((getIsGrab() == null) ? 0 : getIsGrab().hashCode());
         result = prime * result + ((getProjectRegion() == null) ? 0 : getProjectRegion().hashCode());
+        result = prime * result + ((getInvestmentName() == null) ? 0 : getInvestmentName().hashCode());
         return result;
     }
 
@@ -292,6 +307,7 @@ public class TInvestorProject implements Serializable {
         sb.append(", auditTime=").append(auditTime);
         sb.append(", isGrab=").append(isGrab);
         sb.append(", projectRegion=").append(projectRegion);
+        sb.append(", investmentName=").append(investmentName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
