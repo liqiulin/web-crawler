@@ -41,6 +41,8 @@ public class InvestInstitutionSyncService {
 
         final Map<String, InvestInstitution> investInstitutionMap = CrawlResult.INVESTINSTITUTION;
         investInstitutionMap.forEach((crawlId, institution) -> {
+            long startTime = System.currentTimeMillis();
+            log.info("sync InvestInstitution crawlId[{}] start", crawlId);
             String imgSavePath = imgManager.getSavePathByImgPath(institution.getAvatarUrl());
             int entityId;
             Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
@@ -62,6 +64,8 @@ public class InvestInstitutionSyncService {
 
             // 投资案例
             syncInvestCase(institution, entityId);
+
+            log.info("sync InvestInstitution crawlId[{}] end. ellapsed[{}]", crawlId, System.currentTimeMillis()-startTime);
         });
 
         stopwatch.elapsed(MILLISECONDS);

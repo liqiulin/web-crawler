@@ -41,6 +41,9 @@ public class ProjectSyncService {
 
         Map<String, Startup> investorMap = CrawlResult.STARTUP;
         investorMap.forEach((crawlId, startup) -> {
+            long startTime = System.currentTimeMillis();
+            log.info("sync Startup id[{}] start", crawlId);
+
             // 同步主体对象
             String logoSavePath = imgManager.getSavePathByImgPath(startup.getAvatarUrl());
             String productImgSavePath = imgManager.getSavePathByImgPath(startup.getProductImgUrl());
@@ -70,6 +73,8 @@ public class ProjectSyncService {
 
             // 同步发展历程   todo  创投圈还没看到相关内容，不知有些啥字段，待明确后再处理
 //            syncDevelopmentHistory(startup, entityId);
+
+            log.info("sync Startup crawlId[{}] end. ellapsed[{}]", crawlId, System.currentTimeMillis()-startTime);
         });
 
         stopwatch.elapsed(MILLISECONDS);

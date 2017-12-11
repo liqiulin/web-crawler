@@ -49,6 +49,9 @@ public class InvestorSyncService {
 
         Map<String, Investor> investorMap = CrawlResult.INVESTOR;
         investorMap.forEach((crawlId, crawlInvestor) -> {
+            long startTime = System.currentTimeMillis();
+            log.info("sync Investor id[{}] start", crawlId);
+
             // 同步主体对象
             String imgSavePath = imgManager.getSavePathByImgPath(crawlInvestor.getAvatarUrl());
             int entityId;
@@ -75,6 +78,8 @@ public class InvestorSyncService {
 
             // 处理投资案例
             syncInvestCase(crawlInvestor, entityId);
+
+            log.info("sync Investor crawlId[{}] end. ellapsed[{}]", crawlId, System.currentTimeMillis()-startTime);
         });
 
         stopwatch.elapsed(MILLISECONDS);
