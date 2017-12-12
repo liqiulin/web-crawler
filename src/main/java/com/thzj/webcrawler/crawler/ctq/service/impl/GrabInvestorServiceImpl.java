@@ -159,7 +159,7 @@ public class GrabInvestorServiceImpl implements GrabInvestorService {
             if (null != loadMoreCaseElements
                     && !CollectionUtils.isEmpty(loadMoreCaseElements)
                     && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
-                getAllInvestCase(investCaseList, userId);
+                //getAllInvestCase(investCaseList, userId);
             }
         }
 

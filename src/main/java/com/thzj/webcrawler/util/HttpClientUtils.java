@@ -29,9 +29,9 @@ public class HttpClientUtils {
         if (cm == null) {
             cm = new PoolingHttpClientConnectionManager();
             //整个连接池最大连接数
-            cm.setMaxTotal(50);
+            cm.setMaxTotal(5);
             //每路由最大连接数，默认值是2
-            cm.setDefaultMaxPerRoute(5);
+            cm.setDefaultMaxPerRoute(2);
         }
     }
 
@@ -109,7 +109,7 @@ public class HttpClientUtils {
         Map<String, Object> headers = Maps.newConcurrentMap();
 
         headers.put("host", "www.vc.cn");
-        headers.put("Connection", "keep-alive");
+        headers.put("Connection", "close");
         headers.put("Pragma", "no-cache");
         headers.put("Cache-Control", "no-cache");
         headers.put("Accept", "*/*;q=0.5, text/javascript, application/javascript, application/ecmascript, application/x-ecmascript");
