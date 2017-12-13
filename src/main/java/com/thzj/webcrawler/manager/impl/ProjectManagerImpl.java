@@ -8,6 +8,7 @@ import com.thzj.webcrawler.entity.TProjectWithBLOBs;
 import com.thzj.webcrawler.manager.ProjectManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -37,6 +38,11 @@ public class ProjectManagerImpl implements ProjectManager {
         entity.setInstruction(startup.getProfile());
         entity.setProductsUrl(productImgPath);
         entity.setWebsite(startup.getProductHomePage());
+        if (CollectionUtils.isEmpty(startup.getFinancingHistories())) {
+            entity.setFinancingRounds("A轮");  // 按用户要求，无融资历史时默认A轮
+        } else {
+            entity.setFinancingRounds(startup.getFinancingHistories().get(0).getRound());
+        }
     }
 
     @Override
