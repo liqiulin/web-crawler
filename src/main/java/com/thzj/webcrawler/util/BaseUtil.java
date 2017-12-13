@@ -130,24 +130,31 @@ public class BaseUtil {
         return Lists.newArrayList(Splitter.on(pattern).trimResults().omitEmptyStrings().split(target));
     }
 
+    /**
+     * 拼接字符串
+     *
+     * @param stringList    目标列表
+     * @param pattern       拼接模式
+     * @return
+     */
     public static String joiner(List<String> stringList, String pattern) {
         return Joiner.on(pattern).skipNulls().join(stringList.toArray());
     }
 
     public static void main(String[] args) {
-        String location = "上海 · 徐汇区";
-        String province = "";
-        String city = "";
 
-        List<String> strings = Lists.newArrayList();
-        strings.add("aaa");
-        strings.add("bbb");
-        strings.add("ccc");
-        strings.add("ddd");
+        Map<String, String> headers = Maps.newConcurrentMap();
 
-        System.out.println(joiner(strings, "、"));
+        //String url = "https://www.vc.cn/institutions/1656/invest_cases?page=2";
+        String url = "https://www.vc.cn/users/8203/invest_cases?page=2";
+        try {
 
-
-        //getLocation(location, province, city);
+            String result = HttpClientUtils.OkHttpClient(url);
+            //result = BaseUtil.splitter(result, '\n').get(0).substring(15);
+            //result = result.replaceAll("\\\\", "");
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

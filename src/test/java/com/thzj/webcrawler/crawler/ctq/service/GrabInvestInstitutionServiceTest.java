@@ -23,7 +23,6 @@ public class GrabInvestInstitutionServiceTest {
 //        userIds.add("198");
         System.out.println(userIds.size());
         result = grabInvestInstitutionService.grabInvestInstitutionInfo(userIds);
-        System.out.println(result);
         log.info("{}", JSONUtil.object2json(result));
     }
 

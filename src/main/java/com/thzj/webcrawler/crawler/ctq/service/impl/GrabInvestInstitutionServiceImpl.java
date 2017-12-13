@@ -3,7 +3,6 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.InvestCase;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
@@ -13,6 +12,7 @@ import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
 
+import com.thzj.webcrawler.util.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.INSTITUTION_ID_URL;
-import static com.thzj.webcrawler.util.HttpClientUtils.httpGetRequest;
 
 
 /**
@@ -195,7 +194,7 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
             if (null != loadMoreCaseElements
                     && !CollectionUtils.isEmpty(loadMoreCaseElements)
                     && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
-                //getAllInvestCase(investCases, instituteId);
+                getAllInvestCase(investCases, instituteId);
             }
         }
 
@@ -292,15 +291,14 @@ public class GrabInvestInstitutionServiceImpl implements GrabInvestInstitutionSe
     //InvestCase翻页处理
     private void getAllInvestCase(List<InvestCase> investCaseList, String institutionId) {
         String moreInvestCaseUrl = "https://www.vc.cn/institutions/";
-        Map<String, Object> params = Maps.newHashMap();
         String url = moreInvestCaseUrl + institutionId + "/invest_cases";
         String result;
         Document doc;
 
         try {
-            for (int i = 2; ; i++) {
-                params.put("page", i);
-                result = httpGetRequest(url, params).substring(15);
+            for (Integer i = 2; ; i++) {
+                String crawlUrl = url + "?page=" + i.toString();
+                result = HttpClientUtils.OkHttpClient(crawlUrl);
                 if ("\";".equals(result)) {
                     log.info("getAllInstitutionInvestCase finished.");
                     break;

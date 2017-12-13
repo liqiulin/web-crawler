@@ -2,7 +2,6 @@ package com.thzj.webcrawler.crawler.ctq.service.impl;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.thzj.webcrawler.crawler.ctq.model.*;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlService;
 import com.thzj.webcrawler.crawler.ctq.service.CrawlTypeEnum;
@@ -10,6 +9,7 @@ import com.thzj.webcrawler.crawler.ctq.service.GrabStartUpService;
 import com.thzj.webcrawler.exception.GrabResourceNotFoundException;
 import com.thzj.webcrawler.util.BaseUtil;
 import com.thzj.webcrawler.util.DateUtil;
+import com.thzj.webcrawler.util.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 import static com.thzj.webcrawler.common.Constants.STARTUP_DETAIL_URL;
 import static com.thzj.webcrawler.common.Constants.STARTUP_ID_URL;
-import static com.thzj.webcrawler.util.HttpClientUtils.httpGetRequest;
 
 
 /**
@@ -203,7 +202,7 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
             if (null != loadMoreCaseElements
                     && !CollectionUtils.isEmpty(loadMoreCaseElements)
                     && !CollectionUtils.isEmpty(loadMoreCaseElements.select("a"))) {
-                //getAllFinancingHistory(startupId, financingHistories);
+                getAllFinancingHistory(startupId, financingHistories);
             }
         }
 
@@ -321,15 +320,14 @@ public class GrabStartUpServiceImpl implements GrabStartUpService {
 
     private void getAllFinancingHistory(String startupId, List<FinancingHistory> financingHistories) {
         String moreInvestCaseUrl = "https://www.vc.cn/startups/";
-        Map<String, Object> params = Maps.newHashMap();
         String url = moreInvestCaseUrl + startupId + "/investments";
         String result;
         Document doc;
 
         try {
-            for (int i = 2; ; i++) {
-                params.put("page", i);
-                result = httpGetRequest(url, params).substring(15);
+            for (Integer i = 2; ; i++) {
+                String crawlUrl = url + "?page=" + i.toString();
+                result = HttpClientUtils.OkHttpClient(crawlUrl);
                 if ("\";".equals(result)) {
                     log.info("getAllStartupFinancingHistory finished.");
                     break;
