@@ -2,7 +2,8 @@
 <configuration scan="true" scanPeriod="10 seconds">
 
     <!--<property name="log.file.path" value="/Users/liangk/Documents/ex-work/data/logs/web-crawler.log" />-->
-    <property name="log.file.path" value="D:\\thzj\\2017-12-11\\log\\web-crawler.log" />
+<!--    <property name="log.file.path" value="D:\\thzj\\2017-12-11\\log\\web-crawler.log" />-->
+    <property name="log.file.path" value="/usr/getd/app/test/web-crawler/log/web-crawler.log" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -20,9 +21,19 @@
         </encoder>
     </appender>
 
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <appender-ref ref="console"/>
+    </appender>
+
+    <appender name="ASYNC_file" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <appender-ref ref="file"/>
+    </appender>
+
     <root level="info">
-        <appender-ref ref="console" />
-        <appender-ref ref="file" />
+        <appender-ref ref="ASYNC_CONSOLE" />
+        <appender-ref ref="ASYNC_file" />
     </root>
 
     <!--<logger name="logging.level.com.thzj.webcrawler.dao" level="debug" />-->

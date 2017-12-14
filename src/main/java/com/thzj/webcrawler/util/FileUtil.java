@@ -67,7 +67,11 @@ public class FileUtil {
             List<String> lines = Files.readLines(file, Charsets.UTF_8);
             return lines;
         } catch (IOException e) {
-            log.error("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
+            if (e instanceof FileNotFoundException) {
+                log.info("file is not found.path[{}], fileName[{}]", path, fileName, e);
+            } else {
+                log.warn("appendToFile failure! path:[{}], fileName[{}]", file, fileName, e);
+            }
         }
         return Lists.newArrayList();
     }
