@@ -27,15 +27,15 @@ CREATE TABLE `rb_unit_message` (
   `work` int(10) DEFAULT NULL COMMENT '单位行业',
   `work_grade` varchar(300) DEFAULT NULL COMMENT '工作级别',
   `zhiwei` varchar(128) DEFAULT NULL COMMENT '职 位',
-  `serve_time` datetime NULL DEFAULT NULL COMMENT '服务时间',
-  `to_serve_time` datetime NULL DEFAULT NULL COMMENT '服务时间',
+  `serve_time` datetime DEFAULT NULL COMMENT '服务时间',
+  `to_serve_time` datetime DEFAULT NULL COMMENT '服务时间',
   `work_year` int(10) DEFAULT NULL COMMENT '工作年限',
   `work_tel` varchar(20) DEFAULT NULL COMMENT '工作电话',
   `company_add` varchar(200) DEFAULT NULL COMMENT '公司地址',
   `company_website` varchar(200) DEFAULT NULL COMMENT '公司网站',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注说明',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=756 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `rb_user`
@@ -55,7 +55,7 @@ CREATE TABLE `rb_user` (
   `card_number` char(20) DEFAULT NULL,
   `card_front_img` varchar(1024) DEFAULT NULL,
   `card_back_img` varchar(1024) DEFAULT NULL,
-  `user_nation` varchar(20) DEFAULT NULL,
+  `user_nation` varchar(20) DEFAULT NULL COMMENT '改为了投资行业',
   `user_realname` varchar(20) DEFAULT NULL,
   `user_integral` varchar(10) DEFAULT NULL COMMENT '资料完整度',
   `avatar_status` int(2) DEFAULT '0',
@@ -98,7 +98,7 @@ CREATE TABLE `rb_user` (
   `comp_des` varchar(1000) DEFAULT NULL,
   `weixin` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1676 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1679 DEFAULT CHARSET=utf8;
 
 
 -- ----------------------------
@@ -157,7 +157,7 @@ CREATE TABLE `t_investor` (
   `round` varchar(1024) DEFAULT NULL COMMENT '关注轮次',
   `industry` varchar(1024) DEFAULT NULL COMMENT '关注领域',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
+) ENGINE=InnoDB AUTO_INCREMENT=7735 DEFAULT CHARSET=utf8 COMMENT='投资人认证';
 
 
 -- ----------------------------
@@ -183,7 +183,7 @@ CREATE TABLE `t_investor_project` (
   `project_region` varchar(255) DEFAULT NULL COMMENT '项目所属地区',
   `investment_name` varchar(1024) DEFAULT NULL COMMENT '投资方名称',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=24799 DEFAULT CHARSET=utf8 COMMENT='投资人项目表';
 
 
 -- ----------------------------
@@ -223,7 +223,7 @@ CREATE TABLE `t_project` (
   `is_grab` varchar(255) DEFAULT NULL COMMENT '是否为抓取到的数据(0不是，1代表是)',
   `video_path` varchar(1024) DEFAULT NULL COMMENT '视频路径',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='深交所项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=37479 DEFAULT CHARSET=utf8 COMMENT='深交所项目表';
 
 -- ----------------------------
 -- Table structure for `t_team_members`
@@ -237,7 +237,7 @@ CREATE TABLE `t_team_members` (
   `photographs_url` varchar(1024) DEFAULT NULL COMMENT '头像地址',
   `identity` varchar(255) DEFAULT NULL COMMENT '身份',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27388 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_team_members
