@@ -48,8 +48,8 @@ public class BaseUtil {
                 sleep(sleepTime);
                 return connect(url);
             }
-        } catch (IOException ie) {
-            log.warn("connect with IOException. url[{}]", url, ie);
+        } catch (Exception e) {
+            log.warn("connect with Exception. url[{}]", url, e);
             int sleepTime = 10000;
             log.info("retry after[{}]ms", sleepTime);
             sleep(sleepTime);
