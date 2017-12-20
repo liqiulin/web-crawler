@@ -88,6 +88,10 @@ public class ProjectSyncService {
             startup.getFinancingHistories().forEach(financingHistory -> {
                 TInvestorProject investorProject = new TInvestorProject();
                 investorProject.setProjectId(entityId);
+                investorProject.setIndustry(tProject.getIndustry());
+                investorProject.setProjectCompany(tProject.getCompanyName());
+                investorProject.setProjectProfile(tProject.getLabelling());
+                investorProject.setProjectRegion(tProject.getProvince());
                 investorProject.setProjectName(tProject.getProjectName());
                 investorProject.setAmount(financingHistory.getFinancingAmount());
                 investorProject.setInvestmentRounds(financingHistory.getRound());
