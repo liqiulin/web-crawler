@@ -2,6 +2,7 @@ package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.InvestInstitution;
 import com.thzj.webcrawler.entity.CrawlHisSrcTypeEnum;
@@ -13,6 +14,7 @@ import com.thzj.webcrawler.manager.impl.CrawlHisManagerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -44,6 +46,10 @@ public class InvestInstitutionSyncService {
             long startTime = System.currentTimeMillis();
             log.info("sync InvestInstitution crawlId[{}] start", crawlId);
             String imgSavePath = imgManager.getSavePathByImgPath(institution.getAvatarUrl());
+            if (null == imgSavePath || StringUtils.isEmpty(imgSavePath)) {
+                imgSavePath = Constants.DEFAULT_LOGO;
+            }
+
             int entityId;
             Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestInstitutionByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {

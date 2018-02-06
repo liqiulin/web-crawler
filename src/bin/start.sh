@@ -3,7 +3,8 @@ echo -------------------------------------------
 echo start server
 echo -------------------------------------------
 # 设置项目代码路径
-export CODE_HOME="/usr/getd/app/test/web-crawler"
+#export CODE_HOME="/usr/getd/app/test/web-crawler"
+export CODE_HOME="/usr/getd/app/product/web-crawler"
 #日志路径
 export LOG_PATH="$CODE_HOME/log"
 mkdir -p $LOG_PATH

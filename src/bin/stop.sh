@@ -1,5 +1,6 @@
 #日志路径
-export LOG_PATH="/usr/getd/nonweb-example-1.0.0-SNAPSHOT-package/log"
+#export LOG_PATH="/usr/getd/nonweb-example-1.0.0-SNAPSHOT-package/log"
+export LOG_PATH="/usr/getd/app/product/web-crawler/log/nonweb-example-1.0.0-SNAPSHOT-package/log"
 mkdir -p $LOG_PATH
 # 启动类
 export MAIN_CLASS=com.thzj.webcrawler.App

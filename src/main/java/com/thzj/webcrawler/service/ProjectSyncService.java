@@ -98,6 +98,13 @@ public class ProjectSyncService {
                 investorProject.setInvestmentTime(financingHistory.getTime());
                 investorProject.setProjectRegion(tProject.getProvince());
                 investorProject.setInvestmentName(financingHistory.getInvestInstitutionNames());
+                String logoSavePath;
+                if (null == startup.getAvatarUrl()) {
+                    logoSavePath = Constants.DEFAULT_LOGO;
+                } else {
+                    logoSavePath = imgManager.getSavePathByImgPath(startup.getAvatarUrl());
+                }
+                investorProject.setProjectUrl(logoSavePath);
 
                 // 默认字段
                 investorProject.setAuditMan("超级管理员");

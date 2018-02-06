@@ -27,7 +27,11 @@ public class ProjectManagerImpl implements ProjectManager {
     }
 
     private void setCrawlStartupProperties(Startup startup, String logoPath, String productImgPath, TProjectWithBLOBs entity) {
-        entity.setLogoUrl(logoPath);
+        if (logoPath != null) {
+            entity.setLogoUrl(logoPath);
+        } else {
+            entity.setLogoUrl(Constants.DEFAULT_LOGO);
+        }
         entity.setProjectName(startup.getName());
         entity.setIndustry(startup.getIndustry());
         entity.setLabelling(startup.getSummary());

@@ -1,6 +1,7 @@
 package com.thzj.webcrawler.common;
 
 public class Constants {
+    public static final String DEFAULT_LOGO = "/files/default/default.png";
     /**
      * 抓取项目标识
      */

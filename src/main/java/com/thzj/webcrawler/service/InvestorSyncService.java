@@ -2,6 +2,7 @@ package com.thzj.webcrawler.service;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.thzj.webcrawler.common.Constants;
 import com.thzj.webcrawler.crawler.ctq.data.CrawlResult;
 import com.thzj.webcrawler.crawler.ctq.model.Investor;
 import com.thzj.webcrawler.crawler.ctq.model.Startup;
@@ -13,6 +14,7 @@ import com.thzj.webcrawler.manager.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -54,6 +56,9 @@ public class InvestorSyncService {
 
             // 同步主体对象
             String imgSavePath = imgManager.getSavePathByImgPath(crawlInvestor.getAvatarUrl());
+            if (null == imgSavePath || StringUtils.isEmpty(imgSavePath)) {
+                imgSavePath = Constants.DEFAULT_LOGO;
+            }
             int entityId;
             Optional<TCrawlHis> tCrawlHisOptional = crawlHisManager.queryInvestorByCrawlId(crawlId);
             if (tCrawlHisOptional.isPresent()) {
